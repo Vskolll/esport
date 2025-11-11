@@ -2,61 +2,84 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <title>PUBG MOBILE ESPORTS - Official Hub</title>
+    <title>ESPORT PUBG MOBILE — Esports Hub, Tournaments & Rankings</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="PUBG MOBILE Esports hub: global championships, leagues, rankings." />
-    <meta name="keywords" content="PUBG Mobile, Esports, PMWC, PMGC, PMSL, Rankings" />
+    <meta name="description"
+          content="ESPORT PUBG MOBILE — independent PUBG Mobile Esports hub: schedules, standings, power rankings, tournament guides and links to official broadcasts." />
+    <meta name="keywords"
+          content="esport pubg mobile,PUBG Mobile Esports,PMWC,PMGC,PMSL,rankings,tournaments,schedule" />
 
-    <!-- Название для систем / иконок -->
-    <meta name="application-name" content="PUBG MOBILE ESPORTS - Official Hub" />
-    <meta name="apple-mobile-web-app-title" content="PUBG MOBILE ESPORTS - Official Hub" />
+    <!-- App names -->
+    <meta name="application-name" content="ESPORT PUBG MOBILE HUB" />
+    <meta name="apple-mobile-web-app-title" content="ESPORT PUBG MOBILE" />
 
-    <!-- Open Graph / превью для Telegram и соцсетей -->
-    <meta property="og:title" content="PUBG MOBILE ESPORTS - Official Hub" />
-    <meta property="og:description" content="Follow PUBG MOBILE World Cup, Global Championship, Super Leagues and Power Rankings." />
-    <meta property="og:image" content="https://esportpubgmobile.com/172f6786de4f4d5591f3b061f472e935_fit.webp" />
+    <!-- Open Graph / Telegram preview -->
+    <meta property="og:title" content="ESPORT PUBG MOBILE — Esports Hub & Rankings" />
+    <meta property="og:description"
+          content="Unofficial PUBG MOBILE Esports hub: key tournaments, rankings, standings and useful links in one place." />
+    <meta property="og:image"
+          content="https://esportpubgmobile.com/172f6786de4f4d5591f3b061f472e935_fit.webp" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://esportpubgmobile.com/" />
 
-    <!-- Twitter Card (на всякий) -->
+    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="PUBG MOBILE ESPORTS - Official Hub" />
-    <meta name="twitter:description" content="Follow PUBG MOBILE World Cup, Global Championship, Super Leagues and Power Rankings." />
-    <meta name="twitter:image" content="https://esportpubgmobile.com/172f6786de4f4d5591f3b061f472e935_fit.webp" />
+    <meta name="twitter:title" content="ESPORT PUBG MOBILE — Esports Hub & Rankings" />
+    <meta name="twitter:description"
+          content="All-in-one community PUBG MOBILE Esports hub: schedule, standings, power rankings & guides." />
+    <meta name="twitter:image"
+          content="https://esportpubgmobile.com/172f6786de4f4d5591f3b061f472e935_fit.webp" />
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://esportpubgmobile.com/" />
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="/09cce8db33d7aa6c26eb7fc66389b1dd_100x88_fit.png" type="image/png" />
+
+    <!-- Basic Schema: Organization + Website -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "ESPORT PUBG MOBILE HUB",
+      "url": "https://esportpubgmobile.com/",
+      "description": "Independent PUBG MOBILE Esports information hub with schedules, rankings and tournament guides.",
+      "logo": "https://esportpubgmobile.com/09cce8db33d7aa6c26eb7fc66389b1dd_100x88_fit.png",
+      "sameAs": [
+        "https://t.me/v7ck9ll"
+      ]
+    }
+    </script>
 
     <style>
         :root {
             --bg-main: #020814;
             --bg-header: #020814;
             --bg-card: #0b101c;
-            --bg-card-soft: #121827;
+            --bg-card-soft: #111827;
             --accent: #ffb800;
             --accent-alt: #ff8a00;
-            --accent-soft: rgba(255, 184, 0, .14);
+            --accent-soft: rgba(255, 184, 0, .16);
             --text-main: #ffffff;
             --text-soft: #e5e7eb;
             --text-muted: #9ca3af;
             --radius-xl: 26px;
             --radius-lg: 20px;
             --radius-full: 999px;
-            --shadow-soft: 0 18px 70px rgba(0, 0, 0, 0.75);
+            --shadow-soft: 0 18px 70px rgba(0, 0, 0, 0.78);
             --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
             --transition-fast: .2s ease;
         }
 
-        * {
-            box-sizing: border-box;
-        }
+        * { box-sizing: border-box; }
 
         body {
             margin: 0;
             padding: 0;
             font-family: var(--font-main);
-            background: radial-gradient(circle at top, #141b33 0%, #020814 55%, #00040a 100%);
+            background:
+              radial-gradient(circle at top, #141b33 0%, #020814 55%, #00040a 100%);
             color: var(--text-main);
             -webkit-font-smoothing: antialiased;
         }
@@ -89,13 +112,14 @@
             top: 0;
             z-index: 100;
             backdrop-filter: blur(18px);
-            background:
-              linear-gradient(to bottom,
+            background: linear-gradient(
+                to bottom,
                 rgba(2, 8, 20, 0.98),
-                rgba(2, 8, 20, 0.94),
-                rgba(2, 8, 20, 0.85),
-                transparent);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+                rgba(2, 8, 20, 0.92),
+                rgba(2, 8, 20, 0.78),
+                transparent
+            );
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
         }
 
         .header {
@@ -112,7 +136,6 @@
             gap: 14px;
         }
 
-        /* Лого-бокс 44x44 с PNG внутри */
         .wb_element.wb_element_shape {
             width: 44px;
             height: 44px;
@@ -127,10 +150,10 @@
             overflow: hidden;
             background:
               radial-gradient(circle at 30% 0, rgba(255, 184, 0, 0.35), transparent),
-              rgba(4, 8, 16, 1);
+              #040810;
             box-shadow:
               0 0 0 1px rgba(255, 184, 0, 0.22),
-              0 0 26px rgba(255, 184, 0, 0.4);
+              0 0 26px rgba(255, 184, 0, 0.45);
         }
 
         .wb_element.wb_element_shape .wb_shp::after {
@@ -152,33 +175,31 @@
         .logo-text-block .top-line {
             display: flex;
             gap: 6px;
-            font-weight: 700;
+            font-weight: 800;
             font-size: 18px;
-            letter-spacing: 0.06em;
+            letter-spacing: 0.08em;
             color: var(--accent);
         }
 
         .logo-text-block .sub-line {
-            font-size: 13px;
-            letter-spacing: 0.14em;
+            font-size: 11px;
+            letter-spacing: 0.18em;
             text-transform: uppercase;
             color: #9ca3af;
         }
-
-        /* NAV */
 
         .nav {
             display: flex;
             flex-wrap: wrap;
             gap: 18px;
-            font-size: 12px;
+            font-size: 11px;
             text-transform: uppercase;
             letter-spacing: 0.14em;
             color: var(--text-muted);
         }
 
         .nav a {
-            padding: 7px 10px;
+            padding: 7px 11px;
             border-radius: var(--radius-full);
             border: 1px solid transparent;
             transition: all var(--transition-fast);
@@ -197,7 +218,7 @@
             box-shadow: 0 0 18px rgba(255, 184, 0, 0.35);
         }
 
-        /* HERO BANNER */
+        /* HERO */
 
         .hero {
             padding: 22px 0 18px;
@@ -211,24 +232,44 @@
             box-shadow: var(--shadow-soft);
         }
 
+        .hero-content {
+            margin-top: 16px;
+            display: grid;
+            grid-template-columns: 3fr 2fr;
+            gap: 14px;
+        }
+
+        h1.hero-title {
+            margin: 0 0 8px;
+            font-size: 26px;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+        }
+
+        .hero-text {
+            font-size: 12px;
+            color: var(--text-soft);
+            line-height: 1.6;
+        }
+
         .hero-strip {
-            margin-top: 14px;
             display: grid;
             grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 10px;
+            gap: 8px;
         }
 
         .hero-tile {
-            padding: 10px 14px;
+            padding: 9px 12px;
             border-radius: var(--radius-xl);
-            background: radial-gradient(circle at top left,
-                        rgba(255, 184, 0, 0.18),
-                        rgba(7, 10, 20, 1));
+            background:
+                radial-gradient(circle at top left,
+                    rgba(255, 184, 0, 0.18),
+                    rgba(7, 10, 20, 1));
             border: 1px solid rgba(255, 255, 255, 0.04);
             display: flex;
             flex-direction: column;
             gap: 3px;
-            font-size: 11px;
+            font-size: 10px;
             color: var(--text-soft);
             box-shadow: 0 10px 32px rgba(0,0,0,0.75);
         }
@@ -236,19 +277,19 @@
         .hero-tile span.label {
             text-transform: uppercase;
             letter-spacing: 0.16em;
-            font-size: 9px;
+            font-size: 8px;
             color: var(--accent);
         }
 
         .hero-tile span.value {
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 600;
         }
 
         /* SECTIONS */
 
         .section {
-            padding: 16px 0 24px;
+            padding: 20px 0 24px;
         }
 
         .section-header {
@@ -256,11 +297,11 @@
             align-items: baseline;
             justify-content: space-between;
             gap: 14px;
-            margin-bottom: 16px;
+            margin-bottom: 14px;
         }
 
         .section-title {
-            font-size: 16px;
+            font-size: 15px;
             text-transform: uppercase;
             letter-spacing: .18em;
         }
@@ -276,45 +317,48 @@
         }
 
         .section-sub {
-            font-size: 11px;
+            font-size: 10px;
             color: var(--text-muted);
+            max-width: 360px;
         }
 
-        /* TEAM CARDS (1–3) */
+        /* TEAM CARDS */
 
         .top-teams-row {
             display: grid;
             grid-template-columns: repeat(3, minmax(0, 1fr));
             gap: 14px;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
         }
 
         .team-card {
-            padding: 14px 18px;
-            border-radius: 32px;
-            background: radial-gradient(circle at right bottom,
-                        rgba(255, 255, 255, 0.02),
-                        transparent),
-                        #050911;
+            padding: 12px 16px;
+            border-radius: 28px;
+            background:
+              radial-gradient(circle at right bottom,
+                rgba(255, 255, 255, 0.02),
+                transparent),
+              #050911;
             border: 1px solid rgba(255, 255, 255, 0.04);
             box-shadow: var(--shadow-soft);
             display: grid;
             grid-template-columns: auto 1fr auto;
-            gap: 14px;
+            gap: 12px;
             align-items: center;
         }
 
         .team-rank-pill {
-            width: 40px;
-            height: 40px;
+            width: 34px;
+            height: 34px;
             border-radius: 50%;
-            background: radial-gradient(circle at 30% 0,
-                        rgba(255, 184, 0, 0.32),
-                        rgba(26, 26, 26, 1));
+            background:
+              radial-gradient(circle at 30% 0,
+                rgba(255, 184, 0, 0.32),
+                #111111);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 700;
             color: var(--accent);
         }
@@ -322,34 +366,31 @@
         .team-main {
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 3px;
         }
 
         .team-name {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 600;
             color: var(--text-soft);
         }
 
         .team-stats {
-            font-size: 10px;
+            font-size: 9px;
             color: var(--text-muted);
         }
 
-        .team-stats span {
-            margin-right: 10px;
-        }
-
+        .team-stats span { margin-right: 8px; }
         .team-stats strong {
             color: var(--accent);
             font-weight: 600;
-            margin-left: 3px;
+            margin-left: 2px;
         }
 
         .team-logo {
-            width: 40px;
-            height: 40px;
-            border-radius: 14px;
+            width: 34px;
+            height: 34px;
+            border-radius: 12px;
             background: #000;
             padding: 4px;
             display: flex;
@@ -364,10 +405,8 @@
             object-fit: contain;
         }
 
-        /* TABLE UNDER */
-
         .rank-table-wrap {
-            padding: 10px;
+            padding: 9px;
             border-radius: var(--radius-lg);
             background: var(--bg-card);
             border: 1px solid rgba(255, 255, 255, 0.04);
@@ -378,13 +417,13 @@
         table.rank-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 10px;
+            font-size: 9px;
             color: var(--text-soft);
         }
 
         table.rank-table th,
         table.rank-table td {
-            padding: 6px 6px;
+            padding: 5px 6px;
             white-space: nowrap;
             border-bottom: 1px solid rgba(255, 255, 255, 0.04);
         }
@@ -392,7 +431,7 @@
         table.rank-table th {
             text-transform: uppercase;
             letter-spacing: 0.14em;
-            font-size: 8.5px;
+            font-size: 8px;
             color: var(--accent);
         }
 
@@ -400,46 +439,46 @@
             background: rgba(255, 255, 255, 0.01);
         }
 
-        /* PLAYER CARDS */
+        /* PLAYERS */
 
         .player-row {
             display: grid;
             grid-template-columns: repeat(3, minmax(0, 1fr));
             gap: 14px;
-            margin-bottom: 14px;
+            margin-bottom: 12px;
         }
 
         .player-card {
-            padding: 12px 14px;
+            padding: 10px 12px;
             border-radius: var(--radius-lg);
             background: var(--bg-card-soft);
             border: 1px solid rgba(255,255,255,0.04);
             display: grid;
             grid-template-columns: auto auto 1fr;
-            gap: 10px;
+            gap: 8px;
             align-items: center;
             box-shadow: var(--shadow-soft);
         }
 
         .player-rank {
-            width: 26px;
-            height: 26px;
+            width: 22px;
+            height: 22px;
             border-radius: 50%;
             background: var(--accent-soft);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 11px;
+            font-size: 10px;
             color: var(--accent);
             font-weight: 700;
         }
 
         .player-avatar {
-            width: 32px;
-            height: 32px;
-            border-radius: 12px;
+            width: 30px;
+            height: 30px;
+            border-radius: 10px;
             background: #000;
-            padding: 4px;
+            padding: 3px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -455,23 +494,20 @@
         .player-info {
             display: flex;
             flex-direction: column;
-            gap: 3px;
+            gap: 2px;
         }
 
         .player-name {
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 600;
         }
 
         .player-stats {
-            font-size: 9px;
+            font-size: 8px;
             color: var(--text-muted);
         }
 
-        .player-stats span {
-            margin-right: 8px;
-        }
-
+        .player-stats span { margin-right: 6px; }
         .player-stats strong {
             color: var(--accent);
             margin-left: 2px;
@@ -482,11 +518,11 @@
         .power-list {
             display: grid;
             grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 10px;
+            gap: 9px;
         }
 
         .power-item {
-            padding: 8px 10px;
+            padding: 8px 9px;
             border-radius: var(--radius-lg);
             background: var(--bg-card);
             border: 1px solid rgba(255,255,255,0.04);
@@ -495,6 +531,7 @@
             justify-content: space-between;
             gap: 8px;
             box-shadow: var(--shadow-soft);
+            font-size: 9px;
         }
 
         .power-left {
@@ -504,21 +541,19 @@
         }
 
         .power-rank {
-            width: 20px;
-            height: 20px;
+            width: 18px;
+            height: 18px;
             border-radius: 999px;
             background: rgba(255,255,255,0.03);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 10px;
+            font-size: 9px;
             color: var(--accent);
             font-weight: 600;
         }
 
-        .power-name {
-            font-size: 11px;
-        }
+        .power-name { font-size: 10px; }
 
         .power-score {
             font-size: 10px;
@@ -527,7 +562,7 @@
         }
 
         .power-history {
-            font-size: 8px;
+            font-size: 7px;
             color: var(--text-muted);
             text-align: right;
             line-height: 1.4;
@@ -540,10 +575,17 @@
         }
 
         .follow-title {
-            font-size: 13px;
+            font-size: 11px;
             text-transform: uppercase;
             letter-spacing: 0.16em;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
+            color: var(--text-soft);
+        }
+
+        .follow-text {
+            font-size: 9px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
         }
 
         .follow-buttons {
@@ -560,10 +602,10 @@
             gap: 6px;
             padding: 7px 14px;
             border-radius: var(--radius-full);
-            border: 1px solid rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.14);
             background: rgba(7,11,20,0.98);
             color: var(--text-soft);
-            font-size: 9px;
+            font-size: 8.5px;
             text-transform: uppercase;
             letter-spacing: 0.16em;
             cursor: pointer;
@@ -579,7 +621,7 @@
         }
 
         .btn-primary {
-            background: linear-gradient(90deg, var(--accent-alt), var(--accent));
+            background: linear-gradient(90deg, --accent-alt, var(--accent));
             border-color: transparent;
             color: #000;
             font-weight: 600;
@@ -587,8 +629,8 @@
         }
 
         .social-btn .icon {
-            width: 14px;
-            height: 14px;
+            width: 13px;
+            height: 13px;
             border-radius: 4px;
             border: 1px solid rgba(255,255,255,0.18);
             display: inline-flex;
@@ -597,19 +639,57 @@
             font-size: 8px;
         }
 
+        /* FLOATING TELEGRAM BUTTON */
+
+        .tg-float {
+            position: fixed;
+            right: 18px;
+            bottom: 18px;
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 0, rgba(255, 255, 255, 0.16), transparent),
+                        #0f172a;
+            box-shadow: 0 10px 28px rgba(0,0,0,0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.16);
+            z-index: 120;
+            transition: all var(--transition-fast);
+        }
+
+        .tg-float:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.95);
+            border-color: var(--accent);
+        }
+
+        .tg-float svg {
+            width: 22px;
+            height: 22px;
+            fill: #39A9FF;
+        }
+
         /* FOOTER */
 
         .footer {
             margin-top: 18px;
-            padding: 16px 0 22px;
-            font-size: 9px;
+            padding: 14px 0 20px;
+            font-size: 8.5px;
             color: var(--text-muted);
             text-align: center;
             border-top: 1px solid rgba(255, 255, 255, 0.06);
-            background: radial-gradient(circle at top, rgba(255,184,0,0.03), transparent);
+            background: radial-gradient(circle at top,
+                rgba(255,184,0,0.03),
+                transparent);
         }
 
         @media (max-width: 900px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+            }
             .top-teams-row,
             .player-row {
                 grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -627,7 +707,7 @@
             }
             .nav {
                 gap: 10px;
-                font-size: 10px;
+                font-size: 9px;
             }
             .top-teams-row,
             .player-row,
@@ -651,20 +731,21 @@
                 </div>
                 <div class="logo-text-block">
                     <div class="top-line">
+                        <span>ESPORT</span>
                         <span>PUBG</span>
                         <span>MOBILE</span>
                     </div>
-                    <div class="sub-line">ESPORTS HUB</div>
+                    <div class="sub-line">COMMUNITY ESPORTS HUB</div>
                 </div>
             </div>
 
             <nav class="nav">
-                <a class="nav-primary" href="#home">Home</a>
+                <a class="nav-primary" href="#home">Hub</a>
                 <a href="#teams">Teams</a>
                 <a href="#standings">Standings</a>
                 <a href="#players">Players</a>
-                <a href="#power-rankings">Rankings</a>
-                <a href="#follow">Social</a>
+                <a href="#power-rankings">Power Rank</a>
+                <a href="#follow">Links</a>
             </nav>
         </div>
     </div>
@@ -673,29 +754,44 @@
     <main id="home">
         <div class="inner">
 
-            <!-- HERO BANNER MAIN -->
+            <!-- HERO -->
             <section class="hero">
                 <img
                     class="hero-banner-main"
                     src="/172f6786de4f4d5591f3b061f472e935_fit.webp"
-                    alt="PUBG MOBILE World Cup Champion — Yangon Galacticos"
+                    alt="PUBG MOBILE Esports Hub Banner"
                 />
-
-                <div class="hero-strip">
-                    <div class="hero-tile">
-                        <span class="label">PMGC</span>
-                        <span class="value">PUBG MOBILE Global Championship</span>
-                        <span>Season Finals • Global leaderboard &amp; VODs</span>
+                <div class="hero-content">
+                    <div>
+                        <h1 class="hero-title">ESPORT PUBG MOBILE ESPORTS HUB</h1>
+                        <p class="hero-text">
+                            Independent hub for PUBG MOBILE Esports fans and players.
+                            Here you can quickly navigate key global events, check
+                            standings snapshots, explore power rankings and jump to
+                            official broadcasts or verified community tournaments.
+                        </p>
+                        <p class="hero-text">
+                            Save this page and use it as your shortcut for
+                            <strong>“esport pubg mobile”</strong> — schedules, links,
+                            and stats in one place.
+                        </p>
                     </div>
-                    <div class="hero-tile">
-                        <span class="label">PMWC</span>
-                        <span class="value">PUBG MOBILE World Cup</span>
-                        <span>Esports World Cup • Champion: Yangon Galacticos</span>
-                    </div>
-                    <div class="hero-tile">
-                        <span class="label">PMSL</span>
-                        <span class="value">Super Leagues</span>
-                        <span>SEA • EMEA • AMERICAS • MENA &amp; more</span>
+                    <div class="hero-strip">
+                        <div class="hero-tile">
+                            <span class="label">GLOBAL</span>
+                            <span class="value">Major Championships</span>
+                            <span>Overview of PMGC / PMWC key results &amp; links.</span>
+                        </div>
+                        <div class="hero-tile">
+                            <span class="label">LEAGUES</span>
+                            <span class="value">Regional Circuits</span>
+                            <span>PMSL and regional leagues entry points.</span>
+                        </div>
+                        <div class="hero-tile">
+                            <span class="label">TOOLS</span>
+                            <span class="value">Guides &amp; Resources</span>
+                            <span>How to join, rules basics, and fair-play tips.</span>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -704,10 +800,11 @@
             <section class="section" id="teams">
                 <div class="section-header">
                     <div class="section-title">
-                        <span class="bar"></span>Team Ranking — PMWC Final Stage
+                        <span class="bar"></span>Snapshot — Selected Team Standings
                     </div>
                     <div class="section-sub">
-                        Топ-команды по сумме ELIMS, placement, WWCD и total points.
+                        Non-official snapshot based on publicly available results.
+                        Use as quick reference; always verify with official PUBG MOBILE channels.
                     </div>
                 </div>
 
@@ -718,13 +815,13 @@
                             <div class="team-name">Yangon Galacticos</div>
                             <div class="team-stats">
                                 <span>ELIMS<strong>95</strong></span>
-                                <span>Placement<strong>62</strong></span>
                                 <span>WWCD<strong>4</strong></span>
                                 <span>Total<strong>157</strong></span>
                             </div>
                         </div>
                         <div class="team-logo">
-                            <img src="http://esportsdatacenter-1300342684.file.myqcloud.com/Yangon%20Galacticos.png20211014101139-4647" alt="Yangon Galacticos">
+                            <img src="https://esportsdatacenter-1300342684.file.myqcloud.com/Yangon%20Galacticos.png20211014101139-4647"
+                                 alt="Yangon Galacticos">
                         </div>
                     </div>
 
@@ -734,13 +831,13 @@
                             <div class="team-name">Weibo Gaming</div>
                             <div class="team-stats">
                                 <span>ELIMS<strong>84</strong></span>
-                                <span>Placement<strong>58</strong></span>
                                 <span>WWCD<strong>2</strong></span>
                                 <span>Total<strong>142</strong></span>
                             </div>
                         </div>
                         <div class="team-logo">
-                            <img src="https://esportsdatacenter-1300342684.file.myqcloud.com/285px-Weibo_allmode-20231212125059-7094.png" alt="Weibo Gaming">
+                            <img src="https://esportsdatacenter-1300342684.file.myqcloud.com/285px-Weibo_allmode-20231212125059-7094.png"
+                                 alt="Weibo Gaming">
                         </div>
                     </div>
 
@@ -750,13 +847,13 @@
                             <div class="team-name">Alpha Gaming</div>
                             <div class="team-stats">
                                 <span>ELIMS<strong>97</strong></span>
-                                <span>Placement<strong>44</strong></span>
                                 <span>WWCD<strong>1</strong></span>
                                 <span>Total<strong>141</strong></span>
                             </div>
                         </div>
                         <div class="team-logo">
-                            <img src="https://pubgmesportsh5.intlgame.com/data_center/admin/image/1760581365_a64b650f5c0fa01cfe57388e210a7197.png" alt="Alpha Gaming">
+                            <img src="https://pubgmesportsh5.intlgame.com/data_center/admin/image/1760581365_a64b650f5c0fa01cfe57388e210a7197.png"
+                                 alt="Alpha Gaming">
                         </div>
                     </div>
                 </div>
@@ -786,14 +883,14 @@
                 </div>
             </section>
 
-            <!-- PLAYER RANKING -->
+            <!-- PLAYERS -->
             <section class="section" id="players">
                 <div class="section-header">
                     <div class="section-title">
-                        <span class="bar"></span>Player Ranking — MVP Race
+                        <span class="bar"></span>Highlighted Players — MVP Race Snapshot
                     </div>
                     <div class="section-sub">
-                        Индивидуальная статистика: убийства, урон, выживание, MVP points.
+                        Example MVP-style stats from past events. Numbers are illustrative and should be checked against official data.
                     </div>
                 </div>
 
@@ -801,14 +898,14 @@
                     <div class="player-card">
                         <div class="player-rank">#1</div>
                         <div class="player-avatar">
-                            <img src="https://pubgmesportsh5.intlgame.com/data_center/admin/image/1753456947_7d068358d720ea73d067eb0e9efd3821.png" alt="DOK">
+                            <img src="https://pubgmesportsh5.intlgame.com/data_center/admin/image/1753456947_7d068358d720ea73d067eb0e9efd3821.png"
+                                 alt="DOK">
                         </div>
                         <div class="player-info">
                             <div class="player-name">DOK</div>
                             <div class="player-stats">
                                 <span>ELIMS<strong>31</strong></span>
                                 <span>DMG<strong>7,237</strong></span>
-                                <span>SURV<strong>364</strong></span>
                                 <span>MVP<strong>259.87</strong></span>
                             </div>
                         </div>
@@ -817,14 +914,14 @@
                     <div class="player-card">
                         <div class="player-rank">#2</div>
                         <div class="player-avatar">
-                            <img src="https://pubgmesportsh5.intlgame.com/data_center/admin/image/1757561500_bbdd626e1af039e7fe61c49aff29763a.png" alt="AE Rosemary">
+                            <img src="https://pubgmesportsh5.intlgame.com/data_center/admin/image/1757561500_bbdd626e1af039e7fe61c49aff29763a.png"
+                                 alt="AE Rosemary">
                         </div>
                         <div class="player-info">
                             <div class="player-name">AE Rosemary</div>
                             <div class="player-stats">
                                 <span>ELIMS<strong>26</strong></span>
                                 <span>DMG<strong>8,418</strong></span>
-                                <span>SURV<strong>279.9</strong></span>
                                 <span>MVP<strong>245.07</strong></span>
                             </div>
                         </div>
@@ -833,42 +930,18 @@
                     <div class="player-card">
                         <div class="player-rank">#3</div>
                         <div class="player-avatar">
-                            <img src="https://pubgmesportsh5.intlgame.com/data_center/admin/image/1753458451_7c5272281970b89fd215029bf04e7f1f.png" alt="ZYOLL">
+                            <img src="https://pubgmesportsh5.intlgame.com/data_center/admin/image/1753458451_7c5272281970b89fd215029bf04e7f1f.png"
+                                 alt="ZYOLL">
                         </div>
                         <div class="player-info">
                             <div class="player-name">ZYOLL</div>
                             <div class="player-stats">
                                 <span>ELIMS<strong>27</strong></span>
                                 <span>DMG<strong>6,367</strong></span>
-                                <span>SURV<strong>367.6</strong></span>
                                 <span>MVP<strong>235.68</strong></span>
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="rank-table-wrap">
-                    <table class="rank-table">
-                        <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Player</th>
-                            <th>Elims</th>
-                            <th>Damage</th>
-                            <th>Survival</th>
-                            <th>MVP</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr><td>#4</td><td>SLEEPYY</td><td>28</td><td>6,975</td><td>312.2</td><td>232.85</td></tr>
-                        <tr><td>#5</td><td>YG Smile</td><td>29</td><td>5,745</td><td>356.4</td><td>230.01</td></tr>
-                        <tr><td>#6</td><td>FALAK</td><td>23</td><td>7,084</td><td>305.8</td><td>217.32</td></tr>
-                        <tr><td>#7</td><td>YG Saycloud</td><td>23</td><td>6,078</td><td>371.6</td><td>210.91</td></tr>
-                        <tr><td>#8</td><td>YG Mernatt</td><td>26</td><td>5,448</td><td>360.9</td><td>208.94</td></tr>
-                        <tr><td>#9</td><td>REFUS</td><td>24</td><td>4,764</td><td>338.8</td><td>197.91</td></tr>
-                        <tr><td>#10</td><td>Kecth</td><td>24</td><td>4,580</td><td>301.2</td><td>194.86</td></tr>
-                        </tbody>
-                    </table>
                 </div>
             </section>
 
@@ -876,10 +949,11 @@
             <section class="section" id="power-rankings">
                 <div class="section-header">
                     <div class="section-title">
-                        <span class="bar"></span>PUBG MOBILE Esports Power Rankings
+                        <span class="bar"></span>PUBG MOBILE Esports Power Ranking (Community View)
                     </div>
                     <div class="section-sub">
-                        Глобальный рейтинг по результатам сезонов 2024–2025.
+                        Community-style power list example based on consistency, LAN performance and impact across events.
+                        Not affiliated with or validated by the official publisher.
                     </div>
                 </div>
 
@@ -890,7 +964,7 @@
                             <div class="power-name">Regnum Carya Esports</div>
                         </div>
                         <div class="power-score">853.39</div>
-                        <div class="power-history">2024: #2<br>2025: #1 / #5</div>
+                        <div class="power-history">Strong global &amp; regional runs.</div>
                     </div>
                     <div class="power-item">
                         <div class="power-left">
@@ -898,7 +972,7 @@
                             <div class="power-name">Team Falcons</div>
                         </div>
                         <div class="power-score">765.31</div>
-                        <div class="power-history">2024: #3<br>2025: #2 / #2</div>
+                        <div class="power-history">Consistent high-tier performances.</div>
                     </div>
                     <div class="power-item">
                         <div class="power-left">
@@ -906,7 +980,7 @@
                             <div class="power-name">Alpha Gaming</div>
                         </div>
                         <div class="power-score">727.67</div>
-                        <div class="power-history">2024: #7<br>2025: #13 / #3</div>
+                        <div class="power-history">Impact across multiple stages.</div>
                     </div>
                     <div class="power-item">
                         <div class="power-left">
@@ -914,7 +988,7 @@
                             <div class="power-name">DRX</div>
                         </div>
                         <div class="power-score">606.18</div>
-                        <div class="power-history">2024: #6<br>2025: — / #4</div>
+                        <div class="power-history">LAN stability &amp; clutch plays.</div>
                     </div>
                     <div class="power-item">
                         <div class="power-left">
@@ -922,7 +996,7 @@
                             <div class="power-name">INFLUENCE RAGE</div>
                         </div>
                         <div class="power-score">475.21</div>
-                        <div class="power-history">2024: #4<br>2025: #15</div>
+                        <div class="power-history">Regional dominance snapshot.</div>
                     </div>
                     <div class="power-item">
                         <div class="power-left">
@@ -930,7 +1004,7 @@
                             <div class="power-name">Dplus KIA</div>
                         </div>
                         <div class="power-score">455.56</div>
-                        <div class="power-history">2024: #1<br>2025: —</div>
+                        <div class="power-history">Historic highlights.</div>
                     </div>
                     <div class="power-item">
                         <div class="power-left">
@@ -938,7 +1012,7 @@
                             <div class="power-name">ThunderTalk Gaming</div>
                         </div>
                         <div class="power-score">420.23</div>
-                        <div class="power-history">2024: #13<br>2025: — / #16</div>
+                        <div class="power-history">Aggressive playstyle factor.</div>
                     </div>
                     <div class="power-item">
                         <div class="power-left">
@@ -946,7 +1020,7 @@
                             <div class="power-name">Team Spirit</div>
                         </div>
                         <div class="power-score">398.04</div>
-                        <div class="power-history">2024: #8<br>2025: —</div>
+                        <div class="power-history">Stable brand presence.</div>
                     </div>
                     <div class="power-item">
                         <div class="power-left">
@@ -954,7 +1028,7 @@
                             <div class="power-name">VOIN Esports</div>
                         </div>
                         <div class="power-score">360.05</div>
-                        <div class="power-history">2024: #5<br>2025: —</div>
+                        <div class="power-history">Underdog results track.</div>
                     </div>
                     <div class="power-item">
                         <div class="power-left">
@@ -962,21 +1036,34 @@
                             <div class="power-name">Alpha 7 Esports</div>
                         </div>
                         <div class="power-score">355.16</div>
-                        <div class="power-history">2024: #11<br>2025: —</div>
+                        <div class="power-history">Legacy &amp; region strength.</div>
                     </div>
                 </div>
             </section>
 
-            <!-- FOLLOW US -->
+            <!-- FOLLOW / LINKS -->
             <section class="follow-section" id="follow">
-                <div class="follow-title">Follow PUBG MOBILE Esports</div>
+                <div class="follow-title">Useful PUBG MOBILE Esports links</div>
+                <div class="follow-text">
+                    Jump to official broadcasts, socials and community channels directly from the hub.
+                    This site is independent and simply helps you navigate faster.
+                </div>
                 <div class="follow-buttons">
-                    <div class="social-btn" data-url=""><span class="icon">▶</span> YouTube</div>
-                    <div class="social-btn" data-url=""><span class="icon">f</span> Facebook</div>
-                    <div class="social-btn" data-url=""><span class="icon">IG</span> Instagram</div>
-                    <div class="social-btn" data-url=""><span class="icon">X</span> X / Twitter</div>
-                    <div class="social-btn" data-url=""><span class="icon">💬</span> Discord</div>
-                    <div class="social-btn" data-url=""><span class="icon">♫</span> TikTok</div>
+                    <div class="btn btn-primary" data-url="https://esports.pubgmobile.com/">
+                        Official Esports Website
+                    </div>
+                    <div class="social-btn" data-url="https://www.youtube.com/results?search_query=pubg+mobile+esports">
+                        <span class="icon">▶</span> YouTube
+                    </div>
+                    <div class="social-btn" data-url="https://www.instagram.com/explore/tags/pubgmobileesports/">
+                        <span class="icon">IG</span> Instagram
+                    </div>
+                    <div class="social-btn" data-url="https://x.com/search?q=pubg%20mobile%20esports">
+                        <span class="icon">X</span> X / Twitter
+                    </div>
+                    <div class="social-btn" data-url="https://t.me/v7ck9ll">
+                        <span class="icon">💬</span> Telegram @v7ck9ll
+                    </div>
                 </div>
             </section>
 
@@ -986,11 +1073,20 @@
     <!-- FOOTER -->
     <footer class="footer">
         <div class="inner footer-inner">
-            PUBG MOBILE ESPORTS — Unofficial hub layout based on public standings data.
-            All trademarks and logos are property of their respective owners.
+            ESPORTPUBGMOBILE.COM — Independent PUBG MOBILE Esports navigation hub.
+            Not affiliated with or endorsed by Tencent, Krafton or PUBG MOBILE.
+            All trademarks belong to their respective owners.
         </div>
     </footer>
 </div>
+
+<!-- FLOATING TELEGRAM BUTTON -->
+<a href="https://t.me/v7ck9ll" target="_blank" rel="noopener" class="tg-float" aria-label="Contact @v7ck9ll on Telegram">
+    <svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="120" cy="120" r="120" fill="none"/>
+        <path d="M185 66L164 175c-1 5-4 7-8 5l-40-30-19 18c-2 2-4 3-7 3l3-42 77-69c3-3-1-4-5-2l-95 60-41-13c-9-3-9-9 2-13l159-61c7-3 14 2 11 13z"/>
+    </svg>
+</a>
 
 <script>
 document.addEventListener('click', function (e) {
@@ -998,7 +1094,7 @@ document.addEventListener('click', function (e) {
     if (!btn) return;
     const url = btn.dataset.url;
     if (url) {
-        window.open(url, '_blank');
+        window.open(url, '_blank', 'noopener');
     }
 });
 </script>
