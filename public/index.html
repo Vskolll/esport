@@ -6,12 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="Everything you need to know about PUBG MOBILE Esports" />
     <meta name="keywords" content="PUBG Mobile, Esports, Tournament, Teams, Standings" />
+
+    <!-- Share preview -->
     <meta property="og:title" content="PUBG MOBILE ESPORTS - Official Website" />
     <meta property="og:description" content="Everything you need to know about PUBG MOBILE Esports" />
-    <meta property="og:image" content="" />
+    <meta property="og:image" content="https://aniway.free.site.pro/gallery_gen/172f6786de4f4d5591f3b061f472e935_fit.webp" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://aniway.free.site.pro/" />
-    <link rel="shortcut icon" href="gallery/favicons/favicon.ico" type="image/x-icon" />
+
+    <!-- Favicon: локальный логотип из public -->
+    <link rel="shortcut icon" href="/09cce8db33d7aa6c26eb7fc66389b1dd_100x88_fit.png" type="image/png" />
 
     <style>
         :root {
@@ -55,8 +59,6 @@
             display: block;
         }
 
-        /* Layout container */
-
         .page {
             min-height: 100vh;
             display: flex;
@@ -68,14 +70,15 @@
             margin: 0 auto;
         }
 
-        /* Header */
+        /* HEADER */
 
         .header {
             position: sticky;
             top: 0;
             z-index: 100;
             backdrop-filter: blur(16px);
-            background: linear-gradient(to bottom,
+            background: linear-gradient(
+                to bottom,
                 rgba(2, 7, 18, 0.98),
                 rgba(2, 7, 18, 0.85),
                 transparent
@@ -97,8 +100,26 @@
             gap: 10px;
         }
 
-        .logo-wrap img {
+        /* shape блок */
+        .wb_element.wb_element_shape {
+            width: 40px;
             height: 40px;
+            flex-shrink: 0;
+        }
+
+        .wb_element.wb_element_shape .wb_shp {
+            width: 100%;
+            height: 100%;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 184, 0, 0.6);
+            box-shadow: 0 0 16px rgba(255, 184, 0, 0.35);
+            background: radial-gradient(circle at 30% 0, rgba(255, 184, 0, 0.35), transparent);
+        }
+
+        .logo-wrap img.logo-img {
+            height: 40px;
+            width: auto;
+            object-fit: contain;
         }
 
         .logo-text {
@@ -145,7 +166,7 @@
             box-shadow: 0 0 18px rgba(255, 184, 0, 0.24);
         }
 
-        /* Hero */
+        /* HERO */
 
         .hero {
             padding: 40px 0 26px;
@@ -232,6 +253,16 @@
             gap: 10px;
         }
 
+        /* баннер справа */
+        .hero-banner {
+            width: 100%;
+            max-height: 150px;
+            object-fit: cover;
+            border-radius: 16px;
+            margin-bottom: 4px;
+            box-shadow: 0 10px 26px rgba(0, 0, 0, 0.6);
+        }
+
         .hero-right-title {
             font-size: 13px;
             text-transform: uppercase;
@@ -263,7 +294,7 @@
             background: #7bffa9;
         }
 
-        /* Sections */
+        /* SECTIONS */
 
         .section {
             padding: 10px 0 26px;
@@ -298,7 +329,7 @@
             color: var(--text-muted);
         }
 
-        /* Cards + tables */
+        /* Cards & tables */
 
         .cards-row {
             display: grid;
@@ -491,7 +522,24 @@
             line-height: 1.4;
         }
 
-        /* Buttons generic (prepared, no href) */
+        /* Follow */
+
+        .follow-section {
+            padding: 24px 0 26px;
+        }
+
+        .follow-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            margin-bottom: 10px;
+        }
+
+        .follow-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
 
         .btn,
         .social-btn {
@@ -507,7 +555,7 @@
             font-size: 10px;
             text-transform: uppercase;
             letter-spacing: 0.14em;
-            cursor: default; /* нет активной ссылки */
+            cursor: default;
             transition: all var(--transition-fast);
         }
 
@@ -532,25 +580,6 @@
             box-shadow: 0 10px 26px rgba(0, 0, 0, 0.8);
         }
 
-        /* Follow us */
-
-        .follow-section {
-            padding: 24px 0 26px;
-        }
-
-        .follow-title {
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 0.14em;
-            margin-bottom: 10px;
-        }
-
-        .follow-buttons {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-
         .social-btn span.icon {
             width: 14px;
             height: 14px;
@@ -562,7 +591,7 @@
             font-size: 9px;
         }
 
-        /* Footer */
+        /* FOOTER */
 
         .footer {
             position: relative;
@@ -573,16 +602,6 @@
             color: var(--text-muted);
             font-size: 9px;
             text-align: center;
-        }
-
-        .footer img.footer-bg {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            opacity: 0.08;
-            pointer-events: none;
         }
 
         .footer-inner {
@@ -619,7 +638,20 @@
     <header class="header">
         <div class="inner header-inner">
             <div class="logo-wrap">
-                <img src="gallery_gen/09cce8db33d7aa6c26eb7fc66389b1dd_100x88_fit.png" alt="PUBG MOBILE Esports">
+                <!-- shape -->
+                <div id="a19a6fd9ea75097d4f9c2dbf71600873"
+                     class="wb_element wb_element_shape"
+                     data-plugin="Shape">
+                    <div class="wb_shp"></div>
+                </div>
+
+                <!-- logo PNG from public root -->
+                <img
+                    src="/09cce8db33d7aa6c26eb7fc66389b1dd_100x88_fit.png"
+                    alt="PUBG MOBILE Esports"
+                    class="logo-img"
+                />
+
                 <div class="logo-text">
                     <strong>PUBG MOBILE</strong>
                     Esports Hub
@@ -638,6 +670,7 @@
         </div>
     </header>
 
+    <!-- MAIN -->
     <main id="home">
         <div class="inner">
 
@@ -673,6 +706,11 @@
                     </div>
 
                     <aside class="hero-right">
+                        <img
+                            class="hero-banner"
+                            src="https://aniway.free.site.pro/gallery_gen/172f6786de4f4d5591f3b061f472e935_fit.webp"
+                            alt="PUBG MOBILE Esports Banner"
+                        />
                         <div class="hero-right-title">Latest Highlight</div>
                         <div class="hero-right-main">
                             PUBG Mobile World Cup 2025 — Global Final Stage
@@ -708,7 +746,6 @@
                     </div>
                 </div>
 
-                <!-- Top 3 as cards (данные собраны из твоей разметки) -->
                 <div class="cards-row">
                     <div class="team-card">
                         <div class="team-rank">#1</div>
@@ -759,7 +796,6 @@
                     </div>
                 </div>
 
-                <!-- 4-10 table (по твоим данным) -->
                 <div class="rank-table-wrap" id="standings">
                     <table class="rank-table">
                         <thead>
@@ -773,62 +809,13 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>#4</td>
-                            <td>DRX</td>
-                            <td>67</td>
-                            <td>50</td>
-                            <td>1</td>
-                            <td>117</td>
-                        </tr>
-                        <tr>
-                            <td>#5</td>
-                            <td>Regnum Carya Esports</td>
-                            <td>62</td>
-                            <td>50</td>
-                            <td>2</td>
-                            <td>112</td>
-                        </tr>
-                        <tr>
-                            <td>#6</td>
-                            <td>Nongshim RedForce</td>
-                            <td>74</td>
-                            <td>36</td>
-                            <td>1</td>
-                            <td>110</td>
-                        </tr>
-                        <tr>
-                            <td>#7</td>
-                            <td>4Thrives Esports</td>
-                            <td>78</td>
-                            <td>31</td>
-                            <td>1</td>
-                            <td>109</td>
-                        </tr>
-                        <tr>
-                            <td>#8</td>
-                            <td>Alter Ego Ares</td>
-                            <td>76</td>
-                            <td>28</td>
-                            <td>2</td>
-                            <td>104</td>
-                        </tr>
-                        <tr>
-                            <td>#9</td>
-                            <td>HORAA Esports</td>
-                            <td>69</td>
-                            <td>31</td>
-                            <td>1</td>
-                            <td>100</td>
-                        </tr>
-                        <tr>
-                            <td>#10</td>
-                            <td>Team Falcons</td>
-                            <td>64</td>
-                            <td>31</td>
-                            <td>2</td>
-                            <td>95</td>
-                        </tr>
+                        <tr><td>#4</td><td>DRX</td><td>67</td><td>50</td><td>1</td><td>117</td></tr>
+                        <tr><td>#5</td><td>Regnum Carya Esports</td><td>62</td><td>50</td><td>2</td><td>112</td></tr>
+                        <tr><td>#6</td><td>Nongshim RedForce</td><td>74</td><td>36</td><td>1</td><td>110</td></tr>
+                        <tr><td>#7</td><td>4Thrives Esports</td><td>78</td><td>31</td><td>1</td><td>109</td></tr>
+                        <tr><td>#8</td><td>Alter Ego Ares</td><td>76</td><td>28</td><td>2</td><td>104</td></tr>
+                        <tr><td>#9</td><td>HORAA Esports</td><td>69</td><td>31</td><td>1</td><td>100</td></tr>
+                        <tr><td>#10</td><td>Team Falcons</td><td>64</td><td>31</td><td>2</td><td>95</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -845,7 +832,6 @@
                     </div>
                 </div>
 
-                <!-- Top 3 players as cards -->
                 <div class="cards-row">
                     <div class="player-card">
                         <div class="player-rank">#1</div>
@@ -896,7 +882,6 @@
                     </div>
                 </div>
 
-                <!-- 4-10 table -->
                 <div class="rank-table-wrap">
                     <table class="rank-table">
                         <thead>
@@ -910,62 +895,13 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <td>#4</td>
-                            <td>SLEEPYY</td>
-                            <td>28</td>
-                            <td>6,975</td>
-                            <td>312.2</td>
-                            <td>232.85</td>
-                        </tr>
-                        <tr>
-                            <td>#5</td>
-                            <td>YG Smile</td>
-                            <td>29</td>
-                            <td>5,745</td>
-                            <td>356.4</td>
-                            <td>230.01</td>
-                        </tr>
-                        <tr>
-                            <td>#6</td>
-                            <td>FALAK</td>
-                            <td>23</td>
-                            <td>7,084</td>
-                            <td>305.8</td>
-                            <td>217.32</td>
-                        </tr>
-                        <tr>
-                            <td>#7</td>
-                            <td>YG Saycloud</td>
-                            <td>23</td>
-                            <td>6,078</td>
-                            <td>371.6</td>
-                            <td>210.91</td>
-                        </tr>
-                        <tr>
-                            <td>#8</td>
-                            <td>YG Mernatt</td>
-                            <td>26</td>
-                            <td>5,448</td>
-                            <td>360.9</td>
-                            <td>208.94</td>
-                        </tr>
-                        <tr>
-                            <td>#9</td>
-                            <td>REFUS</td>
-                            <td>24</td>
-                            <td>4,764</td>
-                            <td>338.8</td>
-                            <td>197.91</td>
-                        </tr>
-                        <tr>
-                            <td>#10</td>
-                            <td>Kecth</td>
-                            <td>24</td>
-                            <td>4,580</td>
-                            <td>301.2</td>
-                            <td>194.86</td>
-                        </tr>
+                        <tr><td>#4</td><td>SLEEPYY</td><td>28</td><td>6,975</td><td>312.2</td><td>232.85</td></tr>
+                        <tr><td>#5</td><td>YG Smile</td><td>29</td><td>5,745</td><td>356.4</td><td>230.01</td></tr>
+                        <tr><td>#6</td><td>FALAK</td><td>23</td><td>7,084</td><td>305.8</td><td>217.32</td></tr>
+                        <tr><td>#7</td><td>YG Saycloud</td><td>23</td><td>6,078</td><td>371.6</td><td>210.91</td></tr>
+                        <tr><td>#8</td><td>YG Mernatt</td><td>26</td><td>5,448</td><td>360.9</td><td>208.94</td></tr>
+                        <tr><td>#9</td><td>REFUS</td><td>24</td><td>4,764</td><td>338.8</td><td>197.91</td></tr>
+                        <tr><td>#10</td><td>Kecth</td><td>24</td><td>4,580</td><td>301.2</td><td>194.86</td></tr>
                         </tbody>
                     </table>
                 </div>
@@ -989,10 +925,7 @@
                             <div class="power-name">Regnum Carya Esports</div>
                         </div>
                         <div class="power-score">853.39</div>
-                        <div class="power-history">
-                            2024: #2<br>
-                            2025: #1 / #5
-                        </div>
+                        <div class="power-history">2024: #2<br>2025: #1 / #5</div>
                     </div>
 
                     <div class="power-item">
@@ -1001,10 +934,7 @@
                             <div class="power-name">Team Falcons</div>
                         </div>
                         <div class="power-score">765.31</div>
-                        <div class="power-history">
-                            2024: #3<br>
-                            2025: #2 / #2
-                        </div>
+                        <div class="power-history">2024: #3<br>2025: #2 / #2</div>
                     </div>
 
                     <div class="power-item">
@@ -1013,10 +943,7 @@
                             <div class="power-name">Alpha Gaming</div>
                         </div>
                         <div class="power-score">727.67</div>
-                        <div class="power-history">
-                            2024: #7<br>
-                            2025: #13 / #3
-                        </div>
+                        <div class="power-history">2024: #7<br>2025: #13 / #3</div>
                     </div>
 
                     <div class="power-item">
@@ -1025,10 +952,7 @@
                             <div class="power-name">DRX</div>
                         </div>
                         <div class="power-score">606.18</div>
-                        <div class="power-history">
-                            2024: #6<br>
-                            2025: — / #4
-                        </div>
+                        <div class="power-history">2024: #6<br>2025: — / #4</div>
                     </div>
 
                     <div class="power-item">
@@ -1037,10 +961,7 @@
                             <div class="power-name">INFLUENCE RAGE</div>
                         </div>
                         <div class="power-score">475.21</div>
-                        <div class="power-history">
-                            2024: #4<br>
-                            2025: #15
-                        </div>
+                        <div class="power-history">2024: #4<br>2025: #15</div>
                     </div>
 
                     <div class="power-item">
@@ -1049,10 +970,7 @@
                             <div class="power-name">Dplus KIA</div>
                         </div>
                         <div class="power-score">455.56</div>
-                        <div class="power-history">
-                            2024: #1<br>
-                            2025: —
-                        </div>
+                        <div class="power-history">2024: #1<br>2025: —</div>
                     </div>
 
                     <div class="power-item">
@@ -1061,10 +979,7 @@
                             <div class="power-name">ThunderTalk Gaming</div>
                         </div>
                         <div class="power-score">420.23</div>
-                        <div class="power-history">
-                            2024: #13<br>
-                            2025: — / #16
-                        </div>
+                        <div class="power-history">2024: #13<br>2025: — / #16</div>
                     </div>
 
                     <div class="power-item">
@@ -1073,10 +988,7 @@
                             <div class="power-name">Team Spirit</div>
                         </div>
                         <div class="power-score">398.04</div>
-                        <div class="power-history">
-                            2024: #8<br>
-                            2025: —
-                        </div>
+                        <div class="power-history">2024: #8<br>2025: —</div>
                     </div>
 
                     <div class="power-item">
@@ -1085,10 +997,7 @@
                             <div class="power-name">VOIN Esports</div>
                         </div>
                         <div class="power-score">360.05</div>
-                        <div class="power-history">
-                            2024: #5<br>
-                            2025: —
-                        </div>
+                        <div class="power-history">2024: #5<br>2025: —</div>
                     </div>
 
                     <div class="power-item">
@@ -1097,10 +1006,7 @@
                             <div class="power-name">Alpha 7 Esports</div>
                         </div>
                         <div class="power-score">355.16</div>
-                        <div class="power-history">
-                            2024: #11<br>
-                            2025: —
-                        </div>
+                        <div class="power-history">2024: #11<br>2025: —</div>
                     </div>
                 </div>
 
@@ -1111,7 +1017,7 @@
                 </div>
             </section>
 
-            <!-- FOLLOW US (buttons без активных ссылок, только заготовки) -->
+            <!-- FOLLOW US -->
             <section class="follow-section" id="follow">
                 <div class="follow-title">Follow Us</div>
                 <div class="follow-buttons">
@@ -1141,18 +1047,14 @@
 
     <!-- FOOTER -->
     <footer class="footer">
-        <img class="footer-bg" src="gallery/assets-footer_bg.8c170f2f.png" alt="Footer BG" />
         <div class="footer-inner inner">
             PUBG MOBILE ESPORTS — Unofficial layout based on public standings data. All trademarks are property of their respective owners.
         </div>
     </footer>
 </div>
 
-<!-- Подготовленный JS для кнопок (по умолчанию они ничего не открывают) -->
 <script>
-    // Если захочешь активировать кнопки:
-    // Для любой .btn или .social-btn пропиши data-url="https://..."
-    // Скрипт ниже обработает клики.
+    // Активируй кнопки, если задашь data-url
     document.addEventListener('click', function (e) {
         const btn = e.target.closest('.btn, .social-btn');
         if (!btn) return;
