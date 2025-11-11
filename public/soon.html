@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>ESPORT PUBG MOBILE — Registration Hub (SOON)</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description"
+          content="Early access registration hub for PUBG MOBILE esports projects, slots and partnerships." />
+    <meta name="keywords"
+          content="pubg mobile esports, registration, early access, tournaments" />
+
+    <link rel="canonical" href="https://esportpubgmobile.com/soon.html" />
+    <link rel="shortcut icon" href="/09cce8db33d7aa6c26eb7fc66389b1dd_100x88_fit.png" type="image/png" />
+
+    <style>
+        :root {
+            --bg-main: #020814;
+            --bg-header: #020814;
+            --bg-card: #0b101c;
+            --bg-card-soft: #111827;
+            --accent: #ffb800;
+            --accent-alt: #ff8a00;
+            --accent-soft: rgba(255, 184, 0, .16);
+            --text-main: #ffffff;
+            --text-soft: #e5e7eb;
+            --text-muted: #9ca3af;
+            --radius-xl: 26px;
+            --radius-lg: 20px;
+            --radius-full: 999px;
+            --shadow-soft: 0 18px 70px rgba(0, 0, 0, 0.78);
+            --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            --transition-fast: .2s ease;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-main);
+            background:
+                radial-gradient(circle at top, #141b33 0%, #020814 55%, #00040a 100%);
+            color: var(--text-main);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        img {
+            display: block;
+            max-width: 100%;
+        }
+
+        .page {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .inner {
+            width: min(1320px, 100% - 40px);
+            margin: 0 auto;
+        }
+
+        /* HEADER */
+
+        .header-wrap {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(18px);
+            background: linear-gradient(
+                to bottom,
+                rgba(2, 8, 20, 0.98),
+                rgba(2, 8, 20, 0.92),
+                rgba(2, 8, 20, 0.78),
+                transparent
+            );
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 40px;
+            padding: 14px 0 10px;
+        }
+
+        .logo-combo {
+            display: inline-flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .wb_element.wb_element_shape {
+            width: 44px;
+            height: 44px;
+            flex-shrink: 0;
+        }
+
+        .wb_element.wb_element_shape .wb_shp {
+            width: 100%;
+            height: 100%;
+            border-radius: 16px;
+            position: relative;
+            overflow: hidden;
+            background:
+              radial-gradient(circle at 30% 0, rgba(255, 184, 0, 0.35), transparent),
+              #040810;
+            box-shadow:
+              0 0 0 1px rgba(255, 184, 0, 0.22),
+              0 0 26px rgba(255, 184, 0, 0.45);
+        }
+
+        .wb_element.wb_element_shape .wb_shp::after {
+            content: "";
+            position: absolute;
+            inset: 5px;
+            background:
+              url("/09cce8db33d7aa6c26eb7fc66389b1dd_100x88_fit.png")
+              center center / contain no-repeat;
+            filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.9));
+        }
+
+        .logo-text-block {
+            display: flex;
+            flex-direction: column;
+            line-height: 1.05;
+        }
+
+        .logo-text-block .top-line {
+            display: flex;
+            gap: 6px;
+            font-weight: 800;
+            font-size: 18px;
+            letter-spacing: 0.08em;
+            color: var(--accent);
+        }
+
+        .logo-text-block .sub-line {
+            font-size: 11px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: #9ca3af;
+        }
+
+        .nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            color: var(--text-muted);
+        }
+
+        .nav a {
+            padding: 7px 11px;
+            border-radius: var(--radius-full);
+            border: 1px solid transparent;
+            transition: all var(--transition-fast);
+        }
+
+        .nav a:hover {
+            color: var(--accent);
+            border-color: var(--accent-soft);
+            background: rgba(255, 184, 0, 0.06);
+        }
+
+        .nav a.nav-primary {
+            color: var(--accent);
+            border-color: var(--accent);
+            background: rgba(255, 184, 0, 0.08);
+            box-shadow: 0 0 18px rgba(255, 184, 0, 0.35);
+        }
+
+        .nav a.nav-soon {
+            color: var(--accent-alt);
+            border-color: rgba(255, 138, 0, 0.8);
+            background:
+              radial-gradient(circle at top, rgba(255, 138, 0, 0.18), transparent),
+              rgba(3, 7, 18, 0.98);
+            box-shadow: 0 0 16px rgba(255, 138, 0, 0.35);
+            font-weight: 700;
+        }
+
+        .nav a.nav-soon:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 0 22px rgba(255, 138, 0, 0.5);
+        }
+
+        /* HERO WITH HOVER CTA */
+
+        .hero {
+            padding: 26px 0 10px;
+        }
+
+        .soon-hero-wrap {
+            position: relative;
+            border-radius: 26px;
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+            background:
+               linear-gradient(135deg, rgba(0,0,0,0.95), rgba(8,16,32,0.98));
+        }
+
+        .soon-hero-img {
+            width: 100%;
+            max-height: 360px;
+            object-fit: cover;
+            opacity: 0.34;
+            filter: saturate(1.2);
+        }
+
+        .soon-hero-overlay {
+            position: absolute;
+            inset: 0;
+            padding: 22px 22px 18px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            pointer-events: none;
+        }
+
+        .soon-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 6px 13px;
+            border-radius: var(--radius-full);
+            background: rgba(0,0,0,0.82);
+            border: 1px solid rgba(255,184,0,0.26);
+            font-size: 9px;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: var(--accent);
+        }
+
+        .soon-label span.dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 999px;
+            background: var(--accent);
+            box-shadow: 0 0 9px rgba(255,184,0,0.9);
+        }
+
+        .soon-hero-title {
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            text-shadow: 0 6px 22px rgba(0,0,0,1);
+            margin: 10px 0 6px;
+        }
+
+        .soon-hero-text {
+            max-width: 520px;
+            font-size: 11px;
+            color: var(--text-soft);
+            line-height: 1.7;
+            text-shadow: 0 4px 14px rgba(0,0,0,1);
+        }
+
+        .soon-cta-wrap {
+            display: flex;
+            justify-content: flex-end;
+            align-items: flex-end;
+        }
+
+        .soon-cta-btn {
+            pointer-events: auto;
+            padding: 10px 22px;
+            border-radius: var(--radius-full);
+            border: 1px solid rgba(255,184,0,0.88);
+            background: radial-gradient(circle at top,
+                        rgba(255,184,0,0.22),
+                        rgba(10,10,16,0.98));
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--accent);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(8px);
+            transition: all var(--transition-fast);
+            box-shadow: 0 10px 26px rgba(0,0,0,1);
+        }
+
+        .soon-cta-btn span.icon {
+            width: 14px;
+            height: 14px;
+            border-radius: 999px;
+            border: 1px solid rgba(255,184,0,0.6);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 9px;
+        }
+
+        .soon-hero-wrap:hover .soon-cta-btn {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Показать кнопку всегда на мобильных (нет hover) */
+        @media (max-width: 768px) {
+            .soon-cta-btn {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .soon-cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 16px 34px rgba(0,0,0,1);
+            color: #000;
+            background: linear-gradient(90deg, var(--accent-alt), var(--accent));
+        }
+
+        /* REGISTRATION BLOCKS */
+
+        .section {
+            padding: 22px 0 24px;
+        }
+
+        .section-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            margin-bottom: 8px;
+        }
+
+        .section-title .bar {
+            display: inline-block;
+            width: 32px;
+            height: 2px;
+            background: var(--accent);
+            margin-right: 8px;
+            border-radius: 999px;
+            vertical-align: middle;
+        }
+
+        .section-sub {
+            font-size: 9px;
+            color: var(--text-muted);
+            max-width: 520px;
+            margin-bottom: 14px;
+        }
+
+        .card {
+            padding: 16px 16px 14px;
+            border-radius: var(--radius-xl);
+            background: var(--bg-card);
+            border: 1px solid rgba(255,255,255,0.06);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .code-form-row,
+        .field-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .label {
+            font-size: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: var(--text-muted);
+        }
+
+        .input-wrap {
+            flex: 1;
+            min-width: 140px;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px 10px;
+            border-radius: 14px;
+            border: 1px solid rgba(148,163,253,0.12);
+            background: rgba(4,7,16,0.98);
+            color: var(--text-soft);
+            font-size: 10px;
+            outline: none;
+            transition: all var(--transition-fast);
+        }
+
+        input::placeholder {
+            color: rgba(148,163,253,0.45);
+        }
+
+        input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 14px rgba(255,184,0,0.22);
+        }
+
+        .btn-sm {
+            padding: 7px 14px;
+            border-radius: var(--radius-full);
+            border: 1px solid rgba(255,184,0,0.82);
+            background: rgba(7,11,20,0.98);
+            font-size: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: var(--accent);
+            cursor: pointer;
+            transition: all var(--transition-fast);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-sm:hover {
+            background: linear-gradient(90deg, var(--accent-alt), var(--accent));
+            color: #000;
+            box-shadow: 0 10px 24px rgba(0,0,0,1);
+        }
+
+        .note {
+            font-size: 8px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .status {
+            margin-top: 6px;
+            font-size: 8.5px;
+        }
+
+        .status.ok {
+            color: #22c55e;
+        }
+        .status.err {
+            color: #f97316;
+        }
+
+        .two-cols {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .two-cols {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .submit-wrap {
+            margin-top: 10px;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .submit-btn {
+            padding: 9px 22px;
+            border-radius: var(--radius-full);
+            border: 0;
+            background: linear-gradient(90deg, var(--accent-alt), var(--accent));
+            color: #000;
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            cursor: pointer;
+            box-shadow: 0 10px 26px rgba(0,0,0,1);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .submit-btn span.icon {
+            width: 14px;
+            height: 14px;
+            border-radius: 999px;
+            background: #000;
+            color: var(--accent);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 9px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 16px 34px rgba(0,0,0,1);
+        }
+
+        .footer {
+            margin-top: 18px;
+            padding: 14px 0 20px;
+            font-size: 8.5px;
+            color: var(--text-muted);
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            background: radial-gradient(circle at top,
+                rgba(255,184,0,0.03),
+                transparent);
+        }
+
+        /* FLOATING TELEGRAM BUTTON */
+
+        .tg-float {
+            position: fixed;
+            right: 18px;
+            bottom: 18px;
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 0, rgba(255, 255, 255, 0.16), transparent),
+                        #0f172a;
+            box-shadow: 0 10px 28px rgba(0,0,0,0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.16);
+            z-index: 120;
+            transition: all var(--transition-fast);
+        }
+
+        .tg-float:hover {
+            transform: translateY(-3px) scale(1.03);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.95);
+            border-color: var(--accent);
+        }
+
+        .tg-float svg {
+            width: 22px;
+            height: 22px;
+            fill: #39A9FF;
+        }
+    </style>
+</head>
+<body>
+<div class="page">
+
+    <!-- HEADER -->
+    <div class="header-wrap">
+        <div class="inner header">
+            <div class="logo-combo">
+                <div class="wb_element wb_element_shape" data-plugin="Shape">
+                    <div class="wb_shp"></div>
+                </div>
+                <div class="logo-text-block">
+                    <div class="top-line">
+                        <span>ESPORT</span>
+                        <span>PUBG</span>
+                        <span>MOBILE</span>
+                    </div>
+                    <div class="sub-line">COMMUNITY ESPORTS HUB</div>
+                </div>
+            </div>
+
+            <nav class="nav">
+                <a href="/" class="nav-primary">Hub</a>
+                <a href="/#teams">Teams</a>
+                <a href="/#standings">Standings</a>
+                <a href="/#players">Players</a>
+                <a href="/#power-rankings">Power Rank</a>
+                <a href="/#follow">Links</a>
+                <a href="/soon.html" class="nav-soon">SOON</a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- MAIN -->
+    <main>
+        <div class="inner">
+
+            <!-- HERO with hover CTA -->
+            <section class="hero">
+                <div class="soon-hero-wrap">
+                    <img
+                        class="soon-hero-img"
+                        src="/172f6786de4f4d5591f3b061f472e935_fit.webp"
+                        alt="PUBG MOBILE Esports Registration Banner"
+                    />
+                    <div class="soon-hero-overlay">
+                        <div>
+                            <div class="soon-label">
+                                <span class="dot"></span>
+                                EARLY ACCESS • INVITE ONLY
+                            </div>
+                            <div class="soon-hero-title">
+                                Closed Registration Gateway
+                            </div>
+                            <div class="soon-hero-text">
+                                Private entry for selected teams, players and partners.
+                                Use your access code to apply for priority slots, events
+                                and verification. Hover or tap to unlock the gateway.
+                            </div>
+                        </div>
+                        <div class="soon-cta-wrap">
+                            <button id="open-gateway" class="soon-cta-btn">
+                                <span class="icon">▶</span>
+                                OPEN REGISTRATION GATEWAY
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- CODE CHECK -->
+            <section class="section">
+                <div class="section-title">
+                    <span class="bar"></span>Step 1 — Access Code Verification
+                </div>
+                <div class="section-sub">
+                    Enter your unique invitation code. If the code is valid, the full registration
+                    form will unlock. Codes are distributed manually via official channels.
+                </div>
+
+                <div class="card">
+                    <div class="code-form-row">
+                        <div class="input-wrap">
+                            <div class="label">Access code</div>
+                            <input id="access-code" type="text"
+                                   placeholder="Enter your invite code (e.g. FLOW2025)" />
+                        </div>
+                        <button id="check-code" class="btn-sm">
+                            VERIFY CODE
+                        </button>
+                    </div>
+                    <div id="code-status" class="status"></div>
+                    <div class="note">
+                        Your code is checked locally for demo purposes.
+                        Real validation on production should be done via secure server.
+                    </div>
+                </div>
+            </section>
+
+            <!-- REGISTRATION FORM (HIDDEN UNTIL CODE OK) -->
+            <section class="section" id="registration-section" style="display:none;">
+                <div class="section-title">
+                    <span class="bar"></span>Step 2 — Registration Form
+                </div>
+                <div class="section-sub">
+                    Fill in all fields carefully. After submitting, your application will be reviewed.
+                    You will receive a decision and next steps to the email you specify.
+                </div>
+
+                <form id="reg-form" class="card">
+                    <div class="two-cols">
+                        <div class="field-group">
+                            <div class="label">Email</div>
+                            <input type="email" id="email" required
+                                   placeholder="Your primary contact email" />
+                            <div class="note">We will send all decisions and confirmations here.</div>
+                        </div>
+                        <div class="field-group">
+                            <div class="label">Email verification code</div>
+                            <input type="text" id="email-code"
+                                   placeholder="Code from email (if provided)" />
+                            <div class="note">If you already received a verification code, enter it.</div>
+                        </div>
+                    </div>
+
+                    <div class="two-cols">
+                        <div class="field-group">
+                            <div class="label">Phone (with country code)</div>
+                            <input type="tel" id="phone"
+                                   placeholder="+40..., +90..., +380..., etc." />
+                            <div class="note">Used only for urgent contact regarding your slot.</div>
+                        </div>
+                        <div class="field-group">
+                            <div class="label">Phone verification code</div>
+                            <input type="text" id="phone-code"
+                                   placeholder="Code from SMS / messenger (optional)" />
+                        </div>
+                    </div>
+
+                    <div class="two-cols">
+                        <div class="field-group">
+                            <div class="label">In-game ID</div>
+                            <input type="text" id="ingame-id" required
+                                   placeholder="PUBG MOBILE ID (not nickname)" />
+                        </div>
+                        <div class="field-group">
+                            <div class="label">Confirm in-game ID</div>
+                            <input type="text" id="ingame-id-confirm"
+                                   placeholder="Repeat your PUBG MOBILE ID" />
+                        </div>
+                    </div>
+
+                    <div class="two-cols">
+                        <div class="field-group">
+                            <div class="label">Password</div>
+                            <input type="password" id="password" required
+                                   placeholder="Create access password for this portal" />
+                        </div>
+                        <div class="field-group">
+                            <div class="label">Repeat password</div>
+                            <input type="password" id="password-confirm" required
+                                   placeholder="Repeat the password" />
+                        </div>
+                    </div>
+
+                    <div class="field-row">
+                        <label style="font-size:8px; color:var(--text-muted); display:flex; gap:6px; align-items:flex-start;">
+                            <input type="checkbox" id="terms" style="width:11px; height:11px; margin-top:2px;" required />
+                            I confirm that all data is correct and I agree to receive notifications
+                            regarding my application status.
+                        </label>
+                    </div>
+
+                    <div id="reg-status" class="status"></div>
+
+                    <div class="submit-wrap">
+                        <button type="submit" class="submit-btn">
+                            <span class="icon">✓</span>
+                            SUBMIT APPLICATION
+                        </button>
+                    </div>
+                </form>
+            </section>
+
+            <!-- AFTER SUBMIT INFO -->
+            <section class="section" id="final-message" style="display:none;">
+                <div class="card">
+                    <div class="section-title" style="margin-bottom:4px;">
+                        <span class="bar"></span>Application received
+                    </div>
+                    <div class="section-sub" style="margin-bottom:0;">
+                        Thank you. Your request has been recorded.
+                        Please check your email — you will receive a decision,
+                        verification steps or additional questions.
+                        For urgent issues you can contact
+                        <a href="https://t.me/v7ck9ll" target="_blank" rel="noopener"
+                           style="color:var(--accent); text-decoration:underline;">@v7ck9ll</a>.
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="inner">
+            ESPORTPUBGMOBILE.COM — Closed registration & early access concept page.
+            All actions are subject to manual review. This hub is independent and
+            not affiliated with Tencent, Krafton or PUBG MOBILE.
+        </div>
+    </footer>
+</div>
+
+<!-- FLOATING TELEGRAM BUTTON -->
+<a href="https://t.me/v7ck9ll" target="_blank" rel="noopener"
+   class="tg-float" aria-label="Contact @v7ck9ll on Telegram">
+    <svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="120" cy="120" r="120" fill="none"/>
+        <path d="M185 66L164 175c-1 5-4 7-8 5l-40-30-19 18c-2 2-4 3-7 3l3-42 77-69c3-3-1-4-5-2l-95 60-41-13c-9-3-9-9 2-13l159-61c7-3 14 2 11 13z"/>
+    </svg>
+</a>
+
+<script>
+    // Настройки: какие коды считаем валидными
+    const VALID_CODES = ["FLOW2025", "ESPORTPUBG", "V7ACCESS"];
+
+    const openGatewayBtn = document.getElementById('open-gateway');
+    const codeInput = document.getElementById('access-code');
+    const checkCodeBtn = document.getElementById('check-code');
+    const codeStatus = document.getElementById('code-status');
+    const regSection = document.getElementById('registration-section');
+    const regForm = document.getElementById('reg-form');
+    const regStatus = document.getElementById('reg-status');
+    const finalMessage = document.getElementById('final-message');
+
+    // Кнопка в баннере — скролл к полю кода
+    if (openGatewayBtn) {
+        openGatewayBtn.addEventListener('click', function () {
+            codeInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            codeInput.focus();
+        });
+    }
+
+    // Проверка кода
+    if (checkCodeBtn) {
+        checkCodeBtn.addEventListener('click', function () {
+            const val = (codeInput.value || "").trim().toUpperCase();
+            if (!val) {
+                codeStatus.textContent = "Enter your code to continue.";
+                codeStatus.className = "status err";
+                return;
+            }
+            if (VALID_CODES.includes(val)) {
+                codeStatus.textContent = "Code accepted. Registration form unlocked.";
+                codeStatus.className = "status ok";
+                regSection.style.display = "block";
+                regSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } else {
+                codeStatus.textContent = "Invalid code. Check your invite or contact support.";
+                codeStatus.className = "status err";
+                regSection.style.display = "none";
+            }
+        });
+    }
+
+    // Сабмит формы
+    if (regForm) {
+        regForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            regStatus.textContent = "";
+            regStatus.className = "status";
+
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const ingameId = document.getElementById('ingame-id').value.trim();
+            const ingameIdConfirm = document.getElementById('ingame-id-confirm').value.trim();
+            const pass = document.getElementById('password').value;
+            const pass2 = document.getElementById('password-confirm').value;
+            const terms = document.getElementById('terms').checked;
+
+            if (!email || !ingameId || !pass || !pass2) {
+                regStatus.textContent = "Please fill all required fields.";
+                regStatus.className = "status err";
+                return;
+            }
+
+            if (ingameIdConfirm && ingameIdConfirm !== ingameId) {
+                regStatus.textContent = "In-game ID confirmation does not match.";
+                regStatus.className = "status err";
+                return;
+            }
+
+            if (pass !== pass2) {
+                regStatus.textContent = "Passwords do not match.";
+                regStatus.className = "status err";
+                return;
+            }
+
+            if (!terms) {
+                regStatus.textContent = "Please confirm that the data is correct.";
+                regStatus.className = "status err";
+                return;
+            }
+
+            // DEMO: вместо реальной отправки просто показываем сообщение
+            regStatus.textContent =
+                "Your application has been submitted. Please wait for an email with the decision and further instructions.";
+            regStatus.className = "status ok";
+
+            // Плавно показать финальный блок
+            finalMessage.style.display = "block";
+            finalMessage.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+            // Опционально очищаем форму (по желанию можно закомментить)
+            regForm.reset();
+        });
+    }
+</script>
+
+</body>
+</html>
