@@ -3,18 +3,29 @@
 <head>
     <meta charset="UTF-8" />
     <title>PUBG MOBILE ESPORTS - Official Hub</title>
+
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="PUBG MOBILE Esports hub: global championships, leagues, rankings." />
     <meta name="keywords" content="PUBG Mobile, Esports, PMWC, PMGC, PMSL, Rankings" />
 
-    <!-- Превью при шаринге -->
+    <!-- Название для систем / иконок -->
+    <meta name="application-name" content="PUBG MOBILE ESPORTS - Official Hub" />
+    <meta name="apple-mobile-web-app-title" content="PUBG MOBILE ESPORTS - Official Hub" />
+
+    <!-- Open Graph / превью для Telegram и соцсетей -->
     <meta property="og:title" content="PUBG MOBILE ESPORTS - Official Hub" />
     <meta property="og:description" content="Follow PUBG MOBILE World Cup, Global Championship, Super Leagues and Power Rankings." />
-    <meta property="og:image" content="https://aniway.free.site.pro/gallery_gen/172f6786de4f4d5591f3b061f472e935_fit.webp" />
+    <meta property="og:image" content="https://esportpubgmobile.com/172f6786de4f4d5591f3b061f472e935_fit.webp" />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://aniway.free.site.pro/" />
+    <meta property="og:url" content="https://esportpubgmobile.com/" />
 
-    <!-- Иконка -->
+    <!-- Twitter Card (на всякий) -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="PUBG MOBILE ESPORTS - Official Hub" />
+    <meta name="twitter:description" content="Follow PUBG MOBILE World Cup, Global Championship, Super Leagues and Power Rankings." />
+    <meta name="twitter:image" content="https://esportpubgmobile.com/172f6786de4f4d5591f3b061f472e935_fit.webp" />
+
+    <!-- Favicon -->
     <link rel="shortcut icon" href="/09cce8db33d7aa6c26eb7fc66389b1dd_100x88_fit.png" type="image/png" />
 
     <style>
@@ -79,11 +90,11 @@
             z-index: 100;
             backdrop-filter: blur(18px);
             background:
-                linear-gradient(to bottom,
-                    rgba(2, 8, 20, 0.98),
-                    rgba(2, 8, 20, 0.94),
-                    rgba(2, 8, 20, 0.85),
-                    transparent);
+              linear-gradient(to bottom,
+                rgba(2, 8, 20, 0.98),
+                rgba(2, 8, 20, 0.94),
+                rgba(2, 8, 20, 0.85),
+                transparent);
             border-bottom: 1px solid rgba(255, 255, 255, 0.04);
         }
 
@@ -101,7 +112,7 @@
             gap: 14px;
         }
 
-        /* wb_shp: тот же размер, логотип внутрь */
+        /* Лого-бокс 44x44 с PNG внутри */
         .wb_element.wb_element_shape {
             width: 44px;
             height: 44px;
@@ -115,11 +126,11 @@
             position: relative;
             overflow: hidden;
             background:
-                radial-gradient(circle at 30% 0, rgba(255, 184, 0, 0.35), transparent),
-                rgba(4, 8, 16, 1);
+              radial-gradient(circle at 30% 0, rgba(255, 184, 0, 0.35), transparent),
+              rgba(4, 8, 16, 1);
             box-shadow:
-                0 0 0 1px rgba(255, 184, 0, 0.22),
-                0 0 26px rgba(255, 184, 0, 0.4);
+              0 0 0 1px rgba(255, 184, 0, 0.22),
+              0 0 26px rgba(255, 184, 0, 0.4);
         }
 
         .wb_element.wb_element_shape .wb_shp::after {
@@ -127,13 +138,11 @@
             position: absolute;
             inset: 5px;
             background:
-                url("/09cce8db33d7aa6c26eb7fc66389b1dd_100x88_fit.png")
-                center center / contain
-                no-repeat;
+              url("/09cce8db33d7aa6c26eb7fc66389b1dd_100x88_fit.png")
+              center center / contain no-repeat;
             filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.9));
         }
 
-        /* справа текст */
         .logo-text-block {
             display: flex;
             flex-direction: column;
@@ -147,10 +156,6 @@
             font-size: 18px;
             letter-spacing: 0.06em;
             color: var(--accent);
-        }
-
-        .logo-text-block .top-line span {
-            display: inline-block;
         }
 
         .logo-text-block .sub-line {
@@ -275,7 +280,7 @@
             color: var(--text-muted);
         }
 
-        /* TEAM CARDS ROW (1–3) */
+        /* TEAM CARDS (1–3) */
 
         .top-teams-row {
             display: grid;
@@ -561,7 +566,7 @@
             font-size: 9px;
             text-transform: uppercase;
             letter-spacing: 0.16em;
-            cursor: default;
+            cursor: pointer;
             transition: all var(--transition-fast);
         }
 
@@ -639,22 +644,17 @@
     <div class="header-wrap">
         <div class="inner header">
             <div class="logo-combo">
-                <!-- wb_shp 44x44 с PNG внутри -->
                 <div id="a19a6fd9ea75097d4f9c2dbf71600873"
                      class="wb_element wb_element_shape"
                      data-plugin="Shape">
                     <div class="wb_shp"></div>
                 </div>
-
-                <!-- Текст справа -->
                 <div class="logo-text-block">
                     <div class="top-line">
                         <span>PUBG</span>
                         <span>MOBILE</span>
                     </div>
-                    <div class="sub-line">
-                        ESPORTS HUB
-                    </div>
+                    <div class="sub-line">ESPORTS HUB</div>
                 </div>
             </div>
 
@@ -677,7 +677,7 @@
             <section class="hero">
                 <img
                     class="hero-banner-main"
-                    src="https://aniway.free.site.pro/gallery_gen/172f6786de4f4d5591f3b061f472e935_fit.webp"
+                    src="/172f6786de4f4d5591f3b061f472e935_fit.webp"
                     alt="PUBG MOBILE World Cup Champion — Yangon Galacticos"
                 />
 
@@ -711,7 +711,6 @@
                     </div>
                 </div>
 
-                <!-- TOP 3 Cards -->
                 <div class="top-teams-row">
                     <div class="team-card">
                         <div class="team-rank-pill">#1</div>
@@ -762,7 +761,6 @@
                     </div>
                 </div>
 
-                <!-- 4-10 table -->
                 <div class="rank-table-wrap" id="standings">
                     <table class="rank-table">
                         <thead>
@@ -894,7 +892,6 @@
                         <div class="power-score">853.39</div>
                         <div class="power-history">2024: #2<br>2025: #1 / #5</div>
                     </div>
-
                     <div class="power-item">
                         <div class="power-left">
                             <div class="power-rank">#2</div>
@@ -903,7 +900,6 @@
                         <div class="power-score">765.31</div>
                         <div class="power-history">2024: #3<br>2025: #2 / #2</div>
                     </div>
-
                     <div class="power-item">
                         <div class="power-left">
                             <div class="power-rank">#3</div>
@@ -912,7 +908,6 @@
                         <div class="power-score">727.67</div>
                         <div class="power-history">2024: #7<br>2025: #13 / #3</div>
                     </div>
-
                     <div class="power-item">
                         <div class="power-left">
                             <div class="power-rank">#4</div>
@@ -921,7 +916,6 @@
                         <div class="power-score">606.18</div>
                         <div class="power-history">2024: #6<br>2025: — / #4</div>
                     </div>
-
                     <div class="power-item">
                         <div class="power-left">
                             <div class="power-rank">#5</div>
@@ -930,7 +924,6 @@
                         <div class="power-score">475.21</div>
                         <div class="power-history">2024: #4<br>2025: #15</div>
                     </div>
-
                     <div class="power-item">
                         <div class="power-left">
                             <div class="power-rank">#6</div>
@@ -939,7 +932,6 @@
                         <div class="power-score">455.56</div>
                         <div class="power-history">2024: #1<br>2025: —</div>
                     </div>
-
                     <div class="power-item">
                         <div class="power-left">
                             <div class="power-rank">#7</div>
@@ -948,7 +940,6 @@
                         <div class="power-score">420.23</div>
                         <div class="power-history">2024: #13<br>2025: — / #16</div>
                     </div>
-
                     <div class="power-item">
                         <div class="power-left">
                             <div class="power-rank">#8</div>
@@ -957,7 +948,6 @@
                         <div class="power-score">398.04</div>
                         <div class="power-history">2024: #8<br>2025: —</div>
                     </div>
-
                     <div class="power-item">
                         <div class="power-left">
                             <div class="power-rank">#9</div>
@@ -966,7 +956,6 @@
                         <div class="power-score">360.05</div>
                         <div class="power-history">2024: #5<br>2025: —</div>
                     </div>
-
                     <div class="power-item">
                         <div class="power-left">
                             <div class="power-rank">#10</div>
@@ -1004,15 +993,14 @@
 </div>
 
 <script>
-    // Включить ссылки: пропиши data-url на нужных кнопках
-    document.addEventListener('click', function (e) {
-        const btn = e.target.closest('.btn, .social-btn');
-        if (!btn) return;
-        const url = btn.dataset.url;
-        if (url) {
-            window.open(url, '_blank');
-        }
-    });
+document.addEventListener('click', function (e) {
+    const btn = e.target.closest('.btn, .social-btn');
+    if (!btn) return;
+    const url = btn.dataset.url;
+    if (url) {
+        window.open(url, '_blank');
+    }
+});
 </script>
 
 </body>
