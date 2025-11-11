@@ -14,7 +14,7 @@
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://aniway.free.site.pro/" />
 
-    <!-- Иконка (твой PNG в public) -->
+    <!-- Иконка (PNG в public) -->
     <link rel="shortcut icon" href="/09cce8db33d7aa6c26eb7fc66389b1dd_100x88_fit.png" type="image/png" />
 
     <style>
@@ -97,10 +97,11 @@
             gap: 14px;
         }
 
-        /* левый золотой квадрат */
+        /* Блок с wb_shp + PNG */
+
         .wb_element.wb_element_shape {
-            width: 44px;
-            height: 44px;
+            width: 100px;        /* под твой _100x88_ PNG */
+            height: 88px;
             flex-shrink: 0;
         }
 
@@ -108,29 +109,22 @@
             width: 100%;
             height: 100%;
             border-radius: 16px;
-            background:
-                radial-gradient(circle at 30% 0, rgba(255, 184, 0, 0.35), transparent),
-                rgba(4, 8, 16, 1);
-            box-shadow:
-                0 0 0 1px rgba(255, 184, 0, 0.22),
-                0 0 26px rgba(255, 184, 0, 0.4);
-        }
-
-        /* белый PUBG MOBILE ESPORTS логотип по центру */
-        .logo-center {
-            height: 32px;
+            background: transparent;
             display: flex;
             align-items: center;
+            justify-content: center;
+            overflow: hidden;
         }
 
-        .logo-center img {
-            height: 32px;
-            width: auto;
+        .wb_element.wb_element_shape .wb_shp img {
+            max-width: 100%;
+            max-height: 100%;
             object-fit: contain;
-            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.8));
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.9));
         }
 
-        /* справа текст как на скрине */
+        /* Текст справа как на скрине */
+
         .logo-text-block {
             display: flex;
             flex-direction: column;
@@ -636,20 +630,17 @@
     <div class="header-wrap">
         <div class="inner header">
             <div class="logo-combo">
-                <!-- Золотой квадрат -->
+                <!-- wb_shp с PNG логотипом -->
                 <div id="a19a6fd9ea75097d4f9c2dbf71600873"
                      class="wb_element wb_element_shape"
                      data-plugin="Shape">
-                    <div class="wb_shp"></div>
+                    <div class="wb_shp">
+                        <img src="/09cce8db33d7aa6c26eb7fc66389b1dd_100x88_fit.png"
+                             alt="PUBG MOBILE ESPORTS">
+                    </div>
                 </div>
 
-                <!-- Белый PUBG MOBILE ESPORTS логотип (твой PNG) -->
-                <div class="logo-center">
-                    <img src="/09cce8db33d7aa6c26eb7fc66389b1dd_100x88_fit.png"
-                         alt="PUBG MOBILE ESPORTS">
-                </div>
-
-                <!-- Текст справа как на скрине -->
+                <!-- Текст справа -->
                 <div class="logo-text-block">
                     <div class="top-line">
                         <span>PUBG</span>
@@ -688,7 +679,7 @@
                     <div class="hero-tile">
                         <span class="label">PMGC</span>
                         <span class="value">PUBG MOBILE Global Championship</span>
-                        <span>Season Finals • Global leaderboard & VODs</span>
+                        <span>Season Finals • Global leaderboard &amp; VODs</span>
                     </div>
                     <div class="hero-tile">
                         <span class="label">PMWC</span>
@@ -698,7 +689,7 @@
                     <div class="hero-tile">
                         <span class="label">PMSL</span>
                         <span class="value">Super Leagues</span>
-                        <span>SEA • EMEA • AMERICAS • MENA & more</span>
+                        <span>SEA • EMEA • AMERICAS • MENA &amp; more</span>
                     </div>
                 </div>
             </section>
@@ -714,7 +705,7 @@
                     </div>
                 </div>
 
-                <!-- TOP 3 Cards как на скрине -->
+                <!-- TOP 3 Cards -->
                 <div class="top-teams-row">
                     <div class="team-card">
                         <div class="team-rank-pill">#1</div>
@@ -1007,7 +998,7 @@
 </div>
 
 <script>
-    // Включить ссылки: пропиши data-url на нужных кнопках
+    // Активировать ссылки: пропиши data-url на нужных кнопках
     document.addEventListener('click', function (e) {
         const btn = e.target.closest('.btn, .social-btn');
         if (!btn) return;
