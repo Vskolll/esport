@@ -370,22 +370,28 @@
             color: var(--text-soft);
             line-height: 1.7;
         }
+.tournament-banner-img{
+  width: 100%;
+  height: 100%;
+  max-height: 280px;          /* чуть ниже, чтобы карточка «дышала» */
+  border-radius: 18px;
+  object-fit: cover;
+  object-position: 50% 50%;
+  transform: scale(1.03);     /* было 1.06 — стало мягче */
+  transition: transform .25s ease, box-shadow .25s ease;
+  box-shadow: 0 0 0 rgba(255,165,0,0.0);
+}
+.tournament-banner-img:hover{
+  transform: scale(1.06);     /* лёгкое приближение по ховеру */
+  box-shadow: 0 0 22px rgba(255,165,0,.35), 0 0 48px rgba(255,120,0,.2);
+}
 
-        .tournament-banner-img{
-              width: 100%;
-              height: 100%;
-              max-height: 300px;            /* фикс высоты блока, чтобы был кроп */
-              border-radius: 18px;
-              object-fit: cover;            /* кроп по контейнеру */
-              object-position: 50% 50%;     /* центр кадра, можно подвигать: 55% 50% */
-              transform: scale(1.06);       /* «чуть ближе» */
-              transition: transform .25s ease, box-shadow .25s ease;
-              box-shadow: 0 0 0 rgba(255,165,0,0.0);
-            }
-        .tournament-banner-img:hover{
-                transform: scale(1.08);
-                box-shadow: 0 0 28px rgba(255,165,0,.45), 0 0 64px rgba(255,120,0,.25);
-              }
+@media (max-width: 900px){
+  .tournament-banner-img{
+    max-height: 220px;
+    transform: scale(1.02);
+  }
+}
 
 
         .scroll-cta {
@@ -613,6 +619,51 @@
         }
 
         /* FLOATING TELEGRAM BUTTON */
+          .kicker{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:5px 10px;border-radius:999px;
+  background:rgba(255,184,0,.06);
+  border:1px solid rgba(255,184,0,.3);
+  color:var(--accent);font-size:9px;letter-spacing:.12em;text-transform:uppercase;
+}
+
+.tournament-heading{
+  margin:8px 0 6px;font-size:16px;font-weight:800;letter-spacing:.06em;
+  text-transform:uppercase;
+  background:linear-gradient(90deg,#fff, #ffe29a 40%, #ffb800);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+
+.badges{
+  display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 10px;
+}
+.badge{
+  padding:6px 10px;border-radius:999px;font-size:9px;letter-spacing:.06em;
+  border:1px solid rgba(255,255,255,.12);background:rgba(4,7,16,.9);color:var(--text-soft);
+}
+.badge--gold{ border-color: rgba(255,184,0,.5); color:#ffd36b; background:rgba(255,184,0,.08); }
+
+.prize-list{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:10px 0 6px;
+}
+@media (max-width:680px){ .prize-list{ grid-template-columns:1fr; } }
+
+.prize-item{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:10px 12px;border-radius:14px;
+  background:linear-gradient(180deg, rgba(255,184,0,.06), rgba(255,184,0,.02));
+  border:1px solid rgba(255,255,255,.08);
+}
+.prize-item .place{
+  font-weight:800;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#fff;
+}
+.prize-item .amount{
+  font-weight:900;font-size:14px;letter-spacing:.04em;color:#ffd36b;
+}
+
+.tournament-note{
+  font-size:9px;color:var(--text-muted);line-height:1.7;margin-top:6px;
+}
 
         .tg-float {
             position: fixed;
@@ -797,20 +848,43 @@
                         <div class="tournament-title">
                             <span>ESPORT PUBG MOBILE INVITATIONAL 2025</span>
                         </div>
-                      <div class="tournament-text">
-                      <strong>PUBG MOBILE GLOBAL OPEN — CIS</strong><br>
-                      Regional tournament for CIS players only. Access is <em>invite-only</em> and limited to
-                      approved &amp; registered teams that pass manual verification.<br><br>
+                     <div class="tournament-text">
+  <span class="kicker">PUBG MOBILE GLOBAL OPEN — CIS</span>
+  <div class="tournament-heading">Regional Invitational • Invite-Only</div>
 
-                      <strong>Prize pool: $10,000</strong><br>
-                      • 1st place — <strong>$5,000</strong> (team)<br>
-                      • 2nd place — <strong>$3,000</strong> (team)<br>
-                      • 3rd place — <strong>$1,000</strong> (team)<br>
-                      • 4th place — <strong>$1,000</strong> (team)<br><br>
+  <div class="badges">
+    <span class="badge badge--gold">Prize Pool $10,000</span>
+    <span class="badge">CIS players only</span>
+    <span class="badge">Closed lobbies</span>
+    <span class="badge">Manual verification</span>
+  </div>
 
-                      Closed lobbies, roster checks and manual verification are enforced.
-                      Separate flow from the global OPEN — this page is dedicated to <strong>OPEN — CIS</strong>.
-                    </div>
+  <div class="prize-list">
+    <div class="prize-item">
+      <span class="place">1st place</span>
+      <span class="amount">$5,000</span>
+    </div>
+    <div class="prize-item">
+      <span class="place">2nd place</span>
+      <span class="amount">$3,000</span>
+    </div>
+    <div class="prize-item">
+      <span class="place">3rd place</span>
+      <span class="amount">$1,000</span>
+    </div>
+    <div class="prize-item">
+      <span class="place">4th place</span>
+      <span class="amount">$1,000</span>
+    </div>
+  </div>
+
+  <div class="tournament-note">
+    Access is <strong>invite-only</strong> and limited to approved &amp; registered teams that pass
+    manual roster checks. Separate flow from the global OPEN — this page is dedicated to
+    <strong>OPEN — CIS</strong>.
+  </div>
+</div>
+
 
                         <button id="scroll-cta-code" class="scroll-cta">
                             <span class="icon">⬇</span>
