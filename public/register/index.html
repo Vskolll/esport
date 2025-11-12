@@ -337,16 +337,26 @@
             padding: 16px 0 8px;
         }
 
-        .tournament-card {
-            padding: 14px 14px 12px;
-            border-radius: var(--radius-xl);
-            background: var(--bg-card);
-            border: 1px solid rgba(255,255,255,0.08);
-            box-shadow: var(--shadow-soft);
-            display: grid;
-            grid-template-columns: 2fr 1.5fr;
-            gap: 12px;
-        }
+        .tournament-card{
+              padding: 14px 14px 12px;
+              border-radius: var(--radius-xl);
+              background: var(--bg-card);
+              border: 1px solid rgba(255,255,255,0.08);
+              box-shadow: var(--shadow-soft);
+              display: grid;
+              grid-template-columns: 1.4fr 1.6fr; /* баннер стал шире */
+              gap: 12px;
+            }
+            @media (max-width: 900px){
+              .tournament-card{
+                grid-template-columns: 1fr;
+              }
+              .tournament-banner-img{
+                max-height: 220px;
+                transform: scale(1.04);
+              }
+            }
+
 
         .tournament-title {
             font-size: 13px;
@@ -361,11 +371,22 @@
             line-height: 1.7;
         }
 
-        .tournament-banner-img {
-            width: 100%;
-            border-radius: 18px;
-            object-fit: cover;
-        }
+        .tournament-banner-img{
+              width: 100%;
+              height: 100%;
+              max-height: 300px;            /* фикс высоты блока, чтобы был кроп */
+              border-radius: 18px;
+              object-fit: cover;            /* кроп по контейнеру */
+              object-position: 50% 50%;     /* центр кадра, можно подвигать: 55% 50% */
+              transform: scale(1.06);       /* «чуть ближе» */
+              transition: transform .25s ease, box-shadow .25s ease;
+              box-shadow: 0 0 0 rgba(255,165,0,0.0);
+            }
+        .tournament-banner-img:hover{
+                transform: scale(1.08);
+                box-shadow: 0 0 28px rgba(255,165,0,.45), 0 0 64px rgba(255,120,0,.25);
+              }
+
 
         .scroll-cta {
             margin-top: 8px;
@@ -776,15 +797,21 @@
                         <div class="tournament-title">
                             <span>ESPORT PUBG MOBILE INVITATIONAL 2025</span>
                         </div>
-                        <div class="tournament-text">
-                            • Prize pool: $10,000+ in slots, media exposure &amp; partner perks.<br>
-                            • Format: 3-stage qualifiers &amp; finals, observers &amp; content support.<br>
-                            • Eligibility: invited teams &amp; whitelisted rosters with verified history.<br>
-                            • Slots: limited. Access codes are issued manually via trusted channels.<br>
-                            • Only teams that pass manual verification receive the final lobby details.
-                            <br><br>
-                            Scroll through the announcement to unlock the registration code gate.
-                        </div>
+                      <div class="tournament-text">
+                      <strong>PUBG MOBILE GLOBAL OPEN — CIS</strong><br>
+                      Regional tournament for CIS players only. Access is <em>invite-only</em> and limited to
+                      approved &amp; registered teams that pass manual verification.<br><br>
+
+                      <strong>Prize pool: $10,000</strong><br>
+                      • 1st place — <strong>$5,000</strong> (team)<br>
+                      • 2nd place — <strong>$3,000</strong> (team)<br>
+                      • 3rd place — <strong>$1,000</strong> (team)<br>
+                      • 4th place — <strong>$1,000</strong> (team)<br><br>
+
+                      Closed lobbies, roster checks and manual verification are enforced.
+                      Separate flow from the global OPEN — this page is dedicated to <strong>OPEN — CIS</strong>.
+                    </div>
+
                         <button id="scroll-cta-code" class="scroll-cta">
                             <span class="icon">⬇</span>
                             ENTER REGISTRATION CODE
