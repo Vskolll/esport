@@ -1,20 +1,18 @@
 {
-  "name": "my-website",
+  "name": "esport-pubg-register",
   "version": "1.0.0",
-  "description": "My Render site with Node.js and Express",
+  "description": "Registration hub + Telegram admin notify",
   "type": "module",
-  "private": true,
   "main": "server.js",
-  "engines": { "node": ">=18 <=22" },
   "scripts": {
     "start": "node server.js",
-    "dev": "NODE_ENV=development node server.js"
+    "dev": "node server.js"
+  },
+  "engines": {
+    "node": ">=18"
   },
   "dependencies": {
     "express": "^4.19.2",
-    "dotenv": "^16.4.5"
-  },
-  "keywords": [],
-  "author": "Nikita",
-  "license": "MIT"
+    "morgan": "^1.10.0"
+  }
 }
