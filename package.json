@@ -1,7 +1,7 @@
 {
   "name": "esport-pubg-register",
   "version": "1.0.0",
-  "description": "Registration hub + Telegram admin notify",
+  "description": "Closed registration gateway + admin panel for PUBG MOBILE tournaments",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

