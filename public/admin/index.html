@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>ESPORT PUBG MOBILE — Admin Panel</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description"
+        content="Admin panel for ESPORT PUBG MOBILE registration hub: manual verification and approvals." />
+
+  <style>
+    :root {
+      --bg-main: #020814;
+      --bg-header: #020814;
+      --bg-card: #0b101c;
+      --bg-card-soft: #111827;
+      --accent: #ffb800;
+      --accent-alt: #ff8a00;
+      --accent-soft: rgba(255, 184, 0, .16);
+      --accent-green: #22c55e;
+      --accent-green-soft: rgba(34,197,94,0.16);
+      --accent-red: #f97316;
+      --text-main: #ffffff;
+      --text-soft: #e5e7eb;
+      --text-muted: #9ca3af;
+      --radius-xl: 26px;
+      --radius-lg: 20px;
+      --radius-full: 999px;
+      --shadow-soft: 0 18px 70px rgba(0, 0, 0, 0.78);
+      --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      --transition-fast: .2s ease;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: var(--font-main);
+      background: radial-gradient(circle at top, #141b33 0%, #020814 55%, #00040a 100%);
+      color: var(--text-main);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .inner {
+      width: min(1320px, 100% - 40px);
+      margin: 0 auto;
+    }
+
+    /* HEADER */
+
+    .header-wrap {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(18px);
+      background: radial-gradient(circle at top,
+              rgba(0,0,0,0.88),
+              rgba(2, 8, 20, 0.98));
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 10px 0 8px;
+    }
+
+    .logo-combo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-mark {
+      width: 34px;
+      height: 34px;
+      border-radius: 12px;
+      background:
+        radial-gradient(circle at 30% 0, rgba(255, 184, 0, 0.35), transparent),
+        #040810;
+      box-shadow:
+        0 0 0 1px rgba(255, 184, 0, 0.22),
+        0 0 18px rgba(255, 184, 0, 0.45);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: 900;
+      letter-spacing: 0.18em;
+    }
+
+    .logo-text-block {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.05;
+    }
+
+    .logo-text-block .top-line {
+      display: flex;
+      gap: 4px;
+      font-weight: 800;
+      font-size: 14px;
+      letter-spacing: 0.08em;
+      color: var(--accent);
+    }
+
+    .logo-text-block .sub-line {
+      font-size: 8px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #9ca3af;
+    }
+
+    .admin-badge {
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      border: 1px solid rgba(248,250,252,0.2);
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--accent-red);
+      background: rgba(15,23,42,0.92);
+    }
+
+    /* MAIN */
+
+    main {
+      padding: 18px 0 22px;
+      flex: 1;
+    }
+
+    .section-title {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      margin-bottom: 7px;
+    }
+
+    .section-title .bar {
+      display: inline-block;
+      width: 28px;
+      height: 2px;
+      background: var(--accent);
+      margin-right: 7px;
+      border-radius: 999px;
+      vertical-align: middle;
+    }
+
+    .section-sub {
+      font-size: 8.5px;
+      color: var(--text-muted);
+      max-width: 620px;
+      margin-bottom: 14px;
+    }
+
+    .admin-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1.2fr 1.4fr;
+      gap: 12px;
+    }
+
+    @media (max-width: 1024px) {
+      .admin-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      padding: 14px 14px 12px;
+      border-radius: var(--radius-xl);
+      background: var(--bg-card);
+      border: 1px solid rgba(255,255,255,0.06);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .card-title {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--text-soft);
+    }
+
+    .card-sub {
+      font-size: 8px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .pill {
+      font-size: 8px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,253,0.4);
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+    }
+
+    .list-empty {
+      font-size: 8px;
+      color: var(--text-muted);
+      padding: 4px 0 2px;
+    }
+
+    .item {
+      border-radius: 16px;
+      border: 1px solid rgba(31,41,55,0.9);
+      padding: 8px 9px 7px;
+      margin-bottom: 7px;
+      background: radial-gradient(circle at top, rgba(15,23,42,0.9), rgba(15,23,42,0.98));
+    }
+
+    .item-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .item-main {
+      font-size: 9px;
+      font-weight: 600;
+      color: var(--text-soft);
+    }
+
+    .item-meta {
+      font-size: 8px;
+      color: var(--text-muted);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .meta-tag {
+      padding: 2px 6px;
+      border-radius: 999px;
+      border: 1px solid rgba(55,65,81,0.8);
+      background: rgba(17,24,39,0.9);
+      font-size: 8px;
+    }
+
+    .status-tag {
+      padding: 2px 6px;
+      border-radius: 999px;
+      font-size: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+    }
+
+    .status-tag--pending {
+      border: 1px solid rgba(249,115,22,0.8);
+      color: #fed7aa;
+      background: rgba(249,115,22,0.08);
+    }
+
+    .status-tag--sent {
+      border: 1px solid rgba(56,189,248,0.8);
+      color: #e0f2fe;
+      background: rgba(56,189,248,0.08);
+    }
+
+    .status-tag--valid {
+      border: 1px solid rgba(34,197,94,0.9);
+      color: #bbf7d0;
+      background: rgba(34,197,94,0.14);
+    }
+
+    .status-tag--invalid {
+      border: 1px solid rgba(239,68,68,0.9);
+      color: #fecaca;
+      background: rgba(239,68,68,0.12);
+    }
+
+    .status-tag--approved {
+      border: 1px solid rgba(34,197,94,0.9);
+      color: #bbf7d0;
+      background: rgba(34,197,94,0.14);
+    }
+
+    .status-tag--declined {
+      border: 1px solid rgba(239,68,68,0.9);
+      color: #fecaca;
+      background: rgba(239,68,68,0.12);
+    }
+
+    .status-tag--waiting {
+      border: 1px solid rgba(148,163,253,0.8);
+      color: #e0e7ff;
+      background: rgba(129,140,248,0.10);
+    }
+
+    .item-row {
+      font-size: 8px;
+      color: var(--text-muted);
+      margin-bottom: 2px;
+    }
+
+    .item-row strong {
+      color: var(--text-soft);
+      font-weight: 600;
+    }
+
+    .item-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .btn-xs {
+      padding: 4px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(148,163,253,0.4);
+      background: rgba(15,23,42,0.96);
+      font-size: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--text-soft);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all var(--transition-fast);
+    }
+
+    .btn-xs:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      box-shadow: 0 0 14px rgba(0,0,0,1);
+    }
+
+    .btn-xs--primary {
+      border-color: rgba(34,197,94,0.9);
+      color: #bbf7d0;
+    }
+
+    .btn-xs--danger {
+      border-color: rgba(239,68,68,0.9);
+      color: #fecaca;
+    }
+
+    .btn-xs:disabled {
+      opacity: 0.4;
+      cursor: default;
+      box-shadow: none;
+    }
+
+    .footer {
+      margin-top: 18px;
+      padding: 12px 0 18px;
+      font-size: 8px;
+      color: var(--text-muted);
+      text-align: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      background: radial-gradient(circle at top,
+              rgba(255,184,0,0.03),
+              transparent);
+    }
+
+    .hint {
+      font-size: 8px;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    .global-status {
+      font-size: 8px;
+      margin-top: 4px;
+      color: var(--text-muted);
+    }
+
+    .global-status.ok {
+      color: var(--accent-green);
+    }
+
+    .global-status.err {
+      color: var(--accent-red);
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header-wrap">
+    <div class="inner header">
+      <div class="logo-combo">
+        <div class="logo-mark">EP</div>
+        <div class="logo-text-block">
+          <div class="top-line">
+            <span>ESPORT</span>
+            <span>PUBG</span>
+            <span>MOBILE</span>
+          </div>
+          <div class="sub-line">REGISTRATION ADMIN</div>
+        </div>
+      </div>
+
+      <div class="admin-badge">
+        MANUAL REVIEW • PRIVATE ACCESS
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <main>
+    <div class="inner">
+      <section>
+        <div class="section-title">
+          <span class="bar"></span>Admin dashboard
+        </div>
+        <div class="section-sub">
+          This internal page is used to handle all requests coming from the registration gateway:
+          generate and validate verification codes for in-game IDs and email addresses, and finally
+          approve or decline full applications. Nothing is auto-approved — every step is manual.
+        </div>
+
+        <div id="global-status" class="global-status"></div>
+
+        <div class="admin-grid">
+          <!-- ID CODE REQUESTS -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">ID verification codes</div>
+              <div class="pill" id="id-count-pill">0 items</div>
+            </div>
+            <div class="card-sub">
+              Requests created when players press <strong>SEND CODE</strong> for ID verification.
+              Generate a code, send it to the player (backend), then mark as valid/invalid after
+              they try to use it.
+            </div>
+            <div id="id-requests-list"></div>
+          </div>
+
+          <!-- EMAIL CODE REQUESTS -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Email verification codes</div>
+              <div class="pill" id="email-count-pill">0 items</div>
+            </div>
+            <div class="card-sub">
+              Requests used to confirm that the email is under player control and is not risky.
+              Backend sends a code to this email; player types it on the site.
+            </div>
+            <div id="email-requests-list"></div>
+          </div>
+
+          <!-- REGISTRATIONS -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Full applications</div>
+              <div class="pill" id="reg-count-pill">0 items</div>
+            </div>
+            <div class="card-sub">
+              Visible after both ID and email were verified on the site. Approve to send lobby
+              time & link; decline with a reason (invalid email / risky account / other).
+            </div>
+            <div id="registrations-list"></div>
+            <div class="hint">
+              <strong>Important:</strong> when you approve, backend should send an email with
+              <em>time window</em> and <em>lobby link</em>. When you decline, include the reason
+              and (optionally) a link to refill the form.
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    ESPORTPUBGMOBILE.COM — Internal admin view for manual checks.
+    Keep this page private. Actions here directly control access to lobbies.
+  </footer>
+</div>
+
+<script>
+  // базовый префикс для админ-API (можешь поменять под свой сервер)
+  const API_BASE = "/admin/api";
+
+  const globalStatusEl    = document.getElementById("global-status");
+  const idListEl          = document.getElementById("id-requests-list");
+  const emailListEl       = document.getElementById("email-requests-list");
+  const regListEl         = document.getElementById("registrations-list");
+
+  const idCountPill       = document.getElementById("id-count-pill");
+  const emailCountPill    = document.getElementById("email-count-pill");
+  const regCountPill      = document.getElementById("reg-count-pill");
+
+  function setGlobalStatus(text, type) {
+    globalStatusEl.textContent = text || "";
+    globalStatusEl.className = "global-status" + (type ? " " + type : "");
+  }
+
+  function formatDate(iso) {
+    if (!iso) return "";
+    const d = new Date(iso);
+    if (isNaN(d.getTime())) return iso;
+    const date = d.toLocaleDateString("en-GB", { day:"2-digit", month:"2-digit", year:"numeric" });
+    const time = d.toLocaleTimeString("en-GB", { hour:"2-digit", minute:"2-digit" });
+    return date + " " + time;
+  }
+
+  async function getJSON(url) {
+    const res = await fetch(url, { credentials: "same-origin" });
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    return res.json();
+  }
+
+  async function postJSON(url, payload) {
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "same-origin",
+      body: JSON.stringify(payload || {})
+    });
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    try {
+      return await res.json();
+    } catch {
+      return {};
+    }
+  }
+
+  function statusBadgeForRequest(status) {
+    const s = (status || "pending").toLowerCase();
+    if (s === "valid")   return '<span class="status-tag status-tag--valid">VALID</span>';
+    if (s === "invalid") return '<span class="status-tag status-tag--invalid">INVALID</span>';
+    if (s === "sent" || s === "code_sent") return '<span class="status-tag status-tag--sent">CODE SENT</span>';
+    return '<span class="status-tag status-tag--pending">PENDING</span>';
+  }
+
+  function statusBadgeForRegistration(item) {
+    const s = (item.status || "pending").toLowerCase();
+    if (s === "approved") return '<span class="status-tag status-tag--approved">APPROVED</span>';
+    if (s === "declined") return '<span class="status-tag status-tag--declined">DECLINED</span>';
+    return '<span class="status-tag status-tag--waiting">WAITING</span>';
+  }
+
+  function renderIdRequests(list) {
+    if (!list || list.length === 0) {
+      idListEl.innerHTML = '<div class="list-empty">No ID verification requests yet.</div>';
+      idCountPill.textContent = "0 items";
+      return;
+    }
+
+    idCountPill.textContent = list.length + (list.length === 1 ? " item" : " items");
+
+    const html = list.map(item => {
+      const created = formatDate(item.createdAt);
+      const status = statusBadgeForRequest(item.status);
+      const lastCode = item.lastCode ? `<div class="item-row"><strong>Last code:</strong> ${item.lastCode}</div>` : "";
+      const disableAll = item.status === "valid" || item.status === "invalid";
+
+      return `
+        <div class="item" data-id="${item.id}">
+          <div class="item-header">
+            <div class="item-main">
+              ${item.ingameId || "Unknown ID"}
+            </div>
+            ${status}
+          </div>
+          <div class="item-meta">
+            <span class="meta-tag">Access: ${item.accessCode || "—"}</span>
+            <span class="meta-tag">Email: ${item.email || "—"}</span>
+            ${created ? `<span class="meta-tag">${created}</span>` : ""}
+          </div>
+          ${lastCode}
+          <div class="item-actions">
+            <button class="btn-xs" 
+                    data-action="generate-id-code" 
+                    data-id="${item.id}"
+                    ${disableAll ? "disabled" : ""}>
+              ⇢ Generate & send code
+            </button>
+            <button class="btn-xs btn-xs--primary"
+                    data-action="mark-id-valid"
+                    data-id="${item.id}"
+                    ${item.status === "valid" ? "disabled" : ""}>
+              ✔ ID OK
+            </button>
+            <button class="btn-xs btn-xs--danger"
+                    data-action="mark-id-invalid"
+                    data-id="${item.id}"
+                    ${item.status === "invalid" ? "disabled" : ""}>
+              ✕ ID BAD
+            </button>
+          </div>
+        </div>
+      `;
+    }).join("");
+
+    idListEl.innerHTML = html;
+  }
+
+  function renderEmailRequests(list) {
+    if (!list || list.length === 0) {
+      emailListEl.innerHTML = '<div class="list-empty">No email verification requests yet.</div>';
+      emailCountPill.textContent = "0 items";
+      return;
+    }
+
+    emailCountPill.textContent = list.length + (list.length === 1 ? " item" : " items");
+
+    const html = list.map(item => {
+      const created = formatDate(item.createdAt);
+      const status = statusBadgeForRequest(item.status);
+      const lastCode = item.lastCode ? `<div class="item-row"><strong>Last code:</strong> ${item.lastCode}</div>` : "";
+      const disableAll = item.status === "valid" || item.status === "invalid";
+
+      return `
+        <div class="item" data-id="${item.id}">
+          <div class="item-header">
+            <div class="item-main">
+              ${item.email || "Unknown email"}
+            </div>
+            ${status}
+          </div>
+          <div class="item-meta">
+            <span class="meta-tag">Access: ${item.accessCode || "—"}</span>
+            ${item.ingameId ? `<span class="meta-tag">ID: ${item.ingameId}</span>` : ""}
+            ${created ? `<span class="meta-tag">${created}</span>` : ""}
+          </div>
+          ${lastCode}
+          <div class="item-actions">
+            <button class="btn-xs"
+                    data-action="generate-email-code"
+                    data-id="${item.id}"
+                    ${disableAll ? "disabled" : ""}>
+              ⇢ Generate & send code
+            </button>
+            <button class="btn-xs btn-xs--primary"
+                    data-action="mark-email-valid"
+                    data-id="${item.id}"
+                    ${item.status === "valid" ? "disabled" : ""}>
+              ✔ EMAIL OK
+            </button>
+            <button class="btn-xs btn-xs--danger"
+                    data-action="mark-email-invalid"
+                    data-id="${item.id}"
+                    ${item.status === "invalid" ? "disabled" : ""}>
+              ✕ EMAIL BAD
+            </button>
+          </div>
+        </div>
+      `;
+    }).join("");
+
+    emailListEl.innerHTML = html;
+  }
+
+  function renderRegistrations(list) {
+    if (!list || list.length === 0) {
+      regListEl.innerHTML = '<div class="list-empty">No full applications yet.</div>';
+      regCountPill.textContent = "0 items";
+      return;
+    }
+
+    regCountPill.textContent = list.length + (list.length === 1 ? " item" : " items");
+
+    const html = list.map(item => {
+      const created = formatDate(item.createdAt);
+      const badge = statusBadgeForRegistration(item);
+
+      const idFlag = item.idVerified ? "✔" : "—";
+      const emailFlag = item.emailVerified ? "✔" : "—";
+
+      const declineReason = item.declineReason
+        ? `<div class="item-row"><strong>Reason:</strong> ${item.declineReason}</div>`
+        : "";
+      const adminNote = item.adminNote
+        ? `<div class="item-row"><strong>Admin note:</strong> ${item.adminNote}</div>`
+        : "";
+
+      const isFinal = item.status === "approved" || item.status === "declined";
+
+      return `
+        <div class="item" data-id="${item.id}">
+          <div class="item-header">
+            <div class="item-main">
+              ${item.ingameId || "Unknown ID"} • ${item.email || "Unknown email"}
+            </div>
+            ${badge}
+          </div>
+          <div class="item-meta">
+            <span class="meta-tag">Access: ${item.accessCode || "—"}</span>
+            ${created ? `<span class="meta-tag">${created}</span>` : ""}
+            <span class="meta-tag">ID verified: ${idFlag}</span>
+            <span class="meta-tag">Email verified: ${emailFlag}</span>
+          </div>
+          ${declineReason}
+          ${adminNote}
+          <div class="item-actions">
+            <button class="btn-xs btn-xs--primary"
+                    data-action="approve-registration"
+                    data-id="${item.id}"
+                    ${isFinal ? "disabled" : ""}>
+              ✔ APPROVE
+            </button>
+            <button class="btn-xs btn-xs--danger"
+                    data-action="decline-registration"
+                    data-id="${item.id}"
+                    ${isFinal ? "disabled" : ""}>
+              ✕ DECLINE
+            </button>
+          </div>
+        </div>
+      `;
+    }).join("");
+
+    regListEl.innerHTML = html;
+  }
+
+  async function loadState() {
+    setGlobalStatus("Loading admin state…", "");
+    try {
+      const data = await getJSON(API_BASE + "/state");
+      renderIdRequests(data.idCodeRequests || []);
+      renderEmailRequests(data.emailCodeRequests || []);
+      renderRegistrations(data.registrations || []);
+      setGlobalStatus("State loaded. Use buttons to manage requests.", "ok");
+    } catch (e) {
+      console.error(e);
+      setGlobalStatus("Failed to load admin state. Check backend /admin/api/state.", "err");
+      idListEl.innerHTML = '<div class="list-empty">Error loading data.</div>';
+      emailListEl.innerHTML = '<div class="list-empty">Error loading data.</div>';
+      regListEl.innerHTML = '<div class="list-empty">Error loading data.</div>';
+    }
+  }
+
+  // === actions ===
+
+  async function handleAction(action, id) {
+    try {
+      let url = "";
+      let payload = { id };
+
+      if (action === "generate-id-code") {
+        url = API_BASE + "/id-code/generate";
+      } else if (action === "mark-id-valid") {
+        url = API_BASE + "/id-code/mark-valid";
+      } else if (action === "mark-id-invalid") {
+        url = API_BASE + "/id-code/mark-invalid";
+      } else if (action === "generate-email-code") {
+        url = API_BASE + "/email-code/generate";
+      } else if (action === "mark-email-valid") {
+        url = API_BASE + "/email-code/mark-valid";
+      } else if (action === "mark-email-invalid") {
+        url = API_BASE + "/email-code/mark-invalid";
+      } else if (action === "approve-registration") {
+        const slot = prompt("Time window for this player (example: 2025-04-12 19:00–21:00 UTC)?", "");
+        const link = prompt("Lobby link or room ID / password to include into email?", "");
+        const note = prompt("Optional admin note (visible in email / logs):", "");
+        payload.slot = slot || "";
+        payload.link = link || "";
+        payload.note = note || "";
+        url = API_BASE + "/registration/approve";
+      } else if (action === "decline-registration") {
+        const reasonType = prompt("Reason (invalid_email / risky_account / other):", "invalid_email");
+        const note = prompt("Optional admin note / explanation:", "");
+        payload.reason = reasonType || "other";
+        payload.note = note || "";
+        url = API_BASE + "/registration/decline";
+      }
+
+      if (!url) return;
+
+      setGlobalStatus("Performing action: " + action + "…", "");
+      await postJSON(url, payload);
+      setGlobalStatus("Action completed: " + action + ".", "ok");
+      await loadState();
+    } catch (e) {
+      console.error(e);
+      setGlobalStatus("Action failed: " + action + ". Check backend logs.", "err");
+    }
+  }
+
+  // делегируем клики по кнопкам в трёх колонках
+  [idListEl, emailListEl, regListEl].forEach(container => {
+    container.addEventListener("click", (e) => {
+      const btn = e.target.closest("button[data-action]");
+      if (!btn) return;
+      const action = btn.getAttribute("data-action");
+      const id     = btn.getAttribute("data-id");
+      if (!action || !id) return;
+      handleAction(action, id);
+    });
+  });
+
+  // старт
+  loadState();
+</script>
+
+</body>
+</html>

