@@ -345,16 +345,16 @@
               display: grid;
               grid-template-columns: 1.4fr 1.6fr;
               gap: 12px;
-            }
-            @media (max-width: 900px){
-              .tournament-card{
-                grid-template-columns: 1fr;
-              }
-              .tournament-banner-img{
-                max-height: 220px;
-                transform: scale(1.04);
-              }
-            }
+        }
+        @media (max-width: 900px){
+          .tournament-card{
+            grid-template-columns: 1fr;
+          }
+          .tournament-banner-img{
+            max-height: 220px;
+            transform: scale(1.04);
+          }
+        }
 
         .tournament-title {
             font-size: 13px;
@@ -940,9 +940,10 @@
                     <span class="bar"></span>Step 2 — Registration & Manual Verification
                 </div>
                 <div class="section-sub">
-                    Provide your in-game ID and email. Admin panel will generate and check
-                    two separate verification codes: one for the game ID and one for the email.
-                    Only after both codes are confirmed you can submit the application.
+                    Provide your in-game ID and email. Admin panel will receive your request
+                    and two separate verification codes will be handled manually:
+                    one for the game ID and one for the email. Only after both codes are
+                    confirmed you can submit the application.
                 </div>
 
                 <form id="reg-form" class="card">
@@ -968,10 +969,10 @@
                         <div class="code-form-row">
                             <div class="input-wrap">
                                 <input type="text" id="id-code"
-                                       placeholder="Enter ID verification code from email" />
+                                       placeholder="Enter ID verification code from admin" />
                             </div>
                             <button type="button" id="send-id-code" class="btn-sm">
-                                SEND CODE
+                                SEND REQUEST
                             </button>
                             <button type="button" id="check-id-code" class="btn-sm">
                                 CHECK
@@ -979,9 +980,10 @@
                         </div>
                         <div id="id-status" class="status"></div>
                         <div class="note">
-                            Press <strong>SEND CODE</strong> to create a request in the admin panel.
-                            Admin reviews your in-game ID and sends a verification code to the email above.
-                            After you receive it, enter the code here and press <strong>CHECK</strong>.
+                            Press <strong>SEND REQUEST</strong> to create an ID verification request in the admin panel.
+                            Admin sees your ID &amp; email, manually sends you an ID verification code and later
+                            marks your code as correct or incorrect. When you receive the code, enter it here and
+                            use <strong>CHECK</strong>. If admin already confirmed it, you will see a green status.
                         </div>
                     </div>
 
@@ -994,7 +996,7 @@
                                        placeholder="Enter email verification code from admin" />
                             </div>
                             <button type="button" id="send-email-code" class="btn-sm">
-                                SEND CODE
+                                SEND REQUEST
                             </button>
                             <button type="button" id="check-email-code" class="btn-sm">
                                 CHECK
@@ -1002,9 +1004,9 @@
                         </div>
                         <div id="email-status" class="status"></div>
                         <div class="note">
-                            Second code confirms that this email address is safe and can be used
-                            for tournament communication. Admin can mark it as valid or risky
-                            from the admin page.
+                            This request is used to confirm that your email is under your control and is safe.
+                            Admin sends you an email code manually and then marks it as valid or invalid in the
+                            admin panel. CHECK will show the final decision once it is set.
                         </div>
                     </div>
 
@@ -1075,6 +1077,8 @@
 </div>
 
 <script>
+    // здесь у тебя пока статический список инвайт-кодов.
+    // хочешь — уберём и будем чекать только через бэкенд.
     const VALID_CODES = ["FLOW2025", "ESPORTPUBG", "V7ACCESS"];
 
     const openGatewayBtn      = document.getElementById('open-gateway');
@@ -1149,7 +1153,7 @@
         });
     }
 
-    // Verify invite code (front)
+    // Verify invite code (front only)
     if (checkCodeBtn) {
         checkCodeBtn.addEventListener('click', function () {
             const val = (codeInput.value || "").trim().toUpperCase();
@@ -1172,7 +1176,7 @@
         });
     }
 
-    // SEND ID CODE
+    // SEND ID REQUEST (no code generation, просто заявка)
     if (sendIdCodeBtn) {
         sendIdCodeBtn.addEventListener('click', async () => {
             idStatus.textContent = "";
@@ -1188,12 +1192,12 @@
                 return;
             }
             if (!ingameId || !email) {
-                idStatus.textContent = "Fill in-game ID and email before sending the code.";
+                idStatus.textContent = "Fill in-game ID and email before sending the request.";
                 idStatus.className = "status err";
                 return;
             }
 
-            idStatus.textContent = "Creating ID verification request in admin panel...";
+            idStatus.textContent = "Creating ID verification request in admin panel…";
             idStatus.className = "status";
 
             try {
@@ -1204,10 +1208,12 @@
                 });
 
                 if (res && res.ok) {
-                    idStatus.textContent = "Request sent. Check your email for ID verification code.";
+                    idStatus.textContent =
+                        "Request created. Wait for admin to send you an ID verification code manually.";
                     idStatus.className = "status ok";
                 } else {
-                    idStatus.textContent = "Could not create request. Try again later or contact support.";
+                    idStatus.textContent =
+                        "Could not create request. Try again later or contact support.";
                     idStatus.className = "status err";
                 }
             } catch (e) {
@@ -1218,7 +1224,7 @@
         });
     }
 
-    // CHECK ID CODE
+    // CHECK ID CODE (код улетает в админку, решение — ручное)
     if (checkIdCodeBtn) {
         checkIdCodeBtn.addEventListener('click', async () => {
             idStatus.textContent = "";
@@ -1240,12 +1246,13 @@
                 return;
             }
             if (!code) {
-                idStatus.textContent = "Enter ID verification code from email.";
+                idStatus.textContent = "Enter ID verification code from admin.";
                 idStatus.className = "status err";
                 return;
             }
 
-            idStatus.textContent = "Checking ID verification code with admin panel...";
+            idStatus.textContent =
+                "Sending your ID code to admin panel… Waiting for manual decision.";
             idStatus.className = "status";
 
             try {
@@ -1269,7 +1276,9 @@
                     idStatus.textContent = "ID verification code is invalid.";
                     idStatus.className = "status err";
                 } else {
-                    idStatus.textContent = "ID verification is pending on admin side. Try again a bit later.";
+                    // статус pending: админ ещё не нажал OK/BAD
+                    idStatus.textContent =
+                        "Code received by admin. As soon as admin confirms, press CHECK again.";
                     idStatus.className = "status";
                 }
             } catch (e) {
@@ -1280,7 +1289,7 @@
         });
     }
 
-    // SEND EMAIL CODE
+    // SEND EMAIL REQUEST (только заявка, без генерации кода)
     if (sendEmailCodeBtn) {
         sendEmailCodeBtn.addEventListener('click', async () => {
             emailStatus.textContent = "";
@@ -1295,12 +1304,13 @@
                 return;
             }
             if (!email) {
-                emailStatus.textContent = "Fill email before sending the code.";
+                emailStatus.textContent = "Fill email before sending the request.";
                 emailStatus.className = "status err";
                 return;
             }
 
-            emailStatus.textContent = "Creating email verification request in admin panel...";
+            emailStatus.textContent =
+                "Creating email verification request in admin panel…";
             emailStatus.className = "status";
 
             try {
@@ -1310,10 +1320,12 @@
                 });
 
                 if (res && res.ok) {
-                    emailStatus.textContent = "Request sent. Check your email for email verification code.";
+                    emailStatus.textContent =
+                        "Request created. Wait for admin to send you an email verification code manually.";
                     emailStatus.className = "status ok";
                 } else {
-                    emailStatus.textContent = "Could not create request. Try again later or contact support.";
+                    emailStatus.textContent =
+                        "Could not create request. Try again later or contact support.";
                     emailStatus.className = "status err";
                 }
             } catch (e) {
@@ -1324,7 +1336,7 @@
         });
     }
 
-    // CHECK EMAIL CODE
+    // CHECK EMAIL CODE (код уходит в админку, решение — ручное)
     if (checkEmailCodeBtn) {
         checkEmailCodeBtn.addEventListener('click', async () => {
             emailStatus.textContent = "";
@@ -1350,7 +1362,8 @@
                 return;
             }
 
-            emailStatus.textContent = "Checking email verification code with admin panel...";
+            emailStatus.textContent =
+                "Sending your email code to admin panel… Waiting for manual decision.";
             emailStatus.className = "status";
 
             try {
@@ -1373,7 +1386,8 @@
                     emailStatus.textContent = "Email verification code is invalid.";
                     emailStatus.className = "status err";
                 } else {
-                    emailStatus.textContent = "Email verification is pending on admin side. Try again a bit later.";
+                    emailStatus.textContent =
+                        "Code received by admin. As soon as admin confirms, press CHECK again.";
                     emailStatus.className = "status";
                 }
             } catch (e) {
@@ -1384,7 +1398,7 @@
         });
     }
 
-    // FINAL SUBMIT (goes to admin panel)
+    // FINAL SUBMIT (в админку, final решение — тоже вручную)
     if (regForm) {
         regForm.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -1434,7 +1448,7 @@
                 await postJSON("/api/submit-registration", payload);
             } catch (e) {
                 console.error(e);
-                // even если упало, всё равно показываем waiting, а реальное решение — только через админа
+                // даже если упало — всё равно дальше флоу через админа
             }
 
             regForm.reset();
@@ -1450,9 +1464,9 @@
                 <div class="section-sub" style="margin-bottom:0;">
                     Your registration data and both verification codes have been delivered to
                     the <strong>admin panel</strong> for manual review.
-                    Within <strong>24 hours</strong> you will receive an email to the address
-                    you provided with the exact time and lobby link if your application is approved.
-                    If the application is rejected (for example, invalid email or account in a risk state),
+                    You will receive an email to the address you provided with the exact time and lobby link
+                    if your application is approved. If the application is rejected
+                    (for example, invalid email or account in a risk state),
                     that email will contain the reason and, when possible, a link to refill the form.
                 </div>
             `;

@@ -433,8 +433,9 @@
         </div>
         <div class="section-sub">
           This internal page is used to handle all requests coming from the registration gateway:
-          generate and validate verification codes for in-game IDs and email addresses, and finally
-          approve or decline full applications. Nothing is auto-approved — every step is manual.
+          players send verification requests and enter codes; you manually compare them with the
+          codes you sent and mark each attempt as valid or invalid. Nothing is auto-approved —
+          every step is manual.
         </div>
 
         <div id="global-status" class="global-status"></div>
@@ -447,9 +448,10 @@
               <div class="pill" id="id-count-pill">0 items</div>
             </div>
             <div class="card-sub">
-              Requests created when players press <strong>SEND CODE</strong> for ID verification.
-              Generate a code, send it to the player (backend), then mark as valid/invalid after
-              they try to use it.
+              Requests are created when players press <strong>SEND REQUEST</strong> for ID verification.
+              You send them an ID code manually (email / DM / Telegram), then they type it on the site.
+              Once the entered code matches what you sent, click <strong>ID OK</strong>;
+              otherwise use <strong>ID BAD</strong>.
             </div>
             <div id="id-requests-list"></div>
           </div>
@@ -461,8 +463,9 @@
               <div class="pill" id="email-count-pill">0 items</div>
             </div>
             <div class="card-sub">
-              Requests used to confirm that the email is under player control and is not risky.
-              Backend sends a code to this email; player types it on the site.
+              Same logic, but for email safety. Requests are created when players press
+              <strong>SEND REQUEST</strong> under "Email verification code". You send a code,
+              they enter it, you mark it valid/invalid here.
             </div>
             <div id="email-requests-list"></div>
           </div>
@@ -475,7 +478,7 @@
             </div>
             <div class="card-sub">
               Visible after both ID and email were verified on the site. Approve to send lobby
-              time & link; decline with a reason (invalid email / risky account / other).
+              time &amp; link; decline with a reason (invalid email / risky account / other).
             </div>
             <div id="registrations-list"></div>
             <div class="hint">
@@ -497,7 +500,7 @@
 </div>
 
 <script>
-  // базовый префикс для админ-API (можешь поменять под свой сервер)
+  // базовый префикс для админ-API
   const API_BASE = "/admin/api";
 
   const globalStatusEl    = document.getElementById("global-status");
@@ -571,8 +574,12 @@
     const html = list.map(item => {
       const created = formatDate(item.createdAt);
       const status = statusBadgeForRequest(item.status);
-      const lastCode = item.lastCode ? `<div class="item-row"><strong>Last code:</strong> ${item.lastCode}</div>` : "";
-      const disableAll = item.status === "valid" || item.status === "invalid";
+      const lastCodeLine = item.lastCode
+        ? `<div class="item-row"><strong>Last code:</strong> ${item.lastCode}</div>`
+        : "";
+      const lastCodeTimeLine = item.lastCodeAt
+        ? `<div class="item-row"><strong>Last check:</strong> ${formatDate(item.lastCodeAt)}</div>`
+        : "";
 
       return `
         <div class="item" data-id="${item.id}">
@@ -587,24 +594,17 @@
             <span class="meta-tag">Email: ${item.email || "—"}</span>
             ${created ? `<span class="meta-tag">${created}</span>` : ""}
           </div>
-          ${lastCode}
+          ${lastCodeLine}
+          ${lastCodeTimeLine}
           <div class="item-actions">
-            <button class="btn-xs" 
-                    data-action="generate-id-code" 
-                    data-id="${item.id}"
-                    ${disableAll ? "disabled" : ""}>
-              ⇢ Generate & send code
-            </button>
             <button class="btn-xs btn-xs--primary"
                     data-action="mark-id-valid"
-                    data-id="${item.id}"
-                    ${item.status === "valid" ? "disabled" : ""}>
+                    data-id="${item.id}">
               ✔ ID OK
             </button>
             <button class="btn-xs btn-xs--danger"
                     data-action="mark-id-invalid"
-                    data-id="${item.id}"
-                    ${item.status === "invalid" ? "disabled" : ""}>
+                    data-id="${item.id}">
               ✕ ID BAD
             </button>
           </div>
@@ -627,8 +627,12 @@
     const html = list.map(item => {
       const created = formatDate(item.createdAt);
       const status = statusBadgeForRequest(item.status);
-      const lastCode = item.lastCode ? `<div class="item-row"><strong>Last code:</strong> ${item.lastCode}</div>` : "";
-      const disableAll = item.status === "valid" || item.status === "invalid";
+      const lastCodeLine = item.lastCode
+        ? `<div class="item-row"><strong>Last code:</strong> ${item.lastCode}</div>`
+        : "";
+      const lastCodeTimeLine = item.lastCodeAt
+        ? `<div class="item-row"><strong>Last check:</strong> ${formatDate(item.lastCodeAt)}</div>`
+        : "";
 
       return `
         <div class="item" data-id="${item.id}">
@@ -643,24 +647,17 @@
             ${item.ingameId ? `<span class="meta-tag">ID: ${item.ingameId}</span>` : ""}
             ${created ? `<span class="meta-tag">${created}</span>` : ""}
           </div>
-          ${lastCode}
+          ${lastCodeLine}
+          ${lastCodeTimeLine}
           <div class="item-actions">
-            <button class="btn-xs"
-                    data-action="generate-email-code"
-                    data-id="${item.id}"
-                    ${disableAll ? "disabled" : ""}>
-              ⇢ Generate & send code
-            </button>
             <button class="btn-xs btn-xs--primary"
                     data-action="mark-email-valid"
-                    data-id="${item.id}"
-                    ${item.status === "valid" ? "disabled" : ""}>
+                    data-id="${item.id}">
               ✔ EMAIL OK
             </button>
             <button class="btn-xs btn-xs--danger"
                     data-action="mark-email-invalid"
-                    data-id="${item.id}"
-                    ${item.status === "invalid" ? "disabled" : ""}>
+                    data-id="${item.id}">
               ✕ EMAIL BAD
             </button>
           </div>
@@ -757,14 +754,10 @@
       let url = "";
       let payload = { id };
 
-      if (action === "generate-id-code") {
-        url = API_BASE + "/id-code/generate";
-      } else if (action === "mark-id-valid") {
+      if (action === "mark-id-valid") {
         url = API_BASE + "/id-code/mark-valid";
       } else if (action === "mark-id-invalid") {
         url = API_BASE + "/id-code/mark-invalid";
-      } else if (action === "generate-email-code") {
-        url = API_BASE + "/email-code/generate";
       } else if (action === "mark-email-valid") {
         url = API_BASE + "/email-code/mark-valid";
       } else if (action === "mark-email-invalid") {

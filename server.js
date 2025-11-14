@@ -47,13 +47,12 @@ function genId() {
   return String(seq++);
 }
 
-function generateCode() {
-  return String(Math.floor(100000 + Math.random() * 900000)); // 6 цифр
-}
-
 // ===== PUBLIC API (frontend регистрации) =====
+//
+// ВАЖНО: сервер НЕ генерит коды, только хранит ввод игрока,
+// а админ глазами сравнивает со своим кодом и жмёт OK / BAD.
 
-// 1) запрос кода для ID
+// 1) запрос на проверку ID (SEND)
 // body: { accessCode, ingameId, email }
 app.post("/api/request-id-code", (req, res) => {
   const { accessCode, ingameId, email } = req.body || {};
@@ -79,16 +78,21 @@ app.post("/api/request-id-code", (req, res) => {
       email,
       status: "pending", // pending | code_sent | valid | invalid
       lastCode: null,
+      lastCodeAt: null,
       createdAt: now,
     };
     idCodeRequests.push(rec);
+  } else {
+    // обновим ingameId/email на всякий случай
+    rec.ingameId = ingameId;
+    rec.email = email;
   }
 
   console.log("[ID REQUEST]", rec);
   return res.json({ ok: true, id: rec.id });
 });
 
-// 2) проверка кода для ID
+// 2) CHECK кода для ID
 // body: { accessCode, ingameId, email, code }
 app.post("/api/verify-id-code", (req, res) => {
   const { accessCode, ingameId, email, code } = req.body || {};
@@ -97,28 +101,55 @@ app.post("/api/verify-id-code", (req, res) => {
     return res.status(400).json({ status: "invalid", error: "missing_fields" });
   }
 
-  const rec = idCodeRequests.find(
+  const now = new Date().toISOString();
+  const cleanCode = String(code).trim();
+
+  let rec = idCodeRequests.find(
     (r) =>
       r.accessCode === accessCode &&
       r.ingameId === ingameId &&
       r.email === email
   );
 
-  if (!rec || !rec.lastCode) {
-    // код ещё не сгенерён / не отправлен
-    return res.json({ status: "pending" });
+  // если игрок нажал CHECK без SEND — создаём запись на лету
+  if (!rec) {
+    rec = {
+      id: genId(),
+      accessCode,
+      ingameId,
+      email,
+      status: "code_sent",
+      lastCode: cleanCode,
+      lastCodeAt: now,
+      createdAt: now,
+    };
+    idCodeRequests.push(rec);
+  } else {
+    // сохраняем последний введённый код
+    rec.lastCode = cleanCode;
+    rec.lastCodeAt = now;
+
+    // если админ ещё не принял решение — ставим "code_sent"
+    if (rec.status !== "valid" && rec.status !== "invalid") {
+      rec.status = "code_sent";
+    }
   }
 
-  if (rec.lastCode === String(code).trim()) {
-    rec.status = "valid";
+  console.log("[ID VERIFY] code=", cleanCode, "rec-status=", rec.status);
+
+  // важный момент:
+  // сервер НЕ сравнивает код, а просто возвращает решение админа
+  if (rec.status === "valid") {
     return res.json({ status: "valid" });
-  } else {
-    rec.status = "invalid";
+  }
+  if (rec.status === "invalid") {
     return res.json({ status: "invalid" });
   }
+  // админ ещё не нажал — фронт покажет "ожидание"
+  return res.json({ status: "pending" });
 });
 
-// 3) запрос кода для EMAIL
+// 3) запрос на проверку EMAIL (SEND)
 // body: { accessCode, email, ingameId? }
 app.post("/api/request-email-code", (req, res) => {
   const { accessCode, email, ingameId } = req.body || {};
@@ -141,16 +172,20 @@ app.post("/api/request-email-code", (req, res) => {
       ingameId: ingameId || null,
       status: "pending", // pending | code_sent | valid | invalid
       lastCode: null,
+      lastCodeAt: null,
       createdAt: now,
     };
     emailCodeRequests.push(rec);
+  } else {
+    rec.ingameId = ingameId || rec.ingameId;
+    rec.email = email;
   }
 
   console.log("[EMAIL REQUEST]", rec);
   return res.json({ ok: true, id: rec.id });
 });
 
-// 4) проверка кода для EMAIL
+// 4) CHECK кода для EMAIL
 // body: { accessCode, email, code }
 app.post("/api/verify-email-code", (req, res) => {
   const { accessCode, email, code } = req.body || {};
@@ -159,24 +194,46 @@ app.post("/api/verify-email-code", (req, res) => {
     return res.status(400).json({ status: "invalid", error: "missing_fields" });
   }
 
-  const rec = emailCodeRequests.find(
+  const now = new Date().toISOString();
+  const cleanCode = String(code).trim();
+
+  let rec = emailCodeRequests.find(
     (r) => r.accessCode === accessCode && r.email === email
   );
 
-  if (!rec || !rec.lastCode) {
-    return res.json({ status: "pending" });
+  if (!rec) {
+    rec = {
+      id: genId(),
+      accessCode,
+      email,
+      ingameId: null,
+      status: "code_sent",
+      lastCode: cleanCode,
+      lastCodeAt: now,
+      createdAt: now,
+    };
+    emailCodeRequests.push(rec);
+  } else {
+    rec.lastCode = cleanCode;
+    rec.lastCodeAt = now;
+
+    if (rec.status !== "valid" && rec.status !== "invalid") {
+      rec.status = "code_sent";
+    }
   }
 
-  if (rec.lastCode === String(code).trim()) {
-    rec.status = "valid";
+  console.log("[EMAIL VERIFY] code=", cleanCode, "rec-status=", rec.status);
+
+  if (rec.status === "valid") {
     return res.json({ status: "valid" });
-  } else {
-    rec.status = "invalid";
+  }
+  if (rec.status === "invalid") {
     return res.json({ status: "invalid" });
   }
+  return res.json({ status: "pending" });
 });
 
-// 5) финальная заявка (после двух кодов)
+// 5) финальная заявка (после двух кодов с точки зрения фронта)
 // body: { accessCode, ingameId, email, password?, idCode?, emailCode? }
 app.post("/api/submit-registration", (req, res) => {
   const {
@@ -242,26 +299,13 @@ app.get("/admin/api/state", (req, res) => {
 
 // --- ID CODE admin actions ---
 
-app.post("/admin/api/id-code/generate", (req, res) => {
-  const { id } = req.body || {};
-  const rec = idCodeRequests.find((r) => r.id === String(id));
-  if (!rec) return res.status(404).json({ ok: false, error: "not_found" });
-
-  const code = generateCode();
-  rec.lastCode = code;
-  rec.status = "code_sent";
-
-  console.log("[ADMIN] Generated ID code", code, "for", rec.email, rec.ingameId);
-  // TODO: здесь отправка письма rec.email с этим кодом
-  res.json({ ok: true, code });
-});
-
 app.post("/admin/api/id-code/mark-valid", (req, res) => {
   const { id } = req.body || {};
   const rec = idCodeRequests.find((r) => r.id === String(id));
   if (!rec) return res.status(404).json({ ok: false, error: "not_found" });
 
   rec.status = "valid";
+  console.log("[ADMIN] ID VALID:", rec.email, rec.ingameId);
   res.json({ ok: true });
 });
 
@@ -271,24 +315,11 @@ app.post("/admin/api/id-code/mark-invalid", (req, res) => {
   if (!rec) return res.status(404).json({ ok: false, error: "not_found" });
 
   rec.status = "invalid";
+  console.log("[ADMIN] ID INVALID:", rec.email, rec.ingameId);
   res.json({ ok: true });
 });
 
 // --- EMAIL CODE admin actions ---
-
-app.post("/admin/api/email-code/generate", (req, res) => {
-  const { id } = req.body || {};
-  const rec = emailCodeRequests.find((r) => r.id === String(id));
-  if (!rec) return res.status(404).json({ ok: false, error: "not_found" });
-
-  const code = generateCode();
-  rec.lastCode = code;
-  rec.status = "code_sent";
-
-  console.log("[ADMIN] Generated EMAIL code", code, "for", rec.email);
-  // TODO: здесь отправка письма rec.email с кодом
-  res.json({ ok: true, code });
-});
 
 app.post("/admin/api/email-code/mark-valid", (req, res) => {
   const { id } = req.body || {};
@@ -296,6 +327,7 @@ app.post("/admin/api/email-code/mark-valid", (req, res) => {
   if (!rec) return res.status(404).json({ ok: false, error: "not_found" });
 
   rec.status = "valid";
+  console.log("[ADMIN] EMAIL VALID:", rec.email);
   res.json({ ok: true });
 });
 
@@ -305,6 +337,7 @@ app.post("/admin/api/email-code/mark-invalid", (req, res) => {
   if (!rec) return res.status(404).json({ ok: false, error: "not_found" });
 
   rec.status = "invalid";
+  console.log("[ADMIN] EMAIL INVALID:", rec.email);
   res.json({ ok: true });
 });
 
@@ -325,14 +358,11 @@ app.post("/admin/api/registration/approve", (req, res) => {
   console.log(
     "[ADMIN] APPROVED",
     reg.email,
-    "slot=",
-    slot,
-    "link=",
-    link,
-    "note=",
-    note
+    "slot=", slot,
+    "link=", link,
+    "note=", note
   );
-  // TODO: отправить на reg.email письмо с таймингом и ссылкой на игру
+  // тут можно подвесить отправку письма
   res.json({ ok: true });
 });
 
@@ -350,12 +380,10 @@ app.post("/admin/api/registration/decline", (req, res) => {
   console.log(
     "[ADMIN] DECLINED",
     reg.email,
-    "reason=",
-    reason,
-    "note=",
-    note
+    "reason=", reason,
+    "note=", note
   );
-  // TODO: отправить на reg.email письмо с причиной отказа
+  // и тут тоже можно отправить письмо с отказом
   res.json({ ok: true });
 });
 
