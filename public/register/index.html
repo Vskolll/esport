@@ -920,7 +920,7 @@
                         <div class="input-wrap">
                             <div class="label">Access code</div>
                             <input id="access-code" type="text"
-                                   placeholder="Enter your invite code (e.g. FLOW2025)" />
+                                   placeholder="Enter your invite code" />
                         </div>
                         <button id="check-code" class="btn-sm">
                             VERIFY CODE
@@ -928,8 +928,6 @@
                     </div>
                     <div id="code-status" class="status"></div>
                     <div class="note">
-                        Access list is controlled from a separate admin panel.
-                        Frontend only opens the form when the code is valid.
                     </div>
                 </div>
             </section>
@@ -940,10 +938,7 @@
                     <span class="bar"></span>Step 2 — Registration & Manual Verification
                 </div>
                 <div class="section-sub">
-                    Provide your in-game ID and email. Admin panel will receive your request
-                    and two separate verification codes will be handled manually:
-                    one for the game ID and one for the email. Only after both codes are
-                    confirmed you can submit the application.
+                    Provide your in-game ID and email.
                 </div>
 
                 <form id="reg-form" class="card">
@@ -1048,13 +1043,6 @@
 </div>
 
 <!-- FLOATING TELEGRAM BUTTON (contact owner) -->
-<a href="https://t.me/v7ck9ll" target="_blank" rel="noopener"
-   class="tg-float" aria-label="Contact @v7ck9ll on Telegram">
-    <svg viewBox="0 0 240 240" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="120" cy="120" r="120" fill="none"/>
-        <path d="M185 66L164 175c-1 5-4 7-8 5l-40-30-19 18c-2 2-4 3-7 3l3-42 77-69c3-3-1-4-5-2l-95 60-41-13c-9-3-9-9 2-13l159-61c7-3 14 2 11 13z"/>
-    </svg>
-</a>
 
 <!-- MOBILE BOTTOM NAV -->
 <div class="mobile-bottom-nav">
@@ -1079,7 +1067,7 @@
 <script>
     // здесь у тебя пока статический список инвайт-кодов.
     // хочешь — уберём и будем чекать только через бэкенд.
-    const VALID_CODES = ["FLOW2025", "ESPORTPUBG", "V7ACCESS"];
+    const VALID_CODES = ["NV789112", "ESPB4311", "V7ACCESS"];
 
     const openGatewayBtn      = document.getElementById('open-gateway');
     const scrollCta           = document.getElementById('scroll-cta-code');
