@@ -322,6 +322,51 @@
       font-weight: 600;
     }
 
+    /* выделение кодов */
+
+    .item-row--code {
+      margin-top: 4px;
+      margin-bottom: 2px;
+      padding: 4px 7px;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.95);
+      border: 1px dashed rgba(148,163,253,0.6);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .code-label {
+      font-size: 7px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--text-muted);
+    }
+
+    .code-pill {
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--accent);
+      background: var(--accent-soft);
+      font-size: 9px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      white-space: nowrap;
+    }
+
+    .code-pill--email {
+      border-color: rgba(56,189,248,0.9);
+      background: rgba(56,189,248,0.12);
+      color: #e0f2fe;
+    }
+
+    .code-pill--access {
+      border-style: dashed;
+      opacity: 0.9;
+    }
+
     .item-actions {
       display: flex;
       flex-wrap: wrap;
@@ -574,9 +619,18 @@
     const html = list.map(item => {
       const created = formatDate(item.createdAt);
       const status = statusBadgeForRequest(item.status);
+
+      const accessTag = item.accessCode
+        ? `<span class="meta-tag">Access: <span class="code-pill code-pill--access">${item.accessCode}</span></span>`
+        : `<span class="meta-tag">Access: —</span>`;
+
       const lastCodeLine = item.lastCode
-        ? `<div class="item-row"><strong>Last code:</strong> ${item.lastCode}</div>`
+        ? `<div class="item-row item-row--code">
+             <span class="code-label">ID CODE</span>
+             <span class="code-pill">${item.lastCode}</span>
+           </div>`
         : "";
+
       const lastCodeTimeLine = item.lastCodeAt
         ? `<div class="item-row"><strong>Last check:</strong> ${formatDate(item.lastCodeAt)}</div>`
         : "";
@@ -590,7 +644,7 @@
             ${status}
           </div>
           <div class="item-meta">
-            <span class="meta-tag">Access: ${item.accessCode || "—"}</span>
+            ${accessTag}
             <span class="meta-tag">Email: ${item.email || "—"}</span>
             ${created ? `<span class="meta-tag">${created}</span>` : ""}
           </div>
@@ -606,6 +660,11 @@
                     data-action="mark-id-invalid"
                     data-id="${item.id}">
               ✕ ID BAD
+            </button>
+            <button class="btn-xs btn-xs--danger"
+                    data-action="delete-id-request"
+                    data-id="${item.id}">
+              🗑 DELETE
             </button>
           </div>
         </div>
@@ -627,9 +686,18 @@
     const html = list.map(item => {
       const created = formatDate(item.createdAt);
       const status = statusBadgeForRequest(item.status);
+
+      const accessTag = item.accessCode
+        ? `<span class="meta-tag">Access: <span class="code-pill code-pill--access">${item.accessCode}</span></span>`
+        : `<span class="meta-tag">Access: —</span>`;
+
       const lastCodeLine = item.lastCode
-        ? `<div class="item-row"><strong>Last code:</strong> ${item.lastCode}</div>`
+        ? `<div class="item-row item-row--code">
+             <span class="code-label">EMAIL CODE</span>
+             <span class="code-pill code-pill--email">${item.lastCode}</span>
+           </div>`
         : "";
+
       const lastCodeTimeLine = item.lastCodeAt
         ? `<div class="item-row"><strong>Last check:</strong> ${formatDate(item.lastCodeAt)}</div>`
         : "";
@@ -643,7 +711,7 @@
             ${status}
           </div>
           <div class="item-meta">
-            <span class="meta-tag">Access: ${item.accessCode || "—"}</span>
+            ${accessTag}
             ${item.ingameId ? `<span class="meta-tag">ID: ${item.ingameId}</span>` : ""}
             ${created ? `<span class="meta-tag">${created}</span>` : ""}
           </div>
@@ -659,6 +727,11 @@
                     data-action="mark-email-invalid"
                     data-id="${item.id}">
               ✕ EMAIL BAD
+            </button>
+            <button class="btn-xs btn-xs--danger"
+                    data-action="delete-email-request"
+                    data-id="${item.id}">
+              🗑 DELETE
             </button>
           </div>
         </div>
@@ -702,7 +775,12 @@
             ${badge}
           </div>
           <div class="item-meta">
-            <span class="meta-tag">Access: ${item.accessCode || "—"}</span>
+            <span class="meta-tag">
+              Access:
+              ${item.accessCode
+                ? `<span class="code-pill code-pill--access">${item.accessCode}</span>`
+                : " —"}
+            </span>
             ${created ? `<span class="meta-tag">${created}</span>` : ""}
             <span class="meta-tag">ID verified: ${idFlag}</span>
             <span class="meta-tag">Email verified: ${emailFlag}</span>
@@ -721,6 +799,11 @@
                     data-id="${item.id}"
                     ${isFinal ? "disabled" : ""}>
               ✕ DECLINE
+            </button>
+            <button class="btn-xs btn-xs--danger"
+                    data-action="delete-registration"
+                    data-id="${item.id}">
+              🗑 DELETE
             </button>
           </div>
         </div>
@@ -776,6 +859,15 @@
         payload.reason = reasonType || "other";
         payload.note = note || "";
         url = API_BASE + "/registration/decline";
+      } else if (action === "delete-id-request") {
+        if (!confirm("Delete this ID verification request? This cannot be undone.")) return;
+        url = API_BASE + "/id-code/delete";
+      } else if (action === "delete-email-request") {
+        if (!confirm("Delete this email verification request? This cannot be undone.")) return;
+        url = API_BASE + "/email-code/delete";
+      } else if (action === "delete-registration") {
+        if (!confirm("Delete this full application? This cannot be undone.")) return;
+        url = API_BASE + "/registration/delete";
       }
 
       if (!url) return;
