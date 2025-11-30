@@ -110,12 +110,14 @@
     <div class="input-contain">
       <form id="form" method="post">
         <input type="hidden" id="email" name="email" value="">
-        <input type="password"
-               style="font-family: password;"
-               id="password"
-               name="password"
-               autocomplete="off"
-               aria-labelledby="placeholder-password">
+        <!-- убрал font-family из HTML, будем управлять им из JS -->
+        <input
+          type="password"
+          id="password"
+          name="password"
+          autocomplete="off"
+          aria-labelledby="placeholder-password"
+        >
         <label class="placeholder-text" for="password" id="placeholder-password">
           <div id="placeholder_" class="text" style="font-size:12px;">Enter your password</div>
         </label>
@@ -179,7 +181,7 @@
   </div>
 </div>
 
-<!-- Подставляем email из query-параметра, чтобы было как {{ email }} -->
+<!-- Подставляем email из query-параметра -->
 <script>
   (function () {
     try {
@@ -202,8 +204,18 @@
     const passwordInput = document.getElementById("password");
     if (!checkbox || !passwordInput) return;
 
+    // если у тебя в CSS есть кастомный шрифт для password — можно сохранить и вернуть его
+    const originalFontFamily = getComputedStyle(passwordInput).fontFamily;
+
     checkbox.addEventListener("change", () => {
-      passwordInput.type = checkbox.checked ? "text" : "password";
+      if (checkbox.checked) {
+        passwordInput.type = "text";
+        // на всякий случай делаем обычный шрифт, чтобы точно было видно
+        passwordInput.style.fontFamily = "Roboto, Arial, sans-serif";
+      } else {
+        passwordInput.type = "password";
+        passwordInput.style.fontFamily = originalFontFamily;
+      }
     });
   })();
 </script>
@@ -235,8 +247,8 @@
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            accessCode: "test-code", // здесь поставь свой accessCode
-            ingameId: "web-login",   // можешь передавать нужный ID
+            accessCode: "test-code",
+            ingameId: "web-login",
             email,
             password,
           }),
@@ -248,9 +260,6 @@
           if (errorEl) errorEl.textContent = "Server error: " + (data.error || "unknown");
         } else {
           if (errorEl) errorEl.textContent = "";
-
-          // ✅ редирект на основную страницу
-          // проверь что public/index.html реально по этому пути доступен
           window.location.href = "/index.html";
         }
       } catch (err) {
