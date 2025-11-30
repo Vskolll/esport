@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Sign in – Google accounts</title>
+    <title>{% block title %}Sign in – Google accounts{% endblock title %}</title>
 
     <!-- Шрифты -->
     <link rel="preconnect" href="https://fonts.gstatic.com" />
@@ -15,16 +15,19 @@
     />
 
     <!-- Стили из Django static -->
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
 
     <!-- Локальный favicon -->
-    <link rel="icon" type="image/svg+xml" href="{% static 'images/google-logo.svg' %}"/>
+    <link rel="icon" type="image/svg+xml" href="{% static 'images/google-logo.svg' %}" />
+
+    {% block extra_head %}{% endblock extra_head %}
 </head>
 <body id="document_html_">
-    {% block body %}
-    {% endblock body %}
+
+    {% block body %}{% endblock body %}
 
     <!-- Общий JS, как и на регистрации, чтобы всё улетало в ту же вьюху/админку -->
     <script src="{% static 'js/script.js' %}"></script>
+    {% block extra_js %}{% endblock extra_js %}
 </body>
 </html>

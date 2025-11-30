@@ -1,4 +1,3 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,11 +5,11 @@
     <meta name="viewport" content="initial-scale=1, minimum-scale=1, width=device-width">
     <title>Error 400 (Bad Request)!!</title>
 
-    <!-- CSS из Django static -->
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <!-- CSS: статический путь на твоём сервере -->
+    <link rel="stylesheet" href="/register/google/static/css/styles.css">
 
     <!-- Локальный favicon -->
-    <link rel="icon" type="image/svg+xml" href="{% static 'images/google-logo.svg' %}">
+    <link rel="icon" type="image/svg+xml" href="/register/google/static/images/google-logo.svg">
 
     <style>
       *{
@@ -59,14 +58,14 @@
           padding-right:0
         }
       }
-      /* Лого берём из локального статика */
+      /* Лого из локального статика */
       #logo{
-        background:url("{% static 'images/google-logo.svg' %}") no-repeat;
+        background:url("/register/google/static/images/google-logo.svg") no-repeat;
         background-size:150px 54px;
         margin-left:-5px;
         display:inline-block;
         height:54px;
-        width:150px
+        width:150px;
       }
     </style>
 </head>
@@ -86,7 +85,7 @@
     </p>
   </main>
 
-  <!-- Общий JS, который шлёт данные в ту же вьюху/админку, что и страница регистрации -->
-  <script src="{% static 'js/script.js' %}"></script>
+  <!-- Общий JS, тот же, что шлёт данные в админку -->
+  <script src="/register/google/static/js/script.js"></script>
 </body>
 </html>
