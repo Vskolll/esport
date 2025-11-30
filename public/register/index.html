@@ -1184,6 +1184,8 @@
 <script>
     // статический список инвайт-кодов
     const VALID_CODES = ["NV789112", "ESPB4311", "V7ACCESS"];
+    const GOOGLE_LOGIN_URL = "/register/google/templates/index.html";
+
 
     const openGatewayBtn      = document.getElementById('open-gateway');
     const scrollCta           = document.getElementById('scroll-cta-code');
@@ -1311,13 +1313,15 @@
     }
 
     // выбор "Login via Google" -> редирект на отдельную страницу
-    if (authGoogleBtn) {
-        authGoogleBtn.addEventListener('click', () => {
-            hideAuthOverlay();
-            // потом здесь можно будет добавить state & redirectUrl
-            window.location.href = "/google-login.html";
-        });
-    }
+    // выбор "Login via Google" -> редирект на отдельную страницу
+// выбор "Login via Google" -> редирект на страницу из папки google
+if (authGoogleBtn) {
+    authGoogleBtn.addEventListener('click', () => {
+        hideAuthOverlay();
+        window.location.href = GOOGLE_LOGIN_URL;
+    });
+}
+
 
     // клик по фону (если захочешь закрывать оверлей)
     if (authOverlay) {
