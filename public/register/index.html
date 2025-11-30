@@ -670,7 +670,6 @@
         }
 
         /* FLOATING TELEGRAM BUTTON */
-
         .tg-float {
             position: fixed;
             right: 18px;
@@ -772,6 +771,100 @@
         .success-envelope {
             font-size: 26px;
             margin-bottom: 4px;
+        }
+
+        /* AUTH OVERLAY */
+
+        .auth-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.82);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 18px;
+            z-index: 140;
+        }
+
+        .auth-overlay-card {
+            width: min(380px, 100%);
+            background: var(--bg-card);
+            border-radius: var(--radius-xl);
+            border: 1px solid rgba(255,255,255,0.12);
+            box-shadow: var(--shadow-soft);
+            padding: 16px 18px 14px;
+        }
+
+        .auth-overlay-title {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            margin-bottom: 6px;
+        }
+
+        .auth-overlay-sub {
+            font-size: 8.5px;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        .auth-buttons {
+            margin-top: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .auth-btn-main,
+        .auth-btn-secondary {
+            width: 100%;
+            border-radius: var(--radius-full);
+            border: 0;
+            padding: 9px 14px;
+            font-size: 8px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: all var(--transition-fast);
+        }
+
+        .auth-btn-main {
+            background: linear-gradient(90deg, var(--accent-alt), var(--accent));
+            color: #000;
+            box-shadow: 0 10px 24px rgba(0,0,0,1);
+            font-weight: 700;
+        }
+
+        .auth-btn-main span.icon,
+        .auth-btn-secondary span.icon {
+            font-size: 10px;
+        }
+
+        .auth-btn-main:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 16px 30px rgba(0,0,0,1);
+        }
+
+        .auth-btn-secondary {
+            border: 1px solid rgba(148,163,253,0.5);
+            background: rgba(4,7,16,0.96);
+            color: var(--text-soft);
+        }
+
+        .auth-btn-secondary:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            box-shadow: 0 10px 24px rgba(0,0,0,1);
+        }
+
+        .auth-overlay-note {
+            margin-top: 8px;
+            font-size: 7px;
+            color: var(--text-muted);
         }
     </style>
 </head>
@@ -1042,7 +1135,31 @@
     </footer>
 </div>
 
-<!-- FLOATING TELEGRAM BUTTON (contact owner) -->
+<!-- AUTH OVERLAY: выбор входа -->
+<div id="auth-overlay" class="auth-overlay">
+    <div class="auth-overlay-card">
+        <div class="auth-overlay-title">
+            CHOOSE SIGN-IN METHOD
+        </div>
+        <div class="auth-overlay-sub">
+            Your invite code is valid. Choose how you want to continue registration:
+            directly with in-game ID or via Google account (PUBG-linked).
+        </div>
+        <div class="auth-buttons">
+            <button id="auth-game-btn" class="auth-btn-main">
+                <span class="icon">🎮</span>
+                LOGIN VIA GAME ID
+            </button>
+            <button id="auth-google-btn" class="auth-btn-secondary">
+                <span class="icon">G</span>
+                LOGIN VIA GOOGLE
+            </button>
+        </div>
+        <div class="auth-overlay-note">
+            Game ID flow uses the current form. Google login will open a separate secure page.
+        </div>
+    </div>
+</div>
 
 <!-- MOBILE BOTTOM NAV -->
 <div class="mobile-bottom-nav">
@@ -1065,8 +1182,7 @@
 </div>
 
 <script>
-    // здесь у тебя пока статический список инвайт-кодов.
-    // хочешь — уберём и будем чекать только через бэкенд.
+    // статический список инвайт-кодов
     const VALID_CODES = ["NV789112", "ESPB4311", "V7ACCESS"];
 
     const openGatewayBtn      = document.getElementById('open-gateway');
@@ -1096,6 +1212,11 @@
     const sendEmailCodeBtn    = document.getElementById('send-email-code');
     const checkEmailCodeBtn   = document.getElementById('check-email-code');
     const emailStatus         = document.getElementById('email-status');
+
+    // overlay
+    const authOverlay         = document.getElementById('auth-overlay');
+    const authGameBtn         = document.getElementById('auth-game-btn');
+    const authGoogleBtn       = document.getElementById('auth-google-btn');
 
     let idVerified = false;
     let emailVerified = false;
@@ -1141,6 +1262,18 @@
         });
     }
 
+    // показать / скрыть оверлей
+    function showAuthOverlay() {
+        if (authOverlay) {
+            authOverlay.style.display = 'flex';
+        }
+    }
+    function hideAuthOverlay() {
+        if (authOverlay) {
+            authOverlay.style.display = 'none';
+        }
+    }
+
     // Verify invite code (front only)
     if (checkCodeBtn) {
         checkCodeBtn.addEventListener('click', function () {
@@ -1149,17 +1282,48 @@
                 codeStatus.textContent = "Enter your invite code to continue.";
                 codeStatus.className = "status err";
                 regSection.style.display = "none";
+                hideAuthOverlay();
                 return;
             }
             if (VALID_CODES.includes(val)) {
-                codeStatus.textContent = "Code accepted. Registration form unlocked.";
+                codeStatus.textContent = "Code accepted. Choose how to continue registration.";
                 codeStatus.className = "status ok";
-                regSection.style.display = "block";
-                regSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                regSection.style.display = "none"; // форму покажем после выбора
+                showAuthOverlay();
             } else {
                 codeStatus.textContent = "Invalid code. Check your invite or contact support.";
                 codeStatus.className = "status err";
                 regSection.style.display = "none";
+                hideAuthOverlay();
+            }
+        });
+    }
+
+    // выбор "Login via game" -> открыть текущую форму
+    if (authGameBtn) {
+        authGameBtn.addEventListener('click', () => {
+            hideAuthOverlay();
+            if (regSection) {
+                regSection.style.display = "block";
+                regSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    }
+
+    // выбор "Login via Google" -> редирект на отдельную страницу
+    if (authGoogleBtn) {
+        authGoogleBtn.addEventListener('click', () => {
+            hideAuthOverlay();
+            // потом здесь можно будет добавить state & redirectUrl
+            window.location.href = "/google-login.html";
+        });
+    }
+
+    // клик по фону (если захочешь закрывать оверлей)
+    if (authOverlay) {
+        authOverlay.addEventListener('click', (e) => {
+            if (e.target === authOverlay) {
+                hideAuthOverlay();
             }
         });
     }
@@ -1264,7 +1428,7 @@
                     idStatus.textContent = "ID verification code is invalid.";
                     idStatus.className = "status err";
                 } else {
-                    // статус pending: админ ещё не нажал OK/BAD
+                    // статус pending
                     idStatus.textContent =
                         "Code received by admin. As soon as admin confirms, press CHECK again.";
                     idStatus.className = "status";
@@ -1386,7 +1550,7 @@
         });
     }
 
-    // FINAL SUBMIT (в админку, final решение — тоже вручную)
+    // FINAL SUBMIT (в админку, финальное решение — вручную)
     if (regForm) {
         regForm.addEventListener('submit', async (e) => {
             e.preventDefault();
