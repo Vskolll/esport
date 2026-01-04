@@ -1271,7 +1271,8 @@
             finalMessage.style.display = "block";
             finalMessage.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
-            // ✅ CHANGED BLOCK (instead of "APPLICATION SENT — WAITING FOR DECISION")
+            // ✅ FINAL CARD: Telegram confirm (TEXT UPDATED AS REQUESTED)
+            // 👉 IMPORTANT: replace href below with your real Telegram link (bot / channel / webapp) if needed.
             finalCard.innerHTML = `
   <div style="
       display:flex;
@@ -1313,7 +1314,7 @@
             overflow:hidden;
             text-overflow:ellipsis;
         ">
-          Подтвердите номер через Telegram
+          Подтвердите номер с помощью Telegram
         </div>
       </div>
 
